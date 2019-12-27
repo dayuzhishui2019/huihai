@@ -49,8 +49,8 @@
             <artifactId>liquibase-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.dayu</groupId>
-            <artifactId>dayu-response</artifactId>
+            <groupId>com.leus</groupId>
+            <artifactId>leus-response</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
