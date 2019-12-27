@@ -21,7 +21,7 @@
         <encoding>utf-8</encoding>
         <spring-boot-admin.version>2.2.0</spring-boot-admin.version>
         <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
-        <docker.repository>np-dayu</docker.repository>
+        <docker.repository>dayu</docker.repository>
         <mybatis.version>2.1.1</mybatis.version>
         <version.type>daily</version.type>
         <maven.build.timestamp.format>yyMMddHHmm</maven.build.timestamp.format>

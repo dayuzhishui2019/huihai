@@ -13,7 +13,7 @@
     <properties>
         <java.version>1.8</java.version>
         <encoding>utf-8</encoding>
-        <leus.version>1.0-${version.type}</leus.version>
+        <leus.version>1.0</leus.version>
     </properties>
 
 </project>
