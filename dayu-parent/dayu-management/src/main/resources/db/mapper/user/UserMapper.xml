@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayu.management.module.user.mapper.UserMapper">
+
+
+    <insert id="insert" parameterType="com.dayu.management.module.user.model.User">
+        insert into user (id,name,icon,username,status)
+        values
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item.id},#{item.name},#{item.icon},#{item.username},#{item.status}
+        </foreach>;
+    </insert>
+
+    <update id="update" parameterType="com.dayu.management.module.user.model.User">
+        <foreach collection="list" item="item">
+            update
+            user
+            <trim suffix=",">
+                <if test="item.name!=null and item.name!=''">
+                    set name=#{item.name},
+                </if>
+                <if test="item.icon!=null and item.icon!=''">
+                    set icon=#{item.icon},
+                </if>
+                <if test="item.status!=null and item.status!=''">
+                    set status=#{item.status},
+                </if>
+            </trim>
+            where 1=1 and id=#{id}
+        </foreach>
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from user where id in
+        <foreach collection="list" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="select" parameterType="java.util.Map"
+            resultType="com.dayu.management.module.user.model.User">
+        select
+        id,
+        name,
+        username,
+        icon,
+        status
+        from
+        user
+        where 1=1
+        <if test="name!=null and name!=''">
+            and name like '%name%'
+        </if>
+        <if test="username!=0">
+            and username=#{username}
+        </if>
+        <if test="status!=0">
+            and status=#{status}
+        </if>
+        limit #{size} offset #{start} * #{size}
+    </select>
+
+</mapper>

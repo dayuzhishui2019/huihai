@@ -1,0 +1,71 @@
+version: '2.4'
+
+services:
+  gateway:
+    image: dayu/dayu-gateway:latest
+    container_name: dayu-gateway
+    hostname: gateway
+    restart: always
+    cpus: 1
+    mem_limit: 2G
+    privileged: true
+    networks:
+      - dayu-net
+    ports:
+      - 8080:8080
+    
+
+  management:
+    image: dayu/dayu-management:latest
+    container_name: dayu-management
+    hostname: management
+    restart: always
+    cpus: 1
+    mem_limit: 1G
+    privileged: true
+    networks:
+      - dayu-net
+
+  consul:
+    image: consul:latest
+    container_name: dayu-consul
+    hostname: consul
+    restart: always
+    cpus: 2
+    mem_limit: 2G
+    privileged: true
+    networks:
+      - dayu-net
+    ports:
+      - 8500:8500
+      - 8300:8300
+    volumes:
+      - consul-data:/consul
+
+  timescaledb:
+    image: timescale/timescaledb:latest-pg11
+    container_name: dayu-timescaledb
+    hostname: timescaledb
+    restart: always
+    cpus: 8
+    mem_limit: 8G
+    privileged: true
+    environment:
+      - POSTGRES_PASSWORD=123456
+    networks:
+      - dayu-net
+    ports:
+      - 5432:5432
+    volumes:
+      - ts-data:/var/lib/postgresql/data
+
+
+volumes:
+   ts-data:
+   consul-data:
+
+networks:
+  dayu-net:
+    external: false
+
+

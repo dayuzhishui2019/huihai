@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: gateway
+  cloud:
+    consul:
+      discovery:
+        enabled: true
+        service-name: ${spring.application.name}
+        instance-id: ${spring.application.name}-${random.uuid}
+      config:
+        enabled: true
+        format: YAML
+        prefix: config
+        data-key: data
+        fail-fast: false
+        default-context: application
+      host: consul
+      port: 8500
+  boot:
+    admin:
+      client:
+        enabled: true
+        url: http://gateway:8080
+        instance:
+          service-base-url: http://${spring.application.name}:8080
+      discovery:
+        ignored-services: consul
+
+  profiles:
+    active: prod
+
+server:
+  port: 8080

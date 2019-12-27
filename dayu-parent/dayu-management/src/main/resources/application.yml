@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: 123456
+    url: jdbc:postgresql://timescaledb:5432/postgres
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/table.xml
+
+mybatis:
+  config-location: classpath:db/mybatis-config.xml
+  mapper-locations: classpath:db/mapper/*/*.xml

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="00001" author="root" context="base">
+        <sql>
+            DROP TABLE IF EXISTS "public"."camera";
+            CREATE TABLE "public"."camera" (
+            "id" char(32) COLLATE "pg_catalog"."default" NOT NULL,
+            "ip" varchar(15) COLLATE "pg_catalog"."default",
+            "port" varchar(6) COLLATE "pg_catalog"."default",
+            "username" varchar(20) COLLATE "pg_catalog"."default",
+            "password" varchar(255) COLLATE "pg_catalog"."default"
+            )
+            ;
+            COMMENT ON COLUMN "public"."camera"."id" IS '表ID(无业务意义)';
+            COMMENT ON COLUMN "public"."camera"."ip" IS '相机IP';
+            COMMENT ON COLUMN "public"."camera"."port" IS '相机端口';
+            COMMENT ON COLUMN "public"."camera"."username" IS '用户名';
+            COMMENT ON COLUMN "public"."camera"."password" IS '密码';
+
+
+            DROP TABLE IF EXISTS "public"."certificate";
+            CREATE TABLE "public"."certificate" (
+            "id" char(32) COLLATE "pg_catalog"."default" NOT NULL,
+            "userId" char(32) COLLATE "pg_catalog"."default" NOT NULL,
+            "type" int2 NOT NULL,
+            "value" varchar(255) COLLATE "pg_catalog"."default" NOT NULL
+            )
+            ;
+
+
+            DROP TABLE IF EXISTS "public"."channel";
+            CREATE TABLE "public"."channel" (
+            "id" int4 NOT NULL,
+            "sensorId" char(32) COLLATE "pg_catalog"."default" NOT NULL,
+            "value" varchar(32) COLLATE "pg_catalog"."default" NOT NULL
+            )
+            ;
+            COMMENT ON COLUMN "public"."channel"."id" IS '通道ID 有业务意义';
+            COMMENT ON COLUMN "public"."channel"."sensorId" IS '传感器ID 有业务意义 ';
+            COMMENT ON COLUMN "public"."channel"."value" IS '通道号';
+
+
+            DROP TABLE IF EXISTS "public"."group";
+            CREATE TABLE "public"."group" (
+            "id" char(32) COLLATE "pg_catalog"."default" NOT NULL,
+            "type" int2,
+            "roleId" char(32) COLLATE "pg_catalog"."default",
+            "nodeId" char(32) COLLATE "pg_catalog"."default",
+            "nodeType" int2,
+            "parentId" char(32) COLLATE "pg_catalog"."default"
+            )
+            ;
+            COMMENT ON COLUMN "public"."group"."id" IS '组ID 业务意义不重';
+            COMMENT ON COLUMN "public"."group"."type" IS '组类型';
+            COMMENT ON COLUMN "public"."group"."roleId" IS '组所属角色ID';
+            COMMENT ON COLUMN "public"."group"."nodeId" IS '传感器ID或组ID';
+            COMMENT ON COLUMN "public"."group"."nodeType" IS '节点类型 0枝干,1叶子';
+            COMMENT ON COLUMN "public"."group"."parentId" IS '节点父ID - 只会是group id';
+
+            DROP TABLE IF EXISTS "public"."sensor";
+            CREATE TABLE "public"."sensor" (
+            "id" char(32) COLLATE "pg_catalog"."default" NOT NULL,
+            "gid" varchar(48) COLLATE "pg_catalog"."default",
+            "name" varchar(50) COLLATE "pg_catalog"."default",
+            "address" varchar(200) COLLATE "pg_catalog"."default",
+            "areaNumber" varchar(20) COLLATE "pg_catalog"."default",
+            "dominionCode" varchar(20) COLLATE "pg_catalog"."default",
+            "type" int2,
+            "subtype" int2,
+            "deriveId" char(32) COLLATE "pg_catalog"."default"
+            )
+            ;
+            COMMENT ON COLUMN "public"."sensor"."id" IS '传感器ID 有业务意义 重要';
+            COMMENT ON COLUMN "public"."sensor"."gid" IS '国标ID';
+            COMMENT ON COLUMN "public"."sensor"."name" IS '传感器名称';
+            COMMENT ON COLUMN "public"."sensor"."address" IS '安装地';
+            COMMENT ON COLUMN "public"."sensor"."areaNumber" IS '安装地行政区划代码';
+            COMMENT ON COLUMN "public"."sensor"."dominionCode" IS '管辖单位';
+            COMMENT ON COLUMN "public"."sensor"."type" IS '传感器类型';
+            COMMENT ON COLUMN "public"."sensor"."subtype" IS '传感器子类型';
+            COMMENT ON COLUMN "public"."sensor"."deriveId" IS '派生设备ID(具体设备ID)';
+
+
+            DROP TABLE IF EXISTS "public"."session";
+            CREATE TABLE "public"."session" (
+            "id" char(32) COLLATE "pg_catalog"."default" NOT NULL,
+            "userId" char(32) COLLATE "pg_catalog"."default" NOT NULL,
+            "loginTime" int8 NOT NULL,
+            "duration" int4 NOT NULL,
+            "expireTime" int8 NOT NULL,
+            "value" json
+            )
+            ;
+
+            DROP TABLE IF EXISTS "public"."user";
+            CREATE TABLE "public"."user" (
+            "id" char(32) COLLATE "pg_catalog"."default" NOT NULL,
+            "name" varchar(10) COLLATE "pg_catalog"."default",
+            "icon" varchar(255) COLLATE "pg_catalog"."default",
+            "username" varchar(48) COLLATE "pg_catalog"."default"
+            )
+            ;
+
+
+            ALTER TABLE "public"."camera" ADD CONSTRAINT "camera_pkey" PRIMARY KEY ("id");
+
+            ALTER TABLE "public"."certificate" ADD CONSTRAINT "Certificate_pkey" PRIMARY KEY ("id");
+
+            ALTER TABLE "public"."channel" ADD CONSTRAINT "channel_pkey" PRIMARY KEY ("id");
+
+            ALTER TABLE "public"."group" ADD CONSTRAINT "group_pkey" PRIMARY KEY ("id");
+
+            ALTER TABLE "public"."sensor" ADD CONSTRAINT "sensor_pkey" PRIMARY KEY ("id");
+
+            ALTER TABLE "public"."session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("id");
+
+            ALTER TABLE "public"."user" ADD CONSTRAINT "user_pkey" PRIMARY KEY ("id");
+
+
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

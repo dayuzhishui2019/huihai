@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayu.management.module.user.mapper.SessionMapper">
+
+
+    <insert id="insert" parameterType="com.dayu.management.module.user.model.Session">
+        insert into session (id,userId,loginTime,duration,expireTime,value)
+        values
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item.id},#{item.userId},#{item.loginTime},#{item.duration},#{item.expireTime},#{item.value}
+        </foreach>;
+    </insert>
+
+    <update id="update" parameterType="com.dayu.management.module.user.model.Session">
+        <foreach collection="list" item="item">
+            update
+            session
+            <trim suffix=",">
+                <if test="item.expireTime!=null and item.expireTime!=''">
+                    set expireTime=#{item.expireTime},
+                </if>
+                <if test="item.value!=null and item.value!=''">
+                    set value=#{item.value},
+                </if>
+            </trim>
+            where 1=1 and id=#{id}
+        </foreach>
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from session where id in
+        <foreach collection="list" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="select" parameterType="java.util.Map"
+            resultType="com.dayu.management.module.user.model.Session">
+        select
+        id,
+        userId,
+        loginTime,
+        duration,
+        expireTime,
+        value
+        from
+        session
+        where 1=1
+        <if test="id!=null and id!=''">
+            and id=#{id}
+        </if>
+        <if test="userId!=null and userId!=''">
+            and userId=#{userId}
+        </if>
+        limit #{size} offset #{start} * #{size}
+    </select>
+
+</mapper>

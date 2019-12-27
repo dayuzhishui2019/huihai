@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayu.management.module.sensor.mapper.CameraMapper">
+
+
+    <insert id="insert" parameterType="com.dayu.management.module.sensor.model.derive.Camera">
+        insert into camera (id,ip,port,username,password)
+        values
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item.id},#{item.ip},#{item.port},#{item.username},#{item.password}}
+        </foreach>;
+    </insert>
+
+    <update id="update" parameterType="com.dayu.management.module.sensor.model.derive.Camera">
+        <foreach collection="list" item="item">
+            update
+            camera
+            <trim suffix=",">
+                <if test="item.ip!=null and item.ip!=''">
+                    set gid=#{item.ip},
+                </if>
+                <if test="item.port!=null and item.port!=''">
+                    set name=#{item.port},
+                </if>
+                <if test="item.username!=null and item.username!=''">
+                    set address=#{item.username},
+                </if>
+                <if test="item.password!=null and item.password!=''">
+                    set areaNumber=#{item.password},
+                </if>
+            </trim>
+            where 1=1 and id=#{id}
+        </foreach>
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from camera where id in
+        <foreach collection="list" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>
