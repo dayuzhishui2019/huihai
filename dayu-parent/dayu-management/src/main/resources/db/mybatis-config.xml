@@ -12,6 +12,12 @@
         <setting name="aggressiveLazyLoading" value="false"></setting>
         <!--开启二级缓存-->
         <setting name="cacheEnabled" value="true"></setting>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
     </settings>
+
+    <typeHandlers>
+        <typeHandler handler="com.dayu.management.core.JSONTypeHandler" jdbcType="OTHER"
+                     javaType="java.util.Map"></typeHandler>
+    </typeHandlers>
 
 </configuration>

@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
                 .set("type", query.getType()));
         Preconditions.checkState(certificates != null && !certificates.isEmpty() && certificates.size() == 1, "用户名或密码错误");
 
-        Preconditions.checkState(query.getCertificate().equals(certificates.get(0).getType()), "用户名或密码错误");
+        Preconditions.checkState(query.getCertificate().equals(certificates.get(0).getValue()), "用户名或密码错误");
         //成功了 用户信息 需要写入Session
         //返回 用户登录成功的消息
 

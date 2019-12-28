@@ -45,7 +45,7 @@
             and id=#{id}
         </if>
         <if test="userId!=null and userId!=''">
-            and userId=#{userId}
+            and "userId"=#{userId}
         </if>
         <if test="type!=0">
             and type=#{type}

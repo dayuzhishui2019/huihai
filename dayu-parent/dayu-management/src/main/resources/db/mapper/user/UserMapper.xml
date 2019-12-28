@@ -51,10 +51,10 @@
         <if test="name!=null and name!=''">
             and name like '%name%'
         </if>
-        <if test="username!=0">
+        <if test="username!=null and username!=''">
             and username=#{username}
         </if>
-        <if test="status!=0">
+        <if test="status !=null and status!=0">
             and status=#{status}
         </if>
         limit #{size} offset #{start} * #{size}

@@ -4,11 +4,11 @@
 
 
     <insert id="insert" parameterType="com.dayu.management.module.user.model.Session">
-        insert into session (id,userId,loginTime,duration,expireTime,value)
+        insert into "session" (id,"userId","loginTime",duration,"expireTime","value")
         values
         <foreach collection="list" item="item" open="(" close=")" separator=",">
             #{item.id},#{item.userId},#{item.loginTime},#{item.duration},#{item.expireTime},#{item.value}
-        </foreach>;
+        </foreach>
     </insert>
 
     <update id="update" parameterType="com.dayu.management.module.user.model.Session">
