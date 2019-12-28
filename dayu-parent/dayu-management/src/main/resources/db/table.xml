@@ -101,7 +101,8 @@
             "id" char(32) COLLATE "pg_catalog"."default" NOT NULL,
             "name" varchar(10) COLLATE "pg_catalog"."default",
             "icon" varchar(255) COLLATE "pg_catalog"."default",
-            "username" varchar(48) COLLATE "pg_catalog"."default"
+            "username" varchar(48) COLLATE "pg_catalog"."default",
+            "status" int2 NOT NULL
             )
             ;
 
