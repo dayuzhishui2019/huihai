@@ -4,7 +4,7 @@
 
 
     <insert id="insert" parameterType="com.dayu.management.module.user.model.User">
-        insert into user (id,name,icon,username,status)
+        insert into "user" (id,name,icon,username,status)
         values
         <foreach collection="list" item="item" open="(" close=")" separator=",">
             #{item.id},#{item.name},#{item.icon},#{item.username},#{item.status}
@@ -31,7 +31,7 @@
     </update>
 
     <delete id="delete" parameterType="java.lang.String">
-        delete from user where id in
+        delete from "user" where id in
         <foreach collection="list" item="id" separator="," open="(" close=")">
             #{id}
         </foreach>
@@ -46,7 +46,7 @@
         icon,
         status
         from
-        user
+        "user"
         where 1=1
         <if test="name!=null and name!=''">
             and name like '%name%'

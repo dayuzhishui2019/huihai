@@ -4,4 +4,14 @@
 
 <configuration>
 
+    <settings>
+        <!--开启驼峰命名-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="jdbcTypeForNull" value="NULL"></setting>
+        <setting name="lazyLoadingEnabled" value="true"></setting>
+        <setting name="aggressiveLazyLoading" value="false"></setting>
+        <!--开启二级缓存-->
+        <setting name="cacheEnabled" value="true"></setting>
+    </settings>
+
 </configuration>

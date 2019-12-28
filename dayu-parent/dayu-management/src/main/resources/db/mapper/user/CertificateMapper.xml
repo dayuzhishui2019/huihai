@@ -4,7 +4,7 @@
 
 
     <insert id="insert" parameterType="com.dayu.management.module.user.model.Certificate">
-        insert into certificate (id,userId,type,value)
+        insert into certificate (id,"userId",type,value)
         values
         <foreach collection="list" item="item" open="(" close=")" separator=",">
             #{item.id},#{item.userId},#{item.type},#{item.value}
@@ -35,7 +35,7 @@
             resultType="com.dayu.management.module.user.model.Certificate">
         select
         id,
-        userId,
+        "userId",
         type,
         value
         from
