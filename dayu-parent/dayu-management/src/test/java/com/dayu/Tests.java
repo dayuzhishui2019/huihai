@@ -1,6 +1,7 @@
 package com.dayu;
 
 import com.dayu.management.DayuManagementApplication;
+import com.dayu.management.module.user.helper.SessionManager;
 import com.dayu.management.module.user.mapper.CertificateMapper;
 import com.dayu.management.module.user.mapper.UserMapper;
 import com.dayu.management.module.user.model.Certificate;
@@ -9,12 +10,15 @@ import com.dayu.management.module.user.model.User;
 import com.dayu.management.module.user.model.query.LoginQuery;
 import com.dayu.management.module.user.service.UserService;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.leus.common.util.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
+
+import java.util.Map;
 
 @SpringBootTest(classes = {DayuManagementApplication.class})// 指定启动类
 @Slf4j
@@ -27,6 +31,9 @@ public class Tests {
     private UserMapper userMapper;
     @Autowired
     private CertificateMapper certificateMapper;
+
+    @Autowired
+    private SessionManager manager;
 
 
     @Test
@@ -59,6 +66,17 @@ public class Tests {
         LoginResponse response = userService.login(query);
 
         Assert.isTrue(response != null, "");
+
+    }
+
+    @Test
+    public void sss() {
+
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("admin", true);
+
+        manager.setAttribute("D9FD468FF15A41D989DD94B5D7D2801C", map);
+
 
     }
 

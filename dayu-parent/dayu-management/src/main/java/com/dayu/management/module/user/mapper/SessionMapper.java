@@ -7,4 +7,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SessionMapper extends Mapper<Session> {
 
+
+    int saveOrUpdate(Session session);
+
+
 }

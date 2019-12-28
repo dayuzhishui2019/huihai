@@ -11,18 +11,28 @@
         </foreach>
     </insert>
 
+    <insert id="saveOrUpdate" parameterType="com.dayu.management.module.user.model.Session">
+        insert into "session" (id,"userId","loginTime",duration,"expireTime","value")
+        values
+            (#{id},#{userId},#{loginTime},#{duration},#{expireTime},#{value})
+            ON conflict ("id") DO
+            UPDATE
+            SET "value" =#{value}
+            , "expireTime" =#{expireTime}
+    </insert>
+
     <update id="update" parameterType="com.dayu.management.module.user.model.Session">
         <foreach collection="list" item="item">
             update
             "session"
-            <trim suffix=",">
+            <set>
                 <if test="item.expireTime!=null and item.expireTime!=''">
-                    set "expireTime"=#{item.expireTime},
+                    "expireTime"=#{item.expireTime},
                 </if>
                 <if test="item.value!=null and item.value!=''">
-                    set value=#{item.value},
+                    "value"=#{item.value},
                 </if>
-            </trim>
+            </set>
             where 1=1 and id=#{id}
         </foreach>
     </update>
@@ -42,9 +52,9 @@
         "loginTime",
         duration,
         "expireTime",
-        value
+        "value"
         from
-        session
+        "session"
         where 1=1
         <if test="id!=null and id!=''">
             and id=#{id}

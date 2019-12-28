@@ -14,18 +14,18 @@
     <update id="update" parameterType="com.dayu.management.module.user.model.User">
         <foreach collection="list" item="item">
             update
-            user
-            <trim suffix=",">
+            "user"
+            <set>
                 <if test="item.name!=null and item.name!=''">
-                    set name=#{item.name},
+                    name=#{item.name},
                 </if>
                 <if test="item.icon!=null and item.icon!=''">
-                    set icon=#{item.icon},
+                    icon=#{item.icon},
                 </if>
                 <if test="item.status!=null and item.status!=''">
-                    set status=#{item.status},
+                    status=#{item.status},
                 </if>
-            </trim>
+            </set>
             where 1=1 and id=#{id}
         </foreach>
     </update>

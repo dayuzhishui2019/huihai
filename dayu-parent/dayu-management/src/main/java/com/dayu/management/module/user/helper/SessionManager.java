@@ -55,7 +55,7 @@ public class SessionManager {
 
     public Session save(Session session) {
         session.setExpireTime(System.currentTimeMillis() + session.getDuration());
-        int i = mapper.insert(Lists.newArrayList(session));
+        int i = mapper.saveOrUpdate(session);
         Preconditions.checkState(i > 0, "保存Session失败");
         sessions.put(session.getId(), Optional.of(session));
         return session;
