@@ -14,10 +14,10 @@
     <update id="update" parameterType="com.dayu.management.module.user.model.Session">
         <foreach collection="list" item="item">
             update
-            session
+            "session"
             <trim suffix=",">
                 <if test="item.expireTime!=null and item.expireTime!=''">
-                    set expireTime=#{item.expireTime},
+                    set "expireTime"=#{item.expireTime},
                 </if>
                 <if test="item.value!=null and item.value!=''">
                     set value=#{item.value},
@@ -28,7 +28,7 @@
     </update>
 
     <delete id="delete" parameterType="java.lang.String">
-        delete from session where id in
+        delete from "session" where id in
         <foreach collection="list" item="id" separator="," open="(" close=")">
             #{id}
         </foreach>
@@ -38,10 +38,10 @@
             resultType="com.dayu.management.module.user.model.Session">
         select
         id,
-        userId,
-        loginTime,
+        "userId",
+        "loginTime",
         duration,
-        expireTime,
+        "expireTime",
         value
         from
         session
@@ -50,7 +50,7 @@
             and id=#{id}
         </if>
         <if test="userId!=null and userId!=''">
-            and userId=#{userId}
+            and "userId"=#{userId}
         </if>
         limit #{size} offset #{start} * #{size}
     </select>
