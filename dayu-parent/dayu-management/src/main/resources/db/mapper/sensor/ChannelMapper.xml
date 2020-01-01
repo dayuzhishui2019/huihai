@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayu.management.module.sensor.mapper.ChannelMapper">
+
+
+    <insert id="insert" parameterType="com.dayu.management.module.sensor.model.ext.Channel">
+        insert into channel (id,"senorId",value)
+        values
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item.id},#{item.senorId},#{item.value}
+        </foreach>;
+    </insert>
+
+    <update id="update" parameterType="com.dayu.management.module.sensor.model.ext.Channel">
+        <foreach collection="list" item="item">
+            update
+            channel
+            <set>
+                <if test="item.value!=null and item.value!=''">
+                    value=#{item.value},
+                </if>
+            </set>
+            where 1=1 and id=#{id}
+        </foreach>
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from channel where id in
+        <foreach collection="list" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>

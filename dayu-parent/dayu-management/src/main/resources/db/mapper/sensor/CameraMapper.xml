@@ -15,20 +15,20 @@
         <foreach collection="list" item="item">
             update
             camera
-            <trim suffix=",">
+            <set>
                 <if test="item.ip!=null and item.ip!=''">
-                    set gid=#{item.ip},
+                    gid=#{item.ip},
                 </if>
                 <if test="item.port!=null and item.port!=''">
-                    set name=#{item.port},
+                    name=#{item.port},
                 </if>
                 <if test="item.username!=null and item.username!=''">
-                    set address=#{item.username},
+                    address=#{item.username},
                 </if>
                 <if test="item.password!=null and item.password!=''">
-                    set areaNumber=#{item.password},
+                    areaNumber=#{item.password},
                 </if>
-            </trim>
+            </set>
             where 1=1 and id=#{id}
         </foreach>
     </update>

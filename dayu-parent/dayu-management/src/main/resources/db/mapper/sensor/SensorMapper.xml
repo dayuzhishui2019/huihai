@@ -4,7 +4,7 @@
 
 
     <insert id="insert" parameterType="com.dayu.management.module.sensor.model.Sensor">
-        insert into sensor (id,gid,name,address,areaNumber,dominionCode,type,subType,deriveId)
+        insert into sensor (id,gid,name,address,"areaNumber","dominionCode",type,"subType","deriveId")
         values
         <foreach collection="list" item="item" open="(" close=")" separator=",">
             #{item.id},#{item.gid},#{item.name},#{item.address},#{item.areaNumber},#{item.dominionCode},#{item.type},#{item.subType},#{item.deriveId}
@@ -15,29 +15,29 @@
         <foreach collection="list" item="item">
             update
             sensor
-            <trim suffix=",">
+            <set>
                 <if test="item.gid!=null and item.gid!=''">
-                    set gid=#{item.gid},
+                    gid=#{item.gid},
                 </if>
                 <if test="item.name!=null and item.name!=''">
-                    set name=#{item.name},
+                    name=#{item.name},
                 </if>
                 <if test="item.address!=null and item.address!=''">
-                    set address=#{item.address},
+                    address=#{item.address},
                 </if>
                 <if test="item.areaNumber!=null and item.areaNumber!=''">
-                    set areaNumber=#{item.areaNumber},
+                    "areaNumber"=#{item.areaNumber},
                 </if>
                 <if test="item.dominionCode!=null and item.dominionCode!=''">
-                    set dominionCode=#{item.dominionCode},
+                    "dominionCode"=#{item.dominionCode},
                 </if>
-                <if test="item.type!=0">
-                    set type=#{item.type},
+                <if test="item.type!=null and item.type!=null">
+                    type=#{item.type},
                 </if>
-                <if test="item.subType!=0">
-                    set subType=#{item.subType},
+                <if test="item.subType!=null and item.subType!=0">
+                    "subType"=#{item.subType},
                 </if>
-            </trim>
+            </set>
             where 1=1 and id=#{id}
         </foreach>
     </update>
@@ -54,11 +54,11 @@
         id,
         gid,
         name,
-        areaNumber,
-        dominionCode,
+        "areaNumber",
+        "dominionCode",
         type,
-        subType,
-        deriveId
+        "subType",
+        "deriveId"
         from
         sensor
         where 1=1
@@ -69,13 +69,13 @@
             and type=#{type}
         </if>
         <if test="subType!=0">
-            and subType=#{subType}
+            and "subType"=#{subType}
         </if>
         <if test="areaNumber!=0">
-            and areaNumber=#{areaNumber}
+            and "areaNumber"=#{areaNumber}
         </if>
         <if test="dominionCode!=0">
-            and dominionCode=#{dominionCode}
+            and "dominionCode"=#{dominionCode}
         </if>
         limit #{size} offset #{start} * #{size}
     </select>
