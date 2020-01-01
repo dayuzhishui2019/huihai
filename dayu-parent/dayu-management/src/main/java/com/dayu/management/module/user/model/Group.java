@@ -1,4 +1,4 @@
-package com.dayu.management.module.sensor.model;
+package com.dayu.management.module.user.model;
 
 import lombok.Data;
 
