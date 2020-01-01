@@ -1,4 +1,4 @@
-package com.dayu.management.module.user.model;
+package com.dayu.management.module.group.model;
 
 import lombok.Data;
 
