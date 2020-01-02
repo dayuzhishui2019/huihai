@@ -59,6 +59,56 @@ services:
     volumes:
       - ts-data:/var/lib/postgresql/data
 
+   
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: dayu-prometheus
+    hostname: prometheus
+    cpus: 2
+    mem_limit: 2G
+    privileged: true
+    ports:
+      - 9090:9090
+    volumes:
+      - /media/leus/data/develops/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - dayu-net
+
+  master-node:
+    image: prom/node-exporter:latest
+    container_name: dayu-master-node
+    hostname: master-node
+    cpus: 2
+    mem_limit: 2G
+    privileged: true
+  # network_mode: host
+    networks:
+      - dayu-net
+    ports:
+      - 9100:9100
+    volumes:
+      - "/proc:/host/proc:ro"
+      - "/sys:/host/sys:ro"
+      - "/:/rootfs:ro"
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: dayu-grafana
+    hostname: grafana
+    cpus: 2
+    mem_limit: 2G
+    privileged: true
+    # network_mode: host
+    networks:
+      - dayu-net
+    ports:
+      - 3000:3000
+    volumes:
+      - "/media/leus/data/develops/grafana-storage:/var/lib/grafana"
+
+
+
 
 volumes:
    ts-data:

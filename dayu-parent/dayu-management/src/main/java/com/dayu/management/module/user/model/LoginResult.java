@@ -9,7 +9,7 @@ import lombok.ToString;
 @Builder
 @ToString
 @EqualsAndHashCode
-public class LoginResponse {
+public class LoginResult {
 
     private User user;
 

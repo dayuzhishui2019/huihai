@@ -1,11 +1,12 @@
 package com.dayu.management.module.user.service;
 
+import com.dayu.management.cache.CacheManager;
 import com.dayu.management.core.Query;
 import com.dayu.management.module.user.helper.SessionManager;
 import com.dayu.management.module.user.mapper.CertificateMapper;
 import com.dayu.management.module.user.mapper.UserMapper;
 import com.dayu.management.module.user.model.Certificate;
-import com.dayu.management.module.user.model.LoginResponse;
+import com.dayu.management.module.user.model.LoginResult;
 import com.dayu.management.module.user.model.Session;
 import com.dayu.management.module.user.model.User;
 import com.dayu.management.module.user.model.query.LoginQuery;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 @Service
@@ -36,7 +38,7 @@ public class UserServiceImpl implements UserService {
     private int duration;
 
     @Override
-    public LoginResponse login(LoginQuery query) {
+    public LoginResult login(LoginQuery query) {
         List<User> users = userMapper.select(Query.create(1, 0).with(query));
         Preconditions.checkState(users != null && !users.isEmpty() && users.size() == 1, "用户名或密码错误");
         List<Certificate> certificates = certificateMapper.select(Query.create(1, 0)
@@ -64,6 +66,15 @@ public class UserServiceImpl implements UserService {
         sessionManager.save(session);
         //清理认证信息
         users.get(0).setCertificates(null);
-        return LoginResponse.builder().session(session).user(users.get(0)).build();
+        return LoginResult.builder().session(session).user(users.get(0)).build();
+    }
+
+    @Override
+    public LoginResult current(String sessionId) {
+        Session session = sessionManager.getSession(sessionId);
+        Preconditions.checkState(session != null, "用户登录已过期");
+        Optional<User> option = CacheManager.USER.getUnchecked(session.getUserId());
+        Preconditions.checkState(option.isPresent(), "系统错误:不存在的用户");
+        return LoginResult.builder().session(session).user(option.get()).build();
     }
 }

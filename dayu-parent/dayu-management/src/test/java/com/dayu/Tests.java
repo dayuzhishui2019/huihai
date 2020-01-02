@@ -5,7 +5,7 @@ import com.dayu.management.module.user.helper.SessionManager;
 import com.dayu.management.module.user.mapper.CertificateMapper;
 import com.dayu.management.module.user.mapper.UserMapper;
 import com.dayu.management.module.user.model.Certificate;
-import com.dayu.management.module.user.model.LoginResponse;
+import com.dayu.management.module.user.model.LoginResult;
 import com.dayu.management.module.user.model.User;
 import com.dayu.management.module.user.model.query.LoginQuery;
 import com.dayu.management.module.user.service.UserService;
@@ -63,7 +63,7 @@ public class Tests {
         query.setCertificate("admin");
         query.setType(1);
 
-        LoginResponse response = userService.login(query);
+        LoginResult response = userService.login(query);
 
         Assert.isTrue(response != null, "");
 

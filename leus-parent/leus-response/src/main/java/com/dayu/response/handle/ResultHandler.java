@@ -47,13 +47,22 @@ public class ResultHandler implements ResponseBodyAdvice<Object> {
                 && !Arrays.stream(unSupportClass).anyMatch(s -> returnClass.isAssignableFrom(s));
     }
 
+    @ResponseBody
     @Override
     public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType,
                                   Class<? extends HttpMessageConverter<?>> aClass,
                                   ServerHttpRequest serverHttpRequest,
                                   ServerHttpResponse serverHttpResponse) {
-        RunningError success = RunningError.SUCCESS;
-        return Result.builder().code(success.getCode()).message(success.getMessage()).data(o).build();
+
+        Class<?> clz = methodParameter.getDeclaringClass();
+        if (!clz.getName().startsWith("com.dayu")) {
+            return o;
+        }
+        if (mediaType != null && mediaType.includes(MediaType.APPLICATION_JSON)) {
+            RunningError success = RunningError.SUCCESS;
+            return Result.builder().code(success.getCode()).message(success.getMessage()).data(o).build();
+        }
+        return o;
     }
 
 

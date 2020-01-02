@@ -1,10 +1,14 @@
 package com.dayu.management.module.user.model.query;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Setter
+@Getter
+@ToString
 public class LoginQuery {
-
+    
     private String username;
 
     private String certificate;
