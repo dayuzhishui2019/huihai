@@ -16,7 +16,17 @@ public class SystemUtils {
         return info.getHardware().getProcessor().getProcessorIdentifier().getProcessorID();
     }
 
+
+    public static String getSerialNumber() {
+        return info.getHardware().getComputerSystem().getSerialNumber();
+    }
+
+
     public static String getOSType() {
         return SystemInfo.getCurrentPlatformEnum().name();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getSerialNumber());
     }
 }

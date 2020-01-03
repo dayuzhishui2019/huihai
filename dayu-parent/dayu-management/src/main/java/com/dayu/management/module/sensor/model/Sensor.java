@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @EqualsAndHashCode
-public class Sensor {
+public class Sensor implements ToCsvLine {
 
     /**
      * 传感器ID
@@ -59,5 +59,10 @@ public class Sensor {
     @Override
     public String toString() {
         return this.getClass().getSimpleName() + JSON.toJSONString(this);
+    }
+
+    @Override
+    public String toCsvLine() {
+        return "";
     }
 }

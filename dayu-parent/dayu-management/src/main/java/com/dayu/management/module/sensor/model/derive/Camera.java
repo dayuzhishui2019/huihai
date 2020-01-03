@@ -36,6 +36,8 @@ public class Camera extends Sensor {
      */
     private List<Channel> channels;
 
-
-
+    @Override
+    public String toCsvLine() {
+        return super.toCsvLine();
+    }
 }

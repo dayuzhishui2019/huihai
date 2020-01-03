@@ -14,6 +14,11 @@ public class Query implements Map<String, Object> {
         return new Query().size(size).start(start);
     }
 
+    public static Query create() {
+        return new Query();
+    }
+
+
 
     private Map<String, Object> values;
 

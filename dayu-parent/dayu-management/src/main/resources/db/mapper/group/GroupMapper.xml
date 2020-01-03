@@ -37,11 +37,11 @@
     <select id="select" parameterType="java.util.Map"
             resultType="com.dayu.management.module.group.model.Group">
         select
-            id,"roleId","groupType","nodeId","nodeType","parent"
+        id,"roleId","groupType","nodeId","nodeType","parent"
         from
         "group"
         where 1=1
-        <if test="parentId!=null and parent!=''">
+        <if test="parent!=null and parent!=''">
             and parent=#{parent}
         </if>
         <if test="nodeType!=null and nodeType!=''">
@@ -49,6 +49,9 @@
         </if>
         <if test="roleId!=null and roleId!=''">
             and "roleId"=#{roleId}
+        </if>
+        <if test="groupType!=null and groupType!=''">
+            and "groupType"=#{groupType}
         </if>
         limit #{size} offset #{start} * #{size}
     </select>
