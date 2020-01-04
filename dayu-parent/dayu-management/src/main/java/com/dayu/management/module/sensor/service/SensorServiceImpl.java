@@ -48,43 +48,36 @@ public class SensorServiceImpl implements SensorService {
     private final Splitter splitter = Splitter.on(",");
 
     @Override
-    public void importFile(File file) {
+    public void importFile(File file) throws IOException {
         Preconditions.checkState(file.getName().toLowerCase().endsWith("csv"), "请上传CSV类型模板");
         CharSource source = Files.asCharSource(file, Charset.forName("utf8"));
         List<Integer> errorLineNumber = Lists.newLinkedList();
-        try {
-            SensorChecker.Checkers checkers = checker.getStandingBookChecker();
-            int[] count = new int[]{1};
-            source.lines().skip(0).forEach(line -> {
-                if (!checkers.test(splitter.splitToList(line))) {
-                    errorLineNumber.add(count[0]);
-                }
-                count[0]++;
-            });
-        } catch (IOException e) {
-            log.error("checkFiles", e);
-        }
+
+        SensorChecker.Checkers checkers = checker.getStandingBookChecker();
+        int[] count = new int[]{1};
+        source.lines().skip(0).forEach(line -> {
+            if (!checkers.test(splitter.splitToList(line))) {
+                errorLineNumber.add(count[0]);
+            }
+            count[0]++;
+        });
+
 
         Assert.isTrue(errorLineNumber.isEmpty(), ExtRunningError.STATE_CHECK_ERROR);
 
-        try {
-            Map<String, File> tables = buildFiles(UUIDUtil.randomUUID(), source.lines());
 
-            tables.forEach((table, data) -> {
-                InputStream input = null;
-                try {
-                    input = new FileInputStream(data);
-                    helper.copyIn(table, input);
-                } catch (Exception e) {
-                    log.error("COPY IN FILE", e);
-                } finally {
-                    StreamUtil.close(input);
-                }
-            });
-
-        } catch (IOException e) {
-            log.error("buildFiles", e);
-        }
+        Map<String, File> tables = buildFiles(UUIDUtil.randomUUID(), source.lines());
+        tables.forEach((table, data) -> {
+            InputStream input = null;
+            try {
+                input = new FileInputStream(data);
+                helper.copyIn(table, input);
+            } catch (Exception e) {
+                log.error("COPY IN FILE", e);
+            } finally {
+                StreamUtil.close(input);
+            }
+        });
 
     }
 
