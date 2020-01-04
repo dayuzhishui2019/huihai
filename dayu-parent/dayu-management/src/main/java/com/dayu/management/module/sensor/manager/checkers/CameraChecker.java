@@ -2,9 +2,9 @@ package com.dayu.management.module.sensor.manager.checkers;
 
 import com.dayu.management.config.StandingBookIni;
 import com.dayu.management.constant.StandingBook;
+import com.dayu.management.module.sensor.helper.LineItemHelper;
 import com.dayu.management.module.sensor.manager.Register;
 import com.dayu.management.module.sensor.manager.SensorChecker;
-import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,12 +28,8 @@ public class CameraChecker implements Checker, Register<SensorChecker> {
 
     @Override
     public boolean test(List<String> lineItem) {
-        List<String> finalItems = ini.getSubTypes(lineItem.get(StandingBook.TYPE));
-        List<String> subItems = Splitter.on(";").trimResults().omitEmptyStrings().splitToList(lineItem.get(StandingBook.SUB_TYPE));
-        for (String subItem : subItems) {
-            if (!finalItems.contains(subItem)) {
-                return false;
-            }
+        if (!LineItemHelper.testSubTypes(ini, lineItem)) {
+            return false;
         }
         if (!(lineItem.get(StandingBook.IP) != null && lineItem.get(StandingBook.IP).matches(ini.getIpRegular()))) {
             return false;
