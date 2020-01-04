@@ -1,5 +1,6 @@
 package com.dayu.management.helper;
 
+import com.leus.common.util.StreamUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.postgresql.copy.CopyManager;
 import org.postgresql.core.BaseConnection;
@@ -29,6 +30,8 @@ public class DatabaseHelper {
             manager.copyIn("COPY " + tableName + " FROM STDIN", input);
         } catch (Exception e) {
             log.error("", e);
+        } finally {
+            StreamUtil.close(input);
         }
     }
 
@@ -37,6 +40,8 @@ public class DatabaseHelper {
             manager.copyOut("COPY " + tableOrQuery + " TO STDOUT", output);
         } catch (Exception e) {
             log.error("", e);
+        } finally {
+            StreamUtil.close(output);
         }
     }
 }

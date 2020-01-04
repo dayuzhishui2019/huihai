@@ -5,6 +5,6 @@ import java.io.File;
 public interface SensorService {
 
 
-    void importFile(String sensorType, File file);
+    void importFile(File file);
 
 }

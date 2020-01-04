@@ -6,6 +6,7 @@ import com.google.common.collect.Multimap;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.List;
 
 @Component
 public class SensorChecker {
@@ -22,6 +23,11 @@ public class SensorChecker {
     }
 
 
+    public Checkers getStandingBookChecker() {
+        return new Checkers(checkerMap.get("StandingBook"));
+    }
+
+
     public class Checkers {
 
         private Collection<Checker> checkers;
@@ -30,8 +36,8 @@ public class SensorChecker {
             this.checkers = checkers;
         }
 
-        public boolean test(String line) {
-            return checkers.stream().allMatch(checker -> checker.test(line));
+        public boolean test(List<String> items) {
+            return checkers.stream().allMatch(checker -> checker.test(items));
         }
 
     }
