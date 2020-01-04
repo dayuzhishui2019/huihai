@@ -6,6 +6,8 @@ import com.dayu.management.helper.DatabaseHelper;
 import com.dayu.management.module.sensor.manager.SensorChecker;
 import com.dayu.management.module.sensor.manager.SensorConverter;
 import com.dayu.management.module.sensor.model.Device;
+import com.dayu.management.module.sensor.model.derive.Camera;
+import com.dayu.management.module.sensor.model.ext.Channel;
 import com.dayu.response.Assert;
 import com.dayu.response.ExtRunningError;
 import com.google.common.base.Preconditions;
@@ -105,9 +107,23 @@ public class SensorServiceImpl implements SensorService {
                     Writer deriveSink = Files.asCharSink(file, Charset.forName("utf8"), FileWriteMode.APPEND).openBufferedStream();
                     files.put(tableName, file);
                     writers.put(tableName, deriveSink);
+                    if (device.getDerive() instanceof Camera) {
+                        File channelFile = new File(String.format("%s-%s.csv", randomFlag, "channel"));
+                        Writer channelWriter = Files.asCharSink(channelFile, Charset.forName("utf8"), FileWriteMode.APPEND).openBufferedStream();
+                        files.put("channel", channelFile);
+                        writers.put("channel", channelWriter);
+
+                    }
                 }
                 if (device.getDerive() != null) {
                     writers.get(tableName).write(device.getDerive().toCsvLine());
+                    if (device.getDerive() instanceof Camera) {
+                        List<Channel> channels = ((Camera) device.getDerive()).getChannels();
+                        Writer writer = writers.get("channel");
+                        for (Channel channel : channels) {
+                            writer.write(channel.toCsvLine());
+                        }
+                    }
                 }
                 mainSinK.write(device.getSensor().toCsvLine());
             } catch (Exception e) {

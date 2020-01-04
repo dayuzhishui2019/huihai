@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface Convert<T extends ToCsvLine> {
 
-    Device<T> convert(List<String> line);
+    Device<T> convert(List<String> items);
 }

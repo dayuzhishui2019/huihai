@@ -1,9 +1,10 @@
 package com.dayu.management.module.sensor.model.ext;
 
+import com.dayu.management.module.sensor.model.ToCsvLine;
 import lombok.Data;
 
 @Data
-public class Channel {
+public class Channel implements ToCsvLine {
 
     /**
      * 通道ID
@@ -19,4 +20,9 @@ public class Channel {
      * 通道号
      */
     private String value;
+
+    @Override
+    public String toCsvLine() {
+        return null;
+    }
 }

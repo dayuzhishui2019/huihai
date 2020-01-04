@@ -13,7 +13,6 @@ public class SensorConverter {
 
     private Map<String, Convert> convertMap = Maps.newHashMap();
 
-
     public void register(String named, Convert convert) {
         convertMap.put(named, convert);
     }

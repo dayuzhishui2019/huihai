@@ -2,7 +2,7 @@ package com.dayu.management.constant;
 
 public interface StandingBook {
 
-    int GBID = 0;
+    int GID = 0;
     int NAME = 1;
     int ADDRESS = 2;
     int AREA_NUMBER = 3;

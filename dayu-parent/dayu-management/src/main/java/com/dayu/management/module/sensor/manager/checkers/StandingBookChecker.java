@@ -27,7 +27,7 @@ public class StandingBookChecker implements Checker, Register<SensorChecker> {
             return false;
         }
         //检验国标 要么不填,要么填对
-        if (!(items.get(StandingBook.GBID) == null || items.get(StandingBook.GBID).matches("\\d{48}"))) {
+        if (!(items.get(StandingBook.GID) == null || items.get(StandingBook.GID).matches("\\d{48}"))) {
             return false;
         }
         //校验设备名称
