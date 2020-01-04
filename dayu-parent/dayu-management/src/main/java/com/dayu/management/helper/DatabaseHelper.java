@@ -1,6 +1,5 @@
 package com.dayu.management.helper;
 
-import com.leus.common.util.StreamUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.postgresql.copy.CopyManager;
 import org.postgresql.core.BaseConnection;
@@ -8,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
@@ -25,23 +25,12 @@ public class DatabaseHelper {
     }
 
 
-    public void copyIn(String tableName, InputStream input) {
-        try {
-            manager.copyIn("COPY " + tableName + " FROM STDIN", input);
-        } catch (Exception e) {
-            log.error("", e);
-        } finally {
-            StreamUtil.close(input);
-        }
+    public void copyIn(String tableName, InputStream input) throws IOException, SQLException {
+        manager.copyIn("COPY " + tableName + " FROM STDIN", input);
     }
 
-    public void copyOut(String tableOrQuery, OutputStream output) {
-        try {
-            manager.copyOut("COPY " + tableOrQuery + " TO STDOUT", output);
-        } catch (Exception e) {
-            log.error("", e);
-        } finally {
-            StreamUtil.close(output);
-        }
+    public void copyOut(String tableOrQuery, OutputStream output) throws IOException, SQLException {
+        manager.copyOut("COPY " + tableOrQuery + " TO STDOUT", output);
     }
+
 }

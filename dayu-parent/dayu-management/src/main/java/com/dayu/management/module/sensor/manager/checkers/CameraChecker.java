@@ -1,6 +1,7 @@
 package com.dayu.management.module.sensor.manager.checkers;
 
 import com.dayu.management.config.StandingBookIni;
+import com.dayu.management.constant.SensorTable;
 import com.dayu.management.constant.StandingBook;
 import com.dayu.management.module.sensor.helper.LineItemHelper;
 import com.dayu.management.module.sensor.manager.Register;
@@ -22,7 +23,7 @@ public class CameraChecker implements Checker, Register<SensorChecker> {
     @Autowired
     @Override
     public void register(SensorChecker checker) {
-        checker.register("摄像机", this);
+        checker.register(SensorTable.CAMERA.getLabel(), this);
     }
 
 

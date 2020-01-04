@@ -5,7 +5,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(scanBasePackages = "com")
-//@SpringBootApplication
 @MapperScan(basePackages = "com.dayu.**.mapper")
 public class DayuManagementApplication {
 

@@ -5,6 +5,7 @@ import com.dayu.management.module.sensor.model.Device;
 import com.google.common.collect.Maps;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -29,7 +30,7 @@ public class SensorConverter {
             this.convert = convert;
         }
 
-        public Device convert(String line) {
+        public Device convert(List<String> line) {
             return convert.convert(line);
         }
     }
