@@ -50,7 +50,7 @@ public class SensorServiceImpl implements SensorService {
     private final Splitter splitter = Splitter.on(",");
 
     @Override
-    public void importFile(File file) throws IOException {
+    public Map<String, Integer> importFile(File file) throws IOException {
         Preconditions.checkState(file.getName().toLowerCase().endsWith("csv"), "请上传CSV类型模板");
         CharSource source = Files.asCharSource(file, Charset.forName("utf8"));
         List<Integer> errorLineNumber = Lists.newLinkedList();
@@ -91,7 +91,9 @@ public class SensorServiceImpl implements SensorService {
 
         long d = System.currentTimeMillis();
         log.info("入库耗时 {}ms", d - c);
-
+        Map<String, Integer> result = Maps.newHashMap();
+        result.put("SUCCESS", count[0] - 1);
+        return result;
     }
 
 

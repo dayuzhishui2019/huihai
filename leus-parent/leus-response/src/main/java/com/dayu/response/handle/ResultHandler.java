@@ -58,6 +58,9 @@ public class ResultHandler implements ResponseBodyAdvice<Object> {
         if (!clz.getName().startsWith("com.dayu")) {
             return o;
         }
+        if (o instanceof Result) {
+            return o;
+        }
         if (mediaType != null && mediaType.includes(MediaType.APPLICATION_JSON)) {
             RunningError success = RunningError.SUCCESS;
             return Result.builder().code(success.getCode()).message(success.getMessage()).data(o).build();
