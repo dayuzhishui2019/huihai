@@ -26,11 +26,11 @@ public class DatabaseHelper {
 
 
     public void copyIn(String tableName, InputStream input) throws IOException, SQLException {
-        manager.copyIn("COPY " + tableName + " FROM STDIN", input);
+        manager.copyIn("COPY " + tableName + " FROM STDIN DELIMITER AS ','", input);
     }
 
     public void copyOut(String tableOrQuery, OutputStream output) throws IOException, SQLException {
-        manager.copyOut("COPY " + tableOrQuery + " TO STDOUT", output);
+        manager.copyOut("COPY " + tableOrQuery + " TO STDOUT DELIMITER AS ','", output);
     }
 
 }

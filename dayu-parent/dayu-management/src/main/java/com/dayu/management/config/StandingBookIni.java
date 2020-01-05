@@ -20,7 +20,7 @@ public class StandingBookIni {
     private String typeRegular;
 
     @Getter
-    private String ipRegular = "((2(5[0-5]|[0-4]\\\\d))|[0-1]?\\\\d{1,2})(\\\\.((2(5[0-5]|[0-4]\\\\d))|[0-1]?\\\\d{1,2})){3}";
+    private String ipRegular = "((2(5[0-5]|[0-4]\\d))|[0-1]?\\d{1,2})(\\.((2(5[0-5]|[0-4]\\d))|[0-1]?\\d{1,2})){3}";
 
     private final Map<String, List<String>> subTypes = new HashMap<String, List<String>>() {
 

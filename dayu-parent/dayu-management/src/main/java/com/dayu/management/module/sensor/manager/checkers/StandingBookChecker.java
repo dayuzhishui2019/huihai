@@ -27,7 +27,7 @@ public class StandingBookChecker implements Checker, Register<SensorChecker> {
             return false;
         }
         //检验国标 要么不填,要么填对
-        if (!(items.get(StandingBook.GID) == null || items.get(StandingBook.GID).matches("\\d{48}"))) {
+        if (!(Objects.isNullOrEmpty(items.get(StandingBook.GID)) || items.get(StandingBook.GID).matches("\\d{48}"))) {
             return false;
         }
         //校验设备名称
@@ -35,15 +35,15 @@ public class StandingBookChecker implements Checker, Register<SensorChecker> {
             return false;
         }
         //校验设备类型
-        if (items.get(StandingBook.TYPE) == null || !items.get(StandingBook.TYPE).matches(ini.getTypeRegular())) {
+        if (Objects.isNullOrEmpty(items.get(StandingBook.TYPE)) || !items.get(StandingBook.TYPE).matches(ini.getTypeRegular())) {
             return false;
         }
         //行政区划
-        if (!(items.get(StandingBook.AREA_NUMBER) == null || items.get(StandingBook.AREA_NUMBER).matches("\\d+"))) {
+        if (!(Objects.isNullOrEmpty(items.get(StandingBook.AREA_NUMBER)) || items.get(StandingBook.AREA_NUMBER).matches("\\d+"))) {
             return false;
         }
         //管辖单位
-        if (!(items.get(StandingBook.DOMINION_CODE) == null || items.get(StandingBook.DOMINION_CODE).matches("\\d+"))) {
+        if (!(Objects.isNullOrEmpty(items.get(StandingBook.DOMINION_CODE)) || items.get(StandingBook.DOMINION_CODE).matches("\\d+"))) {
             return false;
         }
         return checker.getCheckers(items.get(StandingBook.TYPE)).test(items);

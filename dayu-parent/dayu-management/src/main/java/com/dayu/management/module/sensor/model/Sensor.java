@@ -1,6 +1,7 @@
 package com.dayu.management.module.sensor.model;
 
 import com.alibaba.fastjson.JSON;
+import com.dayu.management.utils.CsvLineUtils;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -63,6 +64,8 @@ public class Sensor implements ToCsvLine {
 
     @Override
     public String toCsvLine() {
-        return "";
+        return CsvLineUtils.join(
+                id, gid, name, address, areaNumber, dominionCode, type, subtype, deriveId
+        );
     }
 }

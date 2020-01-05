@@ -43,6 +43,8 @@ public class SensorServiceImpl implements SensorService {
     @Autowired
     private DatabaseHelper helper;
 
+    private String newLine = System.getProperty("line.separator");
+
     private final String mainTable = "sensor";
 
     private final Splitter splitter = Splitter.on(",");
@@ -52,32 +54,43 @@ public class SensorServiceImpl implements SensorService {
         Preconditions.checkState(file.getName().toLowerCase().endsWith("csv"), "请上传CSV类型模板");
         CharSource source = Files.asCharSource(file, Charset.forName("utf8"));
         List<Integer> errorLineNumber = Lists.newLinkedList();
-
+        long a = System.currentTimeMillis();
         SensorChecker.Checkers checkers = checker.getStandingBookChecker();
         int[] count = new int[]{1};
-        source.lines().skip(0).forEach(line -> {
+        source.lines().skip(1).forEach(line -> {
             if (!checkers.test(splitter.splitToList(line))) {
                 errorLineNumber.add(count[0]);
             }
             count[0]++;
         });
 
+        long b = System.currentTimeMillis();
+
+        log.info("检测耗时 {}ms", b - a);
 
         Assert.isTrue(errorLineNumber.isEmpty(), ExtRunningError.STATE_CHECK_ERROR);
 
-
         Map<String, File> tables = buildFiles(UUIDUtil.randomUUID(), source.lines());
-        tables.forEach((table, data) -> {
-            InputStream input = null;
+
+        long c = System.currentTimeMillis();
+        log.info("文件耗时 {}ms", c - b);
+        tables.entrySet().parallelStream().forEach(entry -> {
+            FileInputStream input = null;
+            BufferedInputStream buffer = null;
             try {
-                input = new FileInputStream(data);
-                helper.copyIn(table, input);
+                input = new FileInputStream(entry.getValue());
+                buffer = new BufferedInputStream(input);
+                helper.copyIn(entry.getKey(), buffer);
+                entry.getValue().deleteOnExit();
             } catch (Exception e) {
                 log.error("COPY IN FILE", e);
             } finally {
-                StreamUtil.close(input);
+                StreamUtil.close(buffer, input);
             }
         });
+
+        long d = System.currentTimeMillis();
+        log.info("入库耗时 {}ms", d - c);
 
     }
 
@@ -89,7 +102,9 @@ public class SensorServiceImpl implements SensorService {
         files.put(mainTable, sensorFile);
         Writer mainSinK = Files.asCharSink(sensorFile, Charset.forName("utf8"), FileWriteMode.APPEND).openBufferedStream();
         writers.put("main", mainSinK);
-        lines.forEach(line -> {
+        int[] count = new int[]{0};
+        lines.skip(1).forEach(line -> {
+            count[0]++;
             try {
                 List<String> items = splitter.splitToList(line);
                 String tableLabel = items.get(StandingBook.TYPE);
@@ -109,30 +124,46 @@ public class SensorServiceImpl implements SensorService {
                     }
                 }
                 if (device.getDerive() != null) {
-                    writers.get(tableName).write(device.getDerive().toCsvLine());
+                    writers.get(tableName).write(device.getDerive().toCsvLine() + newLine);
                     if (device.getDerive() instanceof Camera) {
                         List<Channel> channels = ((Camera) device.getDerive()).getChannels();
                         Writer writer = writers.get("channel");
                         for (Channel channel : channels) {
-                            writer.write(channel.toCsvLine());
+                            writer.write(channel.toCsvLine() + newLine);
                         }
                     }
                 }
-                mainSinK.write(device.getSensor().toCsvLine());
+                mainSinK.write(device.getSensor().toCsvLine() + newLine);
+                if (count[0] % 10000 == 0) {
+                    flushWriters(writers);
+                }
             } catch (Exception e) {
                 log.error("Convert item", e);
             }
         });
+
+        flushWriters(writers);
         //关闭所有的Writer
-        writers.values().stream().forEach(w -> {
+        closeWriters(writers);
+        return files;
+    }
+
+
+    private void flushWriters(Map<String, Writer> writers) {
+        //关闭所有的Writer
+        writers.values().parallelStream().forEach(w -> {
             try {
                 w.flush();
             } catch (IOException e) {
                 log.error("Convert flush", e);
             } finally {
-                StreamUtil.close(w);
+                // StreamUtil.close(w);
             }
         });
-        return files;
+    }
+
+    private void closeWriters(Map<String, Writer> writers) {
+        //关闭所有的Writer
+        writers.values().parallelStream().forEach(w -> StreamUtil.close(w));
     }
 }

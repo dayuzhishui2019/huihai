@@ -2,6 +2,7 @@ package com.dayu.management.module.sensor.model.derive;
 
 import com.dayu.management.module.sensor.model.Sensor;
 import com.dayu.management.module.sensor.model.ext.Channel;
+import com.dayu.management.utils.CsvLineUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,6 +39,6 @@ public class Camera extends Sensor {
 
     @Override
     public String toCsvLine() {
-        return super.toCsvLine();
+        return CsvLineUtils.join(getId(), ip, port, username, password);
     }
 }

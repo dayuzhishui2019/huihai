@@ -1,6 +1,7 @@
 package com.dayu.management.module.sensor.model.ext;
 
 import com.dayu.management.module.sensor.model.ToCsvLine;
+import com.dayu.management.utils.CsvLineUtils;
 import lombok.Data;
 
 @Data
@@ -23,6 +24,7 @@ public class Channel implements ToCsvLine {
 
     @Override
     public String toCsvLine() {
-        return null;
+        return CsvLineUtils.join(id, senorId, value);
     }
+
 }

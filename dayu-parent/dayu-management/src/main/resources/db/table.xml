@@ -34,7 +34,7 @@
 
             DROP TABLE IF EXISTS "public"."channel";
             CREATE TABLE "public"."channel" (
-            "id" int4 NOT NULL,
+            "id" char(32) COLLATE "pg_catalog"."default" NOT NULL,
             "sensorId" char(32) COLLATE "pg_catalog"."default" NOT NULL,
             "value" varchar(32) COLLATE "pg_catalog"."default" NOT NULL
             )
