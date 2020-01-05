@@ -58,10 +58,10 @@ public class SensorServiceImpl implements SensorService {
         SensorChecker.Checkers checkers = checker.getStandingBookChecker();
         int[] count = new int[]{1};
         source.lines().skip(1).forEach(line -> {
+            count[0]++;
             if (!checkers.test(splitter.splitToList(line))) {
                 errorLineNumber.add(count[0]);
             }
-            count[0]++;
         });
 
         long b = System.currentTimeMillis();
