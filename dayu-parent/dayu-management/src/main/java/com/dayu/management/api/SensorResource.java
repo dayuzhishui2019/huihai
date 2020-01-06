@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Base64;
 import java.util.Map;
 
 @Api(value = "设备管理", tags = "设备管理")
@@ -56,12 +55,12 @@ public class SensorResource {
     @GetMapping(value = "{filename}")
     public void export(@PathVariable("filename") @DefaultValue("export.csv") String fileName, @RequestParam String query, HttpServletResponse response) throws IOException, SQLException {
         Assert.isTrue(!Objects.isNullOrEmpty(query), ExtRunningError.STATE_CHECK_ERROR);
-        String sql = new String(Base64.getDecoder().decode(query), "utf-8");
-        Assert.isTrue(!SQLCheckers.select(sql), ExtRunningError.STATE_CHECK_ERROR);
+        //String sql = new String(Base64.getDecoder().decode(query), "utf-8");
+        Assert.isTrue(SQLCheckers.select(query), ExtRunningError.STATE_CHECK_ERROR);
         response.setHeader("content-type", "application/octet-stream");
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
-        sensor.exportFile(sql, response.getOutputStream());
+        sensor.exportFile(query, response.getOutputStream());
     }
 
 }
