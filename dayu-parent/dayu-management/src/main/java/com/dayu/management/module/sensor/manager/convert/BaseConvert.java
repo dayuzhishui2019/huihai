@@ -40,7 +40,7 @@ public class BaseConvert<T extends ToCsvLine> implements Convert<T>, Register<Se
         SensorTable table = SensorTable.labelOf(items.get(StandingBook.TYPE));
         sensor.setType(table.getSenorType());
         sensor.setSubtype(getSubTypes(table, items.get(StandingBook.SUB_TYPE)));
-
+        sensor.setPlatform(items.get(StandingBook.PLATFORM));
         Device<T> device = new Device<>();
         device.setSensor(sensor);
         return device;

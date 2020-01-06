@@ -57,6 +57,11 @@ public class Sensor implements ToCsvLine {
      */
     private String deriveId;
 
+    /**
+     * 平台类型
+     */
+    private String platform;
+
     @Override
     public String toString() {
         return this.getClass().getSimpleName() + JSON.toJSONString(this);
@@ -65,7 +70,7 @@ public class Sensor implements ToCsvLine {
     @Override
     public String toCsvLine() {
         return CsvLineUtils.join(
-                id, gid, name, address, areaNumber, dominionCode, type, subtype, deriveId
+                id, gid, name, address, areaNumber, dominionCode, type, subtype, deriveId, platform
         );
     }
 }

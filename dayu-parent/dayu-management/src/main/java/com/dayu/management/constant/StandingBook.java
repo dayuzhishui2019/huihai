@@ -9,11 +9,10 @@ public interface StandingBook {
     int DOMINION_CODE = 4;
     int TYPE = 5;
     int SUB_TYPE = 6;
-
-    int IP = 7;
-    int PORT = 8;
-    int USERNAME = 9;
-    int PASSWORD = 10;
-    int AV_CHANNEL = 11;
-
+    int PLATFORM = 7;
+    int IP = 8;
+    int PORT = 9;
+    int USERNAME = 10;
+    int PASSWORD = 11;
+    int AV_CHANNEL = 12;
 }

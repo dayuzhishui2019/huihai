@@ -30,7 +30,7 @@ public class DatabaseHelper {
     }
 
     public void copyOut(String tableOrQuery, OutputStream output) throws IOException, SQLException {
-        manager.copyOut("COPY " + tableOrQuery + " TO STDOUT DELIMITER AS ','", output);
+        manager.copyOut("COPY (" + tableOrQuery + ") TO STDOUT DELIMITER AS ','", output);
     }
 
 }

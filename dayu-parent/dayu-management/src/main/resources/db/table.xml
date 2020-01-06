@@ -71,7 +71,8 @@
             "dominionCode" varchar(20) COLLATE "pg_catalog"."default",
             "type" int2,
             "subtype" int2,
-            "deriveId" char(32) COLLATE "pg_catalog"."default"
+            "deriveId" char(32) COLLATE "pg_catalog"."default",
+            "platform" varchar(20) COLLATE "pg_catalog"."default"
             )
             ;
             COMMENT ON COLUMN "public"."sensor"."id" IS '传感器ID 有业务意义 重要';
@@ -83,6 +84,7 @@
             COMMENT ON COLUMN "public"."sensor"."type" IS '传感器类型';
             COMMENT ON COLUMN "public"."sensor"."subtype" IS '传感器子类型';
             COMMENT ON COLUMN "public"."sensor"."deriveId" IS '派生设备ID(具体设备ID)';
+            COMMENT ON COLUMN "public"."sensor"."platform" IS '所属平台类型';
 
 
             DROP TABLE IF EXISTS "public"."session";

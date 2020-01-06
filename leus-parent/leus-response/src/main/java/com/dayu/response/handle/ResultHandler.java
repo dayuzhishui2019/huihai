@@ -5,6 +5,7 @@ import com.dayu.response.RunningError;
 import com.dayu.response.annotation.IgnoreDecorate;
 import com.dayu.response.exception.BusinessException;
 import com.dayu.response.model.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -18,6 +19,7 @@ import java.io.InputStream;
 import java.lang.reflect.AnnotatedElement;
 import java.util.Arrays;
 
+@Slf4j
 @ControllerAdvice
 public class ResultHandler implements ResponseBodyAdvice<Object> {
 
@@ -81,6 +83,7 @@ public class ResultHandler implements ResponseBodyAdvice<Object> {
     @ResponseBody
     @ExceptionHandler(Exception.class)
     public Result handleException(Exception e) {
+        log.error("", e);
         RunningError error = RunningError.FAIL;
         return Result.builder().code(error.getCode())
                 .message(error.getMessage())

@@ -23,7 +23,7 @@ public class StandingBookChecker implements Checker, Register<SensorChecker> {
 
     @Override
     public boolean test(List<String> items) {
-        if (Objects.isNullOrEmpty(items) || items.size() != 12) {
+        if (Objects.isNullOrEmpty(items) || items.size() != 13) {
             return false;
         }
         //检验国标 要么不填,要么填对
@@ -44,6 +44,10 @@ public class StandingBookChecker implements Checker, Register<SensorChecker> {
         }
         //管辖单位
         if (!(Objects.isNullOrEmpty(items.get(StandingBook.DOMINION_CODE)) || items.get(StandingBook.DOMINION_CODE).matches("\\d+"))) {
+            return false;
+        }
+        //所属平台
+        if (Objects.isNullOrEmpty(items.get(StandingBook.PLATFORM))) {
             return false;
         }
         return checker.getCheckers(items.get(StandingBook.TYPE)).test(items);

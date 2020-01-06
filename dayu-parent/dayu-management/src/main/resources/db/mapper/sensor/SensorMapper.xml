@@ -49,7 +49,7 @@
         </foreach>
     </delete>
 
-    <select id="select" parameterType="com.dayu.management.module.sensor.model.query.SensorQuery">
+    <select id="select" parameterType="com.dayu.management.core.Query">
         select
         id,
         gid,

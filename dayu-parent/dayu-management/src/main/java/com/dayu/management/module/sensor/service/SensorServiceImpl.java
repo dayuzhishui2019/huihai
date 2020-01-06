@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -94,6 +95,11 @@ public class SensorServiceImpl implements SensorService {
         Map<String, Integer> result = Maps.newHashMap();
         result.put("SUCCESS", count[0] - 1);
         return result;
+    }
+
+    @Override
+    public void exportFile(String query, OutputStream outputStream) throws IOException, SQLException {
+        helper.copyOut(query, outputStream);
     }
 
 
