@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 
 @Configuration
@@ -20,7 +21,12 @@ public class StandingBookIni {
     private String typeRegular;
 
     @Getter
-    private String ipRegular = "((2(5[0-5]|[0-4]\\d))|[0-1]?\\d{1,2})(\\.((2(5[0-5]|[0-4]\\d))|[0-1]?\\d{1,2})){3}";
+    private Pattern ipRegular = Pattern.compile("((2(5[0-5]|[0-4]\\d))|[0-1]?\\d{1,2})(\\.((2(5[0-5]|[0-4]\\d))|[0-1]?\\d{1,2})){3}");
+
+    @Getter
+    private Pattern channelRegular = Pattern.compile("([a-zA-Z0-9=]+;*){1,}");
+    @Getter
+    private Pattern portRegular = Pattern.compile("\\d{1,5}");
 
     private final Map<String, List<String>> subTypes = new HashMap<String, List<String>>() {
 

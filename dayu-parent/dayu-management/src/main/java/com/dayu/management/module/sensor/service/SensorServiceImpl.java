@@ -70,7 +70,7 @@ public class SensorServiceImpl implements SensorService {
 
         Assert.isTrue(errorLineNumber.isEmpty(), ExtRunningError.STATE_CHECK_ERROR);
 
-        Map<String, File> tables = buildFiles(UUIDUtil.randomUUID(), source.lines());
+        Map<String, File> tables = buildFiles(UUIDUtil.randomUUID(), source.lines().parallel());
 
         long c = System.currentTimeMillis();
         log.info("文件耗时 {}ms", c - b);
@@ -98,15 +98,13 @@ public class SensorServiceImpl implements SensorService {
 
 
     private Map<String, File> buildFiles(String randomFlag, Stream<String> lines) throws IOException {
-        Map<String, Writer> writers = Maps.newHashMap();
-        Map<String, File> files = Maps.newHashMap();
+        Map<String, Writer> writers = Maps.newConcurrentMap();
+        Map<String, File> files = Maps.newConcurrentMap();
         File sensorFile = new File(String.format("%s-%s.csv", randomFlag, mainTable));
         files.put(mainTable, sensorFile);
         Writer mainSinK = Files.asCharSink(sensorFile, Charset.forName("utf8"), FileWriteMode.APPEND).openBufferedStream();
         writers.put("main", mainSinK);
-        int[] count = new int[]{0};
         lines.skip(1).forEach(line -> {
-            count[0]++;
             try {
                 List<String> items = splitter.splitToList(line);
                 String tableLabel = items.get(StandingBook.TYPE);
@@ -136,9 +134,6 @@ public class SensorServiceImpl implements SensorService {
                     }
                 }
                 mainSinK.write(device.getSensor().toCsvLine() + newLine);
-                if (count[0] % 10000 == 0) {
-                    flushWriters(writers);
-                }
             } catch (Exception e) {
                 log.error("Convert item", e);
             }

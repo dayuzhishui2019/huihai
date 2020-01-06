@@ -20,7 +20,6 @@ public class CameraChecker implements Checker, Register<SensorChecker> {
     @Autowired
     private StandingBookIni ini;
 
-
     @Autowired
     @Override
     public void register(SensorChecker checker) {
@@ -33,10 +32,10 @@ public class CameraChecker implements Checker, Register<SensorChecker> {
         if (!LineItemHelper.testSubTypes(ini, lineItem)) {
             return false;
         }
-        if (!(!Objects.isNullOrEmpty(lineItem.get(StandingBook.IP)) && lineItem.get(StandingBook.IP).matches(ini.getIpRegular()))) {
+        if (!(!Objects.isNullOrEmpty(lineItem.get(StandingBook.IP)) && ini.getIpRegular().matcher(lineItem.get(StandingBook.IP)).matches())) {
             return false;
         }
-        if (!(!Objects.isNullOrEmpty(lineItem.get(StandingBook.PORT)) && lineItem.get(StandingBook.PORT).matches("\\d{1,5}") && Integer.valueOf(lineItem.get(StandingBook.PORT)) <= 65535)) {
+        if (!(!Objects.isNullOrEmpty(lineItem.get(StandingBook.PORT)) && ini.getPortRegular().matcher(lineItem.get(StandingBook.PORT)).matches() && Integer.valueOf(lineItem.get(StandingBook.PORT)) <= 65535)) {
             return false;
         }
         if (Strings.isNullOrEmpty(lineItem.get(StandingBook.USERNAME))) {
@@ -45,14 +44,10 @@ public class CameraChecker implements Checker, Register<SensorChecker> {
         if (Strings.isNullOrEmpty(lineItem.get(StandingBook.PASSWORD))) {
             return false;
         }
-        if (!(!Strings.isNullOrEmpty(lineItem.get(StandingBook.AV_CHANNEL)) && lineItem.get(StandingBook.AV_CHANNEL).matches("([a-zA-Z0-9=]+;*){1,}"))) {
+        if (!(!Strings.isNullOrEmpty(lineItem.get(StandingBook.AV_CHANNEL)) && ini.getChannelRegular().matcher(lineItem.get(StandingBook.AV_CHANNEL)).matches())) {
             return false;
         }
         return true;
-    }
-
-    public static void main(String[] args) {
-        System.out.println("172.16.129.18".matches("((2(5[0-5]|[0-4]\\d))|[0-1]?\\d{1,2})(\\.((2(5[0-5]|[0-4]\\d))|[0-1]?\\d{1,2})){3}"));
     }
 
 }
