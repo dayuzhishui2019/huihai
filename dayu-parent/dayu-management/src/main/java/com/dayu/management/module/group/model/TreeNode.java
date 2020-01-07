@@ -3,14 +3,16 @@ package com.dayu.management.module.group.model;
 import lombok.Data;
 
 @Data
-public class Group {
+public class TreeNode {
 
     private String id;
+
+    private String parentId;
 
     private String name;
 
     private int type;
 
-    private String parentId;
+    private int func;
 
 }

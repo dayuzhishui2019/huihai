@@ -4,10 +4,10 @@
 
 
     <insert id="insert" parameterType="com.dayu.management.module.sensor.model.Sensor">
-        insert into sensor (id,gid,name,address,"areaNumber","dominionCode",type,"subType","deriveId")
+        insert into sensor (id,gid,name,address,"areaNumber","dominionCode",type,"func","deriveId")
         values
         <foreach collection="list" item="item" open="(" close=")" separator=",">
-            #{item.id},#{item.gid},#{item.name},#{item.address},#{item.areaNumber},#{item.dominionCode},#{item.type},#{item.subType},#{item.deriveId}
+            #{item.id},#{item.gid},#{item.name},#{item.address},#{item.areaNumber},#{item.dominionCode},#{item.type},#{item.func},#{item.deriveId}
         </foreach>;
     </insert>
 
@@ -34,8 +34,8 @@
                 <if test="item.type!=null and item.type!=null">
                     type=#{item.type},
                 </if>
-                <if test="item.subType!=null and item.subType!=0">
-                    "subType"=#{item.subType},
+                <if test="item.func!=null and item.func!=0">
+                    "func"=#{item.func},
                 </if>
             </set>
             where 1=1 and id=#{id}
@@ -57,7 +57,7 @@
         "areaNumber",
         "dominionCode",
         type,
-        "subType",
+        "func",
         "deriveId"
         from
         sensor
@@ -68,8 +68,8 @@
         <if test="type!=0">
             and type=#{type}
         </if>
-        <if test="subType!=0">
-            and "subType"=#{subType}
+        <if test="func!=0">
+            and "func"=#{func}
         </if>
         <if test="areaNumber!=0">
             and "areaNumber"=#{areaNumber}

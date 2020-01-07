@@ -8,6 +8,7 @@ import com.dayu.management.module.sensor.model.Device;
 import com.dayu.management.module.sensor.model.Sensor;
 import com.dayu.management.module.sensor.model.ToCsvLine;
 import com.google.common.base.Splitter;
+import com.leus.common.base.Objects;
 import com.leus.common.util.UUIDUtil;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,23 +31,38 @@ public class BaseConvert<T extends ToCsvLine> implements Convert<T>, Register<Se
 
     @Override
     public Device<T> convert(List<String> items) {
+        String gid = items.get(StandingBook.GID);
         Sensor sensor = new Sensor();
         sensor.setId(UUIDUtil.randomUUIDw());
         sensor.setGid(items.get(StandingBook.GID));
         sensor.setName(items.get(StandingBook.NAME));
         sensor.setAddress(items.get(StandingBook.ADDRESS));
-        sensor.setAreaNumber(items.get(StandingBook.AREA_NUMBER));
+
+        String areaNumber = items.get(StandingBook.AREA_NUMBER);
+        if (Objects.isNullOrEmpty(areaNumber)) {
+            sensor.setAreaNumber(items.get(StandingBook.GID).substring(0, 6));
+        } else {
+            sensor.setAreaNumber(areaNumber);
+        }
+
+        String dominionCode = items.get(StandingBook.DOMINION_CODE);
+        if (Objects.isNullOrEmpty(dominionCode)) {
+            sensor.setDominionCode(items.get(StandingBook.GID).substring(0, 8));
+        } else {
+            sensor.setDominionCode(dominionCode);
+        }
+
         sensor.setDominionCode(items.get(StandingBook.DOMINION_CODE));
         SensorTable table = SensorTable.labelOf(items.get(StandingBook.TYPE));
         sensor.setType(table.getSenorType());
-        sensor.setSubtype(getSubTypes(table, items.get(StandingBook.SUB_TYPE)));
+        sensor.setFunc(getFunc(table, items.get(StandingBook.SUB_TYPE)));
         sensor.setPlatform(items.get(StandingBook.PLATFORM));
         Device<T> device = new Device<>();
         device.setSensor(sensor);
         return device;
     }
-
-    private int getSubTypes(SensorTable table, String lineItem) {
+    
+    private int getFunc(SensorTable table, String lineItem) {
         List<String> items = splitter.splitToList(lineItem);
         Map<String, Integer> subTypes = table.getSubTypes();
         int subType = 0;

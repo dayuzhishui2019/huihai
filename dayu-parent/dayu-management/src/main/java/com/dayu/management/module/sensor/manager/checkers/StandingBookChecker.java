@@ -5,14 +5,22 @@ import com.dayu.management.constant.StandingBook;
 import com.dayu.management.module.sensor.manager.Register;
 import com.dayu.management.module.sensor.manager.SensorChecker;
 import com.google.common.base.Strings;
+import com.google.common.hash.BloomFilter;
+import com.google.common.hash.Funnel;
 import com.leus.common.base.Objects;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 @Component
 public class StandingBookChecker implements Checker, Register<SensorChecker> {
+
+
+    @Getter
+    private final BloomFilter<String> GID_FILTER;
 
 
     @Autowired
@@ -21,15 +29,27 @@ public class StandingBookChecker implements Checker, Register<SensorChecker> {
     @Autowired
     private StandingBookIni ini;
 
+
+    public StandingBookChecker() {
+        GID_FILTER = BloomFilter.create((Funnel<String>) (value, sink) ->
+                        sink.putString(value, Charset.forName("utf-8"))
+                , 5000000);
+    }
+
+
     @Override
     public boolean test(List<String> items) {
         if (Objects.isNullOrEmpty(items) || items.size() != 13) {
             return false;
         }
-        //检验国标 要么不填,要么填对
-        if (!(Objects.isNullOrEmpty(items.get(StandingBook.GID)) || items.get(StandingBook.GID).matches("\\d{48}"))) {
+        //国标ID必填
+        if (Objects.isNullOrEmpty(items.get(StandingBook.GID)) || !items.get(StandingBook.GID).matches("\\d{48}")) {
+            return false;
+        } else if (GID_FILTER.mightContain(items.get(StandingBook.GID))) {
             return false;
         }
+        GID_FILTER.put(items.get(StandingBook.GID));
+
         //校验设备名称
         if (Strings.nullToEmpty(items.get(StandingBook.NAME)).trim().isEmpty()) {
             return false;

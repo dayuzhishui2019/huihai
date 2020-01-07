@@ -48,7 +48,7 @@
             CREATE TABLE "public"."group" (
             "id" char(32) COLLATE "pg_catalog"."default" NOT NULL,
             "name" varchar(20) COLLATE "pg_catalog"."default",
-            "type" varchar(255) COLLATE "pg_catalog"."default",
+            "type" int2,
             "parentId" char(32) COLLATE "pg_catalog"."default"
             )
             ;
@@ -74,7 +74,7 @@
             "areaNumber" varchar(20) COLLATE "pg_catalog"."default",
             "dominionCode" varchar(20) COLLATE "pg_catalog"."default",
             "type" int2,
-            "subtype" int2,
+            "func" int2,
             "deriveId" char(32) COLLATE "pg_catalog"."default",
             "platform" varchar(20) COLLATE "pg_catalog"."default"
             );
@@ -85,7 +85,7 @@
             COMMENT ON COLUMN "public"."sensor"."areaNumber" IS '安装地行政区划代码';
             COMMENT ON COLUMN "public"."sensor"."dominionCode" IS '管辖单位';
             COMMENT ON COLUMN "public"."sensor"."type" IS '传感器类型';
-            COMMENT ON COLUMN "public"."sensor"."subtype" IS '传感器子类型';
+            COMMENT ON COLUMN "public"."sensor"."func" IS '传感器子类型';
             COMMENT ON COLUMN "public"."sensor"."deriveId" IS '派生设备ID(具体设备ID)';
             COMMENT ON COLUMN "public"."sensor"."platform" IS '所属平台类型';
 

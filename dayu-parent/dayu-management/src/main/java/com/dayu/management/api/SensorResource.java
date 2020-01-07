@@ -10,6 +10,7 @@ import com.google.common.io.Files;
 import com.leus.common.base.Objects;
 import com.leus.common.util.UUIDUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
@@ -52,10 +53,10 @@ public class SensorResource {
     }
 
 
+    @ApiOperation("根据SQL检索相应数据 返回CSV格式")
     @GetMapping(value = "{filename}")
     public void export(@PathVariable("filename") @DefaultValue("export.csv") String fileName, @RequestParam String query, HttpServletResponse response) throws IOException, SQLException {
         Assert.isTrue(!Objects.isNullOrEmpty(query), ExtRunningError.STATE_CHECK_ERROR);
-        //String sql = new String(Base64.getDecoder().decode(query), "utf-8");
         Assert.isTrue(SQLCheckers.select(query), ExtRunningError.STATE_CHECK_ERROR);
         response.setHeader("content-type", "application/octet-stream");
         response.setContentType("application/octet-stream");

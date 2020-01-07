@@ -49,7 +49,7 @@ public class Sensor implements ToCsvLine {
     /**
      * 传感器子类型
      */
-    private int subtype;
+    private int func;
 
 
     /**
@@ -70,7 +70,7 @@ public class Sensor implements ToCsvLine {
     @Override
     public String toCsvLine() {
         return CsvLineUtils.join(
-                id, gid, name, address, areaNumber, dominionCode, type, subtype, deriveId, platform
+                id, gid, name, address, areaNumber, dominionCode, type, func, deriveId, platform
         );
     }
 }

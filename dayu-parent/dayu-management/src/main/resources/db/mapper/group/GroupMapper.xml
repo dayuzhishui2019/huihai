@@ -56,4 +56,35 @@
         limit #{size} offset #{start} * #{size}
     </select>
 
+    <select id="selectByParentId" parameterType="java.lang.String"
+            resultType="com.dayu.management.module.group.model.TreeNode">
+        SELECT
+            "id",
+            "name",
+            "parentId",
+            1 "nodeType",
+            -1 "type",
+            -1 "func"
+        FROM
+            group_new
+        WHERE
+            1 = 1
+            AND "parentId" = #{parentId}
+        UNION
+        SELECT
+            s."id",
+            s."name",
+            "groupId" "parentId",
+            2 "nodeType",
+            s."type",
+            s."subtype" "func"
+        FROM
+            group_sensor_relation r,
+            sensor s
+        WHERE
+            1 = 1
+            AND "groupId" = #{parentId}
+            AND s."id" = r."sensorId"
+    </select>
+
 </mapper>

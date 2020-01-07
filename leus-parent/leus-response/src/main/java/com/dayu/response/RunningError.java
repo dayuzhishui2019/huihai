@@ -26,8 +26,35 @@ public interface RunningError {
         }
     };
 
+    RunningError STATE_CHECK_ERROR = new RunningError() {
+        @Override
+        public String getCode() {
+            return "5001";
+        }
+
+        @Override
+        public String getMessage() {
+            return "运行时检查异常";
+        }
+    };
+
+
     String getCode();
 
     String getMessage();
 
+    default RunningError message(String message) {
+        RunningError thz = this;
+        return new RunningError() {
+            @Override
+            public String getCode() {
+                return thz.getCode();
+            }
+
+            @Override
+            public String getMessage() {
+                return message;
+            }
+        };
+    }
 }

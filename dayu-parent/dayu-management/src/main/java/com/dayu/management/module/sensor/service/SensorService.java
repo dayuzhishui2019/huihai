@@ -14,4 +14,8 @@ public interface SensorService {
 
     void exportFile(String query, OutputStream output) throws IOException, SQLException;
 
+
+
+
+
 }
