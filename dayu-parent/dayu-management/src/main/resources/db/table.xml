@@ -47,19 +47,23 @@
             DROP TABLE IF EXISTS "public"."group";
             CREATE TABLE "public"."group" (
             "id" char(32) COLLATE "pg_catalog"."default" NOT NULL,
-            "type" int2,
-            "roleId" char(32) COLLATE "pg_catalog"."default",
-            "nodeId" char(32) COLLATE "pg_catalog"."default",
-            "nodeType" int2,
+            "name" varchar(20) COLLATE "pg_catalog"."default",
+            "type" varchar(255) COLLATE "pg_catalog"."default",
             "parentId" char(32) COLLATE "pg_catalog"."default"
             )
             ;
-            COMMENT ON COLUMN "public"."group"."id" IS '组ID 业务意义不重';
-            COMMENT ON COLUMN "public"."group"."type" IS '组类型';
-            COMMENT ON COLUMN "public"."group"."roleId" IS '组所属角色ID';
-            COMMENT ON COLUMN "public"."group"."nodeId" IS '传感器ID或组ID';
-            COMMENT ON COLUMN "public"."group"."nodeType" IS '节点类型 0枝干,1叶子';
-            COMMENT ON COLUMN "public"."group"."parentId" IS '节点父ID - 只会是group id';
+
+            COMMENT ON COLUMN "public"."group"."id" IS '组织ID';
+            COMMENT ON COLUMN "public"."group"."name" IS '组织名称';
+            COMMENT ON COLUMN "public"."group"."type" IS '组织类型';
+            COMMENT ON COLUMN "public"."group"."parentId" IS '父节点ID';
+
+            DROP TABLE IF EXISTS "public"."group_sensor_relation";
+            CREATE TABLE "public"."group_sensor_relation" (
+            "id" char(32) COLLATE "pg_catalog"."default" NOT NULL,
+            "groupId" char(32) COLLATE "pg_catalog"."default" NOT NULL,
+            "sensorId" char(32) COLLATE "pg_catalog"."default" NOT NULL
+            );
 
             DROP TABLE IF EXISTS "public"."sensor";
             CREATE TABLE "public"."sensor" (
@@ -73,8 +77,7 @@
             "subtype" int2,
             "deriveId" char(32) COLLATE "pg_catalog"."default",
             "platform" varchar(20) COLLATE "pg_catalog"."default"
-            )
-            ;
+            );
             COMMENT ON COLUMN "public"."sensor"."id" IS '传感器ID 有业务意义 重要';
             COMMENT ON COLUMN "public"."sensor"."gid" IS '国标ID';
             COMMENT ON COLUMN "public"."sensor"."name" IS '传感器名称';
@@ -122,6 +125,10 @@
             ALTER TABLE "public"."session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("id");
 
             ALTER TABLE "public"."user" ADD CONSTRAINT "user_pkey" PRIMARY KEY ("id");
+
+            ALTER TABLE "public"."group_sensor_relation" ADD CONSTRAINT "group_sensor_relation_pkey" PRIMARY KEY ("id")
+
+
 
 
         </sql>
