@@ -1,4 +1,4 @@
-FROM openjdk:13-jdk-alpine
+FROM openjdk:8-jre-alpine
 VOLUME /tmp
 MAINTAINER leus
 ARG JAR_FILE
