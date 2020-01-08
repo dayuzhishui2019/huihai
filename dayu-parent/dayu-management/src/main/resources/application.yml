@@ -15,3 +15,7 @@ spring:
 mybatis:
   config-location: classpath:db/mybatis-config.xml
   mapper-locations: classpath:db/mapper/*/*.xml
+
+docker:
+  runtime: ${DOCKER_RUNTIME:tcp://localhost:2375}
+  registry: ${DOCKER_REGISTRY:http://localhost:5000/v2}

@@ -37,18 +37,18 @@ public class SensorResource {
 
     @ResponseBody
     @PostMapping
-    public WebAsyncTask<Result<Object>> importFile(MultipartFile file, HttpServletRequest request) {
-        WebAsyncTask<Result<Object>> task = new WebAsyncTask<>(1000 * 60 * 5, () -> {
+    public WebAsyncTask<Result<Map<String, Integer>>> importFile(MultipartFile file, HttpServletRequest request) {
+        WebAsyncTask<Result<Map<String, Integer>>> task = new WebAsyncTask<>(1000 * 60 * 5, () -> {
             String sessionId = request.getSession().getId();
             log.info("SessionId:{}", sessionId);
             File file1 = new File(UUIDUtil.randomUUIDw() + "-" + file.getOriginalFilename());
             Files.asByteSink(file1).writeFrom(file.getInputStream());
             Map<String, Integer> v = sensor.importFile(file1);
             file1.deleteOnExit();
-            return Result.builder().code("200").message("导入成功").data(v).build();
+            return Result.<Map<String, Integer>>builder().code("200").message("导入成功").data(v).build();
         });
-        task.onTimeout(() -> Result.builder().code(RunningError.FAIL.getCode()).message("导入超时").build());
-        task.onError(() -> Result.builder().code(RunningError.FAIL.getCode()).message("导入出错").build());
+        task.onTimeout(() -> Result.<Map<String, Integer>>builder().code(RunningError.FAIL.getCode()).message("导入超时").build());
+        task.onError(() -> Result.<Map<String, Integer>>builder().code(RunningError.FAIL.getCode()).message("导入出错").build());
         return task;
     }
 
