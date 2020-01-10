@@ -5,9 +5,12 @@ import com.dayu.response.Assert;
 import com.dayu.response.ExtRunningError;
 import com.dayu.response.RunningError;
 import com.dayu.response.exception.BusinessException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.command.LoadImageCmd;
 import com.github.dockerjava.api.command.PushImageCmd;
 import com.github.dockerjava.api.model.Image;
+import com.github.dockerjava.api.model.LoadResponseItem;
 import com.github.dockerjava.core.command.PushImageResultCallback;
 import com.leus.common.base.Objects;
 import lombok.extern.slf4j.Slf4j;
@@ -17,9 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
-import java.util.Base64;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 @Slf4j
@@ -40,7 +41,13 @@ public class RegistryServiceImpl implements RegistryService {
 
     @Override
     public List<String> getTags(String repository) {
-        return Assert.notNull(registry.getTags(repository), RunningError.STATE_CHECK_ERROR.message("获取镜像Tag列表失败")).getTags();
+        try {
+
+            return Assert.notNull(registry.getTags(repository), RunningError.STATE_CHECK_ERROR.message("获取镜像Tag列表失败")).getTags();
+        } catch (Exception e) {
+            Assert.isTrue(false, ExtRunningError.STATE_CHECK_ERROR.message("获取镜像Tag列表失败"));
+            return null;
+        }
     }
 
     @Override
@@ -54,11 +61,12 @@ public class RegistryServiceImpl implements RegistryService {
     }
 
     @Override
-    public boolean pushImage(String repository, String tag, InputStream file) {
-        String imageName = String.format("%s:%s", repository, tag);
+    public String pushImage(InputStream file) {
+        LoadResponseItem item;
         try {
-            docker.loadImageCmd(file).exec();
-            List<Image> images = docker.listImagesCmd().withImageNameFilter(imageName).exec();
+            LoadImageCmd cmd = docker.loadImageCmd(file);
+            item = cmd.exec();
+            List<Image> images = docker.listImagesCmd().withImageNameFilter(item.getImageName()).exec();
             Assert.isTrue(!Objects.isNullOrEmpty(images), ExtRunningError.STATE_CHECK_ERROR.message("加载镜像失败,请确保镜像正确并重试"));
         } catch (Exception e) {
             log.error("Load镜像失败", e);
@@ -66,22 +74,20 @@ public class RegistryServiceImpl implements RegistryService {
         }
 
         try {
-            PushImageCmd cmd = docker.pushImageCmd(imageName);
-            boolean v = cmd.exec(new PushImageResultCallback() {
+            PushImageCmd cmd = docker.pushImageCmd(item.getImageName());
+            cmd.exec(new PushImageResultCallback() {
                 @Override
                 public void onComplete() {
-                    log.info("PUSH SUCCESS IMAGES = {}:{}", repository, tag);
+                    log.info("PUSH SUCCESS IMAGES = {}", item.getImageName());
+                    docker.removeImageCmd(item.getImageName());
+                    log.info("CLEAN IMAGE TMP");
                 }
-            }).awaitCompletion(5, TimeUnit.MINUTES);
-            docker.removeImageCmd(imageName).exec();
-            return v;
+            });
+            return item.getImageName();
         } catch (Exception e) {
             log.error("Push镜像失败", e);
             throw new BusinessException(RunningError.STATE_CHECK_ERROR.message("Push 镜像失败,请确保镜像正确并重试"));
         }
     }
 
-    public static void main(String[] args) {
-        System.out.println(new String(Base64.getDecoder().decode("XJAUMEO63nVb1aMJmmaGucNYMB30At0GMdf2hueyjJr0jLUktn-sCS8ujtRxzwVXFICGN9z_aiBk_arxn2ryjQ")));
-    }
 }

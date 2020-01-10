@@ -7,6 +7,8 @@ spring:
         enabled: true
         service-name: ${spring.application.name}
         instance-id: ${spring.application.name}-${random.uuid}
+        catalog-services-watch-delay: 3000
+        catalog-services-watch-timeout: 5
       config:
         enabled: true
         format: YAML
@@ -28,6 +30,11 @@ spring:
 
   profiles:
     active: prod
+  jackson:
+    default-property-inclusion: non_null
 
 server:
   port: 8080
+  undertow:
+    max-http-post-size: 1024MB
+    url-charset: UTF-8

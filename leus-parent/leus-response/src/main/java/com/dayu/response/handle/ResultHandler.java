@@ -14,8 +14,7 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import java.io.File;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.AnnotatedElement;
 import java.util.Arrays;
 
@@ -77,17 +76,42 @@ public class ResultHandler implements ResponseBodyAdvice<Object> {
         RunningError error = e.getError();
         return Result.builder().code(error.getCode())
                 .message(error.getMessage())
-                .exception(e.getStackTrace()).build();
+//                .exception(printStack(e))
+                .build();
     }
 
     @ResponseBody
     @ExceptionHandler(Exception.class)
     public Result handleException(Exception e) {
-        log.error("", e);
         RunningError error = RunningError.FAIL;
         return Result.builder().code(error.getCode())
                 .message(error.getMessage())
-                .exception(e.getStackTrace())
+                .exception(printStack(e))
                 .build();
+    }
+
+
+    private String printStack(Exception e) {
+        ByteArrayOutputStream outputStream = null;
+        PrintStream stream = null;
+        try {
+            outputStream = new ByteArrayOutputStream();
+            stream = new PrintStream(outputStream);
+            e.printStackTrace(stream);
+            return new String(outputStream.toByteArray(), "utf-8");
+        } catch (UnsupportedEncodingException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (stream != null) {
+                stream.close();
+            }
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException ex) {
+                }
+            }
+        }
+        return null;
     }
 }

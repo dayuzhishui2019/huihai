@@ -5,7 +5,6 @@ import com.dayu.management.module.registry.RegistryService;
 import com.dayu.response.Assert;
 import com.dayu.response.RunningError;
 import com.dayu.response.model.Result;
-import com.google.common.base.Strings;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.WebAsyncTask;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 @Api(value = "仓库管理", tags = "仓库管理")
@@ -27,21 +27,18 @@ public class RegistryResource {
     private RegistryService service;
 
     @ApiOperation("上传镜像")
-    @PostMapping("images/{repository}/{tag}")
-    public WebAsyncTask<Result<Boolean>> pushImage(@PathVariable("repository") String repository,
-                                                   @PathVariable("tag") String tag,
-                                                   MultipartFile image) throws IOException {
-        Assert.isTrue(!Strings.isNullOrEmpty(repository), RunningError.STATE_CHECK_ERROR.message("repository 不能为空"));
-        Assert.isTrue(!Strings.isNullOrEmpty(tag), RunningError.STATE_CHECK_ERROR.message("tag 不能为空"));
-        Assert.isTrue(image.getOriginalFilename().endsWith("tar"), RunningError.STATE_CHECK_ERROR.message("请上传镜像包"));
+    @PostMapping("images")
+    public WebAsyncTask<Result<String>> pushImage(MultipartFile image) {
+        Assert.notNull(image, RunningError.STATE_CHECK_ERROR.message("您没有传镜像"));
+        Assert.isTrue(image.getOriginalFilename().endsWith("tar"), RunningError.STATE_CHECK_ERROR.message("请上传镜像包(*.tar)"));
 
-        WebAsyncTask<Result<Boolean>> task = new WebAsyncTask<>(1000 * 60 * 5, () -> {
-            boolean v = service.pushImage(repository, tag, image.getInputStream());
-            return Result.<Boolean>builder().code(RunningError.SUCCESS.getCode()).message(RunningError.SUCCESS.getMessage()).data(v).build();
+        WebAsyncTask<Result<String>> task = new WebAsyncTask<>(1000 * 60 * 5, () -> {
+            String imageName = service.pushImage(image.getInputStream());
+            return Result.<String>builder().code(RunningError.SUCCESS.getCode()).message(RunningError.SUCCESS.getMessage()).data(imageName).build();
 
         });
-        task.onTimeout(() -> Result.<Boolean>builder().code(RunningError.FAIL.getCode()).message("导入超时").build());
-        task.onError(() -> Result.<Boolean>builder().code(RunningError.FAIL.getCode()).message("导入出错").build());
+        task.onTimeout(() -> Result.<String>builder().code(RunningError.FAIL.getCode()).message("导入超时").build());
+        task.onError(() -> Result.<String>builder().code(RunningError.FAIL.getCode()).message("导入出错").build());
         return task;
     }
 
@@ -53,8 +50,8 @@ public class RegistryResource {
 
     @ApiOperation("获取镜像tags")
     @GetMapping("images/{repository}/tags/list")
-    public List<String> getTags(@PathVariable("repository") String repository) {
-        return service.getTags(repository);
+    public List<String> getTags(@PathVariable("repository") String repository) throws UnsupportedEncodingException {
+        return service.getTags(URLDecoder.decode(repository, "utf8"));
     }
 
 

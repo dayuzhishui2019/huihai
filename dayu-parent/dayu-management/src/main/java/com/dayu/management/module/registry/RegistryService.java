@@ -12,6 +12,6 @@ public interface RegistryService {
 
     boolean deleteImage(String repository, String tag);
 
-    boolean pushImage(String repository, String tag, InputStream file);
+    String pushImage(InputStream file);
 
 }
