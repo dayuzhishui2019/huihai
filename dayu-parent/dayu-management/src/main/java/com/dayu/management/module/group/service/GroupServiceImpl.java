@@ -71,7 +71,8 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public List<TreeNode> queryTree(String groupId) {
-        return mapper.selectByParentId(groupId);
+        // return mapper.selectByParentId(groupId);
+        return null;
     }
 
 

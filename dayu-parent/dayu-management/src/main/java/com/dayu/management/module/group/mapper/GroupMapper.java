@@ -10,9 +10,13 @@ import java.util.List;
 public interface GroupMapper extends Mapper<Group> {
 
 
+    //查询父节点下的子节点(含树枝与树叶)
     List<TreeNode> selectByParentId(List<String> parentIds);
 
 
     List<TreeNode> selectByNodeId(List<String> nodeIds);
+
+
+    List<TreeNode> selectOnlyLeafByParentId(List<String> parentIds);
 
 }
