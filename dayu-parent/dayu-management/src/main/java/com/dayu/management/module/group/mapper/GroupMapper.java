@@ -9,6 +9,10 @@ import java.util.List;
 
 public interface GroupMapper extends Mapper<Group> {
 
-    List<TreeNode> selectByParentId(String parentId);
+
+    List<TreeNode> selectByParentId(List<String> parentIds);
+
+
+    List<TreeNode> selectByNodeId(List<String> nodeIds);
 
 }
