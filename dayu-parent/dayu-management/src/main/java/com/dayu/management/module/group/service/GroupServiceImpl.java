@@ -7,6 +7,7 @@ import com.dayu.management.module.group.model.Group;
 import com.dayu.management.module.group.model.GroupQuery;
 import com.dayu.management.module.group.model.TreeNode;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.leus.common.util.StreamUtil;
 import com.leus.common.util.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -71,12 +72,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public List<TreeNode> queryTree(String groupId) {
-        // return mapper.selectByParentId(groupId);
-        return null;
+        return mapper.selectOnlyLeafByParentId(Lists.newArrayList(groupId));
     }
-
-
-//    private final String TreeNodeSQL = "SELECT \"id\", \"name\", \"parentId\", 1  \"nodeType\", -  1  \"type\", -  1  \"func\"  FROM group_new  WHERE 1  =  1 AND  \"parentId\" = '%s'  UNION  SELECT s.\"id\", s.\"name\", \"groupId\"  \"parentId\", 2  \"nodeType\", s.\"type\", s.\"subtype\"  \"func\"  FROM group_sensor_relation  r, sensor  s  WHERE 1  =  1 AND  \"groupId\"  =  '%s' AND  s.\"id\"  =  r.\"sensorId\"";
-
 
 }
