@@ -68,7 +68,8 @@
         "group"
         WHERE
         1 = 1
-        AND "parentId" in <foreach collection="list" item="parentId" separator=",">#{parentId}</foreach>
+        AND "parentId" in
+        <foreach collection="list" item="parentId" separator=",">#{parentId}</foreach>
         UNION
         SELECT
         s."id",
@@ -102,6 +103,23 @@
         1 = 1
         AND s."id" = r."sensorId"
         AND "id" IN(<foreach collection="list" item="nodeId" separator=",">#{nodeId}</foreach>)
+    </select>
+
+    <select id="selectOnlyLeafByParentId" resultType="com.dayu.management.module.group.model.TreeNode">
+        SELECT
+        s."id",
+        s."name",
+        "groupId" "parentId",
+        2 "nodeType",
+        s."type",
+        s."subtype" "func"
+        FROM
+        group_sensor_relation r,
+        sensor s
+        WHERE
+        1 = 1
+        AND s."id" = r."sensorId"
+        AND "groupId" IN(<foreach collection="list" item="parentId" separator=",">#{parentId}</foreach>)
     </select>
 
 </mapper>
