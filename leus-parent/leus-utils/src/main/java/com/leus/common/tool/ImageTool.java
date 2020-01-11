@@ -13,8 +13,7 @@ import java.io.IOException;
 /**
  * Created by sue on 2017/9/12 11:55
  */
-public class ImageTool
-{
+public class ImageTool {
 
     private static double MAX_WIDTH = 1200;
     private static double MAX_HEIGHT = 675;
@@ -25,8 +24,7 @@ public class ImageTool
      * @param originalPic
      * @return
      */
-    public static final BufferedImage getSharperPicture(BufferedImage originalPic)
-    {
+    public static final BufferedImage getSharperPicture(BufferedImage originalPic) {
         int imageWidth = originalPic.getWidth();
         int imageHeight = originalPic.getHeight();
 
@@ -45,8 +43,7 @@ public class ImageTool
      * @param originalPic
      * @return
      */
-    public static final BufferedImage getPicEdge(BufferedImage originalPic)
-    {
+    public static final BufferedImage getPicEdge(BufferedImage originalPic) {
         int imageWidth = originalPic.getWidth();
         int imageHeight = originalPic.getHeight();
         BufferedImage newPic = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_3BYTE_BGR);
@@ -57,8 +54,7 @@ public class ImageTool
         return newPic;
     }
 
-    public static final BufferedImage getGrayPicture(BufferedImage originalPic)
-    {
+    public static final BufferedImage getGrayPicture(BufferedImage originalPic) {
         int imageWidth = originalPic.getWidth();
         int imageHeight = originalPic.getHeight();
         BufferedImage newPic = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_3BYTE_BGR);
@@ -67,12 +63,10 @@ public class ImageTool
         return newPic;
     }
 
-    public static BufferedImage zoomImage(BufferedImage im) throws Exception
-    {
+    public static BufferedImage zoomImage(BufferedImage im) throws Exception {
 
         BufferedImage result = null;
-        try
-        {
+        try {
             /* 原始图像的宽度和高度 */
             int width = im.getWidth();
             int height = im.getHeight();
@@ -86,8 +80,7 @@ public class ImageTool
             result = new BufferedImage(toWidth, toHeight, BufferedImage.TYPE_INT_RGB);
             result.getGraphics().drawImage(im.getScaledInstance(toWidth, toHeight, Image.SCALE_SMOOTH), 0, 0, null);
 
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println("创建缩略图发生异常" + e.getMessage());
         }
         return result;
@@ -96,31 +89,25 @@ public class ImageTool
     /**
      * @throws IOException
      */
-    public static BufferedImage cleanImage(BufferedImage bufferedImage) throws IOException
-    {
+    public static BufferedImage cleanImage(BufferedImage bufferedImage) throws IOException {
         int h = bufferedImage.getHeight();
         int w = bufferedImage.getWidth();
         // 灰度化
         int[][] gray = new int[w][h];
-        for (int x = 0; x < w; x++)
-        {
-            for (int y = 0; y < h; y++)
-            {
+        for (int x = 0; x < w; x++) {
+            for (int y = 0; y < h; y++) {
                 int argb = bufferedImage.getRGB(x, y);
                 // 图像加亮（调整亮度识别率非常高）
                 int r = (int) (((argb >> 16) & 0xFF) * 1.1 + 30);
                 int g = (int) (((argb >> 8) & 0xFF) * 1.1 + 30);
                 int b = (int) (((argb >> 0) & 0xFF) * 1.1 + 30);
-                if (r >= 255)
-                {
+                if (r >= 255) {
                     r = 255;
                 }
-                if (g >= 255)
-                {
+                if (g >= 255) {
                     g = 255;
                 }
-                if (b >= 255)
-                {
+                if (b >= 255) {
                     b = 255;
                 }
                 gray[x][y] = (int) Math.pow((Math.pow(r, 2.2) * 0.2973 + Math.pow(g, 2.2) * 0.6274 + Math.pow(b, 2.2) * 0.0753), 1 / 2.2);
@@ -130,15 +117,11 @@ public class ImageTool
         // 二值化
         int threshold = ostu(gray, w, h);
         BufferedImage binaryBufferedImage = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_BINARY);
-        for (int x = 0; x < w; x++)
-        {
-            for (int y = 0; y < h; y++)
-            {
-                if (gray[x][y] > threshold)
-                {
+        for (int x = 0; x < w; x++) {
+            for (int y = 0; y < h; y++) {
+                if (gray[x][y] > threshold) {
                     gray[x][y] |= 0x00FFFF;
-                } else
-                {
+                } else {
                     gray[x][y] &= 0xFF0000;
                 }
                 binaryBufferedImage.setRGB(x, y, gray[x][y]);
@@ -147,49 +130,39 @@ public class ImageTool
         return binaryBufferedImage;
     }
 
-    public static boolean isBlack(int colorInt)
-    {
+    public static boolean isBlack(int colorInt) {
         Color color = new Color(colorInt);
-        if (color.getRed() + color.getGreen() + color.getBlue() <= 300)
-        {
+        if (color.getRed() + color.getGreen() + color.getBlue() <= 300) {
             return true;
         }
         return false;
     }
 
-    public static boolean isWhite(int colorInt)
-    {
+    public static boolean isWhite(int colorInt) {
         Color color = new Color(colorInt);
-        if (color.getRed() + color.getGreen() + color.getBlue() > 300)
-        {
+        if (color.getRed() + color.getGreen() + color.getBlue() > 300) {
             return true;
         }
         return false;
     }
 
-    public static int isBlackOrWhite(int colorInt)
-    {
-        if (getColorBright(colorInt) < 30 || getColorBright(colorInt) > 730)
-        {
+    public static int isBlackOrWhite(int colorInt) {
+        if (getColorBright(colorInt) < 30 || getColorBright(colorInt) > 730) {
             return 1;
         }
         return 0;
     }
 
-    public static int getColorBright(int colorInt)
-    {
+    public static int getColorBright(int colorInt) {
         Color color = new Color(colorInt);
         return color.getRed() + color.getGreen() + color.getBlue();
     }
 
-    public static int ostu(int[][] gray, int w, int h)
-    {
+    public static int ostu(int[][] gray, int w, int h) {
         int[] histData = new int[w * h];
         // Calculate histogram
-        for (int x = 0; x < w; x++)
-        {
-            for (int y = 0; y < h; y++)
-            {
+        for (int x = 0; x < w; x++) {
+            for (int y = 0; y < h; y++) {
                 int red = 0xFF & gray[x][y];
                 histData[red]++;
             }
@@ -209,8 +182,7 @@ public class ImageTool
         float varMax = 0;
         int threshold = 0;
 
-        for (int t = 0; t < 256; t++)
-        {
+        for (int t = 0; t < 256; t++) {
             wB += histData[t]; // Weight Background
             if (wB == 0)
                 continue;
@@ -228,8 +200,7 @@ public class ImageTool
             float varBetween = (float) wB * (float) wF * (mB - mF) * (mB - mF);
 
             // Check if new maximum found
-            if (varBetween > varMax)
-            {
+            if (varBetween > varMax) {
                 varMax = varBetween;
                 threshold = t;
             }
@@ -239,28 +210,15 @@ public class ImageTool
     }
 
     //图片灰度，黑白
-    public static void gray(String srcImageFile, String destImageFile)
-    {
-        try
-        {
+    public static void gray(String srcImageFile, String destImageFile) {
+        try {
             BufferedImage src = ImageIO.read(new File(srcImageFile));
             ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_GRAY);
             ColorConvertOp op = new ColorConvertOp(cs, null);
             src = op.filter(src, null);
             ImageIO.write(src, "JPEG", new File(destImageFile));
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-//    public static void main(String[] args) throws Exception
-//    {
-//        File file = new File("D:\\3.jpg");
-//        BufferedImage image = ImageIO.read(file);
-//        image = zoomImage(image);
-//        image = cleanImage(image);
-//        ImageIO.write(image, "jpg", new File("D:\\tt__" + file.getName()));
-//        System.out.println(QRCodeUtil.decode(image));
-//    }
 }

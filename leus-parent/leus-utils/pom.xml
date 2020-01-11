@@ -27,34 +27,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.5</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-configuration2</artifactId>
-            <version>2.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi</artifactId>
-            <version>3.13</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml</artifactId>
-            <version>3.13</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>28.1-jre</version>
@@ -69,21 +41,13 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.1.26</version>
-        </dependency>
-        <dependency>
-            <groupId>dom4j</groupId>
-            <artifactId>dom4j</artifactId>
-            <version>1.6.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.thoughtworks.xstream</groupId>
-            <artifactId>xstream</artifactId>
-            <version>1.4.9</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>
@@ -91,24 +55,9 @@
             <version>1.10</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.geronimo.bundles</groupId>
-            <artifactId>commons-httpclient</artifactId>
-            <version>3.1_2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jsoup</groupId>
-            <artifactId>jsoup</artifactId>
-            <version>1.8.3</version>
-        </dependency>
-        <dependency>
             <groupId>com.belerweb</groupId>
             <artifactId>pinyin4j</artifactId>
             <version>2.5.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.stephenc.java-iso-tools</groupId>
-            <artifactId>loopy-core</artifactId>
-            <version>1.2.2</version>
         </dependency>
         <dependency>
             <groupId>uk.com.robust-it</groupId>
@@ -121,25 +70,10 @@
             <version>1.3.2</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-core</artifactId>
-            <version>1.16</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.sf.jmimemagic</groupId>
-            <artifactId>jmimemagic</artifactId>
-            <version>0.1.5</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.zxing</groupId>
-            <artifactId>core</artifactId>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
             <version>3.3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.zxing</groupId>
-            <artifactId>javase</artifactId>
-            <version>3.3.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
