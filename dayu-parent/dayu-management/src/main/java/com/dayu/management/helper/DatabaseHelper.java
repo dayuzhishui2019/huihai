@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.sql.SQLException;
 
 @Slf4j
@@ -29,7 +27,16 @@ public class DatabaseHelper {
         return manager.copyIn("COPY " + tableName + " FROM STDIN DELIMITER AS ','", input);
     }
 
+    public long copyIn(String tableName, Reader input) throws IOException, SQLException {
+        return manager.copyIn("COPY " + tableName + " FROM STDIN DELIMITER AS ','", input);
+    }
+
     public long copyOut(String tableOrQuery, OutputStream output) throws IOException, SQLException {
+        return manager.copyOut("COPY (" + tableOrQuery + ") TO STDOUT DELIMITER AS ','", output);
+    }
+
+
+    public long copyOut(String tableOrQuery, Writer output) throws IOException, SQLException {
         return manager.copyOut("COPY (" + tableOrQuery + ") TO STDOUT DELIMITER AS ','", output);
     }
 

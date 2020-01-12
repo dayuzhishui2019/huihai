@@ -2,6 +2,7 @@ package com.dayu.management.module.group.service;
 
 import com.dayu.management.module.group.model.Group;
 import com.dayu.management.module.group.model.GroupQuery;
+import com.dayu.management.module.group.model.TaskResourceIds;
 import com.dayu.management.module.group.model.TreeNode;
 
 import java.io.IOException;
@@ -18,4 +19,7 @@ public interface GroupService {
     boolean addNodesToGroup(String groupId, List<String> nodeIds) throws IOException, SQLException;
 
     List<TreeNode> queryTree(String groupId);
+
+
+    String createResource(TaskResourceIds ids) throws IOException, SQLException;
 }

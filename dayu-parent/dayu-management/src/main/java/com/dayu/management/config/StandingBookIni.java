@@ -1,6 +1,6 @@
 package com.dayu.management.config;
 
-import com.beust.jcommander.internal.Lists;
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
