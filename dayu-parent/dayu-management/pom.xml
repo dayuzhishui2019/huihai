@@ -55,7 +55,7 @@
         <dependency>
             <groupId>com.leus</groupId>
             <artifactId>leus-response</artifactId>
-            <version>1.0</version>
+            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>com.leus</groupId>
