@@ -11,9 +11,9 @@ public class LineItemHelper {
     private LineItemHelper() {
     }
 
-    public static boolean testSubTypes(StandingBookIni ini, List<String> lineItem) {
+    public static boolean testFunc(StandingBookIni ini, List<String> lineItem) {
         List<String> finalItems = ini.getSubTypes(lineItem.get(StandingBook.TYPE));
-        List<String> subItems = Splitter.on(";").trimResults().omitEmptyStrings().splitToList(lineItem.get(StandingBook.SUB_TYPE));
+        List<String> subItems = Splitter.on(";").trimResults().omitEmptyStrings().splitToList(lineItem.get(StandingBook.FUNC));
         for (String subItem : subItems) {
             if (!finalItems.contains(subItem)) {
                 return false;

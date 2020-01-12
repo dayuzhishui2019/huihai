@@ -62,4 +62,21 @@ public class SensorResource {
         sensor.exportFile(query, ResponseUtils.decorate(response, fileName).getOutputStream());
     }
 
+
+//    public static void main(String[] args) throws IOException {
+//        Writer sink = Files.asCharSink(new File("/home/leus/Downloads/10wIds2"), Charset.forName("utf-8")).openBufferedStream();
+//        CharSource source = Files.asCharSource(new File("/home/leus/Downloads/10wIds"), Charset.forName("utf-8"));
+//
+//        source.lines().forEach(l -> {
+//
+//            try {
+//                sink.write("'" + l.trim() + "',\n");
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//        sink.flush();
+//
+//
+//    }
 }

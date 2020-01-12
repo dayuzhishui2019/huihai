@@ -23,7 +23,7 @@ public class MonitorChecker implements Checker, Register<SensorChecker> {
     }
 
     @Override
-    public boolean test(List<String> lineItem) {
-        return LineItemHelper.testSubTypes(ini, lineItem);
+    public Cause test(List<String> lineItem) {
+        return LineItemHelper.testFunc(ini, lineItem) ? Cause.success() : Cause.fail("卡口功能不正确");
     }
 }

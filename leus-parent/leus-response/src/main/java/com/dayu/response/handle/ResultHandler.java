@@ -76,6 +76,7 @@ public class ResultHandler implements ResponseBodyAdvice<Object> {
         RunningError error = e.getError();
         return Result.builder().code(error.getCode())
                 .message(error.getMessage())
+                .data(error.getData())
 //                .exception(printStack(e))
                 .build();
     }

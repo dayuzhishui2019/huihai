@@ -1,16 +1,16 @@
 package com.dayu.management.module.sensor.service;
 
+import com.dayu.management.constant.BusinessError;
 import com.dayu.management.constant.SensorTable;
 import com.dayu.management.constant.StandingBook;
 import com.dayu.management.helper.DatabaseHelper;
 import com.dayu.management.module.sensor.manager.SensorChecker;
 import com.dayu.management.module.sensor.manager.SensorConverter;
+import com.dayu.management.module.sensor.manager.checkers.Cause;
 import com.dayu.management.module.sensor.model.Device;
 import com.dayu.management.module.sensor.model.derive.Camera;
 import com.dayu.management.module.sensor.model.ext.Channel;
 import com.dayu.response.Assert;
-import com.dayu.response.ExtRunningError;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -19,6 +19,7 @@ import com.google.common.io.FileWriteMode;
 import com.google.common.io.Files;
 import com.leus.common.util.StreamUtil;
 import com.leus.common.util.UUIDUtil;
+import com.leus.common.util.Values;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,16 +53,16 @@ public class SensorServiceImpl implements SensorService {
 
     @Override
     public Map<String, Integer> importFile(File file) throws IOException {
-        Preconditions.checkState(file.getName().toLowerCase().endsWith("csv"), "请上传CSV类型模板");
         CharSource source = Files.asCharSource(file, Charset.forName("utf8"));
-        List<Integer> errorLineNumber = Lists.newLinkedList();
+        List<String> errorLineNumber = Lists.newLinkedList();
         long a = System.currentTimeMillis();
         SensorChecker.Checkers checkers = checker.getStandingBookChecker();
-        int[] count = new int[]{1};
+        int[] count = new int[]{0};
         source.lines().skip(1).forEach(line -> {
             count[0]++;
-            if (!checkers.test(splitter.splitToList(line))) {
-                errorLineNumber.add(count[0]);
+            Cause cause = checkers.test(splitter.splitToList(line));
+            if (!cause.isSuccess()) {
+                errorLineNumber.add(String.format("%d:%s", count[0], cause.getCause()));
             }
         });
 
@@ -69,7 +70,7 @@ public class SensorServiceImpl implements SensorService {
 
         log.info("检测耗时 {}ms", b - a);
 
-        Assert.isTrue(errorLineNumber.isEmpty(), ExtRunningError.STATE_CHECK_ERROR);
+        Assert.isTrue(errorLineNumber.isEmpty(), BusinessError.STATE_CHECK_ERROR.message("存在错误行数", Values.set("errorLine", errorLineNumber)));
 
         Map<String, File> tables = buildFiles(UUIDUtil.randomUUID(), source.lines().parallel());
 

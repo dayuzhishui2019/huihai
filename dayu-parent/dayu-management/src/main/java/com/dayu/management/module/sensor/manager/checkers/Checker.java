@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface Checker {
 
-    boolean test(List<String> lineItem);
+    Cause test(List<String> lineItem);
 }

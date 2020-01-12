@@ -8,7 +8,7 @@ public interface StandingBook {
     int AREA_NUMBER = 3;
     int DOMINION_CODE = 4;
     int TYPE = 5;
-    int SUB_TYPE = 6;
+    int FUNC = 6;
     int PLATFORM = 7;
     int IP = 8;
     int PORT = 9;

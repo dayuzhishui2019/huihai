@@ -1,5 +1,6 @@
 package com.dayu.management.module.sensor.manager;
 
+import com.dayu.management.module.sensor.manager.checkers.Cause;
 import com.dayu.management.module.sensor.manager.checkers.Checker;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -36,8 +37,14 @@ public class SensorChecker {
             this.checkers = checkers;
         }
 
-        public boolean test(List<String> items) {
-            return checkers.stream().allMatch(checker -> checker.test(items));
+        public Cause test(List<String> items) {
+            for (Checker checker : checkers) {
+                Cause cause = checker.test(items);
+                if (!cause.isSuccess()) {
+                    return cause;
+                }
+            }
+            return Cause.success();
         }
 
     }

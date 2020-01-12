@@ -43,6 +43,10 @@ public interface RunningError {
 
     String getMessage();
 
+    default Object getData() {
+        return null;
+    }
+
     default RunningError message(String message) {
         RunningError thz = this;
         return new RunningError() {
@@ -54,6 +58,31 @@ public interface RunningError {
             @Override
             public String getMessage() {
                 return message;
+            }
+
+            @Override
+            public Object getData() {
+                return thz.getData();
+            }
+        };
+    }
+
+    default RunningError message(String message, Object data) {
+        RunningError thz = this;
+        return new RunningError() {
+            @Override
+            public String getCode() {
+                return thz.getCode();
+            }
+
+            @Override
+            public String getMessage() {
+                return message;
+            }
+
+            @Override
+            public Object getData() {
+                return data;
             }
         };
     }

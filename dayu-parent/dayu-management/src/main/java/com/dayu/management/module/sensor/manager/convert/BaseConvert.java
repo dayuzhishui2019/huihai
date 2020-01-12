@@ -55,7 +55,7 @@ public class BaseConvert<T extends ToCsvLine> implements Convert<T>, Register<Se
         sensor.setDominionCode(items.get(StandingBook.DOMINION_CODE));
         SensorTable table = SensorTable.labelOf(items.get(StandingBook.TYPE));
         sensor.setType(table.getSenorType());
-        sensor.setFunc(getFunc(table, items.get(StandingBook.SUB_TYPE)));
+        sensor.setFunc(getFunc(table, items.get(StandingBook.FUNC)));
         sensor.setPlatform(items.get(StandingBook.PLATFORM));
         Device<T> device = new Device<>();
         device.setSensor(sensor);
