@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Command to list all services in a docker swarm. Only applicable if docker runs in swarm mode.
+ * Command to list all service in a docker swarm. Only applicable if docker runs in swarm mode.
  *
  * @since {@link RemoteApiVersion#VERSION_1_24}
  */
@@ -17,17 +17,17 @@ public interface ListServicesCmd extends SyncDockerCmd<List<Service>> {
     Map<String, List<String>> getFilters();
 
     /**
-     * @param ids - Show only services with the given ids
+     * @param ids - Show only service with the given ids
      */
     ListServicesCmd withIdFilter(List<String> ids);
 
     /**
-     * @param names - Show only services with the given names
+     * @param names - Show only service with the given names
      */
     ListServicesCmd withNameFilter(List<String> names);
 
     /**
-     * @param labels - Show only services with the passed labels. Labels is a {@link Map} that contains label keys and values
+     * @param labels - Show only service with the passed labels. Labels is a {@link Map} that contains label keys and values
      */
     ListServicesCmd withLabelFilter(Map<String, String> labels);
 

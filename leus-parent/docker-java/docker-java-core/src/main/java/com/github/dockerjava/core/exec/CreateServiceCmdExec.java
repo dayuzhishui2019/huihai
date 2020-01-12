@@ -20,7 +20,7 @@ public class CreateServiceCmdExec extends AbstrSyncDockerCmdExec<CreateServiceCm
 
     @Override
     protected CreateServiceResponse execute(CreateServiceCmd command) {
-        WebTarget webResource = getBaseResource().path("/services/create");
+        WebTarget webResource = getBaseResource().path("/service/create");
 
         LOGGER.trace("POST: {} ", webResource);
         return webResource.request().accept(MediaType.APPLICATION_JSON)

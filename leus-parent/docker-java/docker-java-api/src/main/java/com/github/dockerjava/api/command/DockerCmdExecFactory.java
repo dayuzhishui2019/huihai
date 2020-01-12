@@ -124,7 +124,7 @@ public interface DockerCmdExecFactory extends Closeable {
     UpdateSwarmCmd.Exec createUpdateSwarmCmdExec();
 
     /**
-     * Command to list all services in a docker swarm. Only applicable if docker runs in swarm mode.
+     * Command to list all service in a docker swarm. Only applicable if docker runs in swarm mode.
      *
      * @since {@link RemoteApiVersion#VERSION_1_24}
      */

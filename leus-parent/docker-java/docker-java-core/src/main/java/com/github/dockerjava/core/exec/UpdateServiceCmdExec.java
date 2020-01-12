@@ -22,7 +22,7 @@ public class UpdateServiceCmdExec extends AbstrSyncDockerCmdExec<UpdateServiceCm
 
     @Override
     protected Void execute(UpdateServiceCmd command) {
-        WebTarget webResource = getBaseResource().path("/services/{id}/update")
+        WebTarget webResource = getBaseResource().path("/service/{id}/update")
                 .resolveTemplate("id", command.getServiceId())
                 .queryParam("version", command.getVersion());
 

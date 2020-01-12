@@ -334,7 +334,7 @@ public interface DockerClient extends Closeable {
     ListSwarmNodesCmd listSwarmNodesCmd();
 
     /**
-     * Command to list all services in a docker swarm. Only applicable if docker runs in swarm mode.
+     * Command to list all service in a docker swarm. Only applicable if docker runs in swarm mode.
      *
      * @since {@link RemoteApiVersion#VERSION_1_24}
      * @return command

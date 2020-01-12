@@ -244,7 +244,7 @@ public interface CreateContainerCmd extends SyncDockerCmd<CreateContainerRespons
      * <li>'none': no networking for this container</li>
      * <li>'container:<name|id>': reuses another container network stack</li>
      * <li>'host': use the host network stack inside the container. Note: the host mode gives the container full access to local system
-     * services such as D-bus and is therefore considered insecure.</li>
+     * service such as D-bus and is therefore considered insecure.</li>
      * </ul>
      */
     @Deprecated

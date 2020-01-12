@@ -1,4 +1,4 @@
-package com.dayu.management.module.task;
+package com.dayu.management.module.task.service;
 
 import com.dayu.management.core.Query;
 import com.dayu.management.module.task.model.Box;
@@ -21,6 +21,8 @@ public interface TaskService {
     void updateCallback(String taskId);
 
     //创建一个任务
-    Task create(Task task);  
+    Task create(Task task);
 
+    //更新任务信息
+    Task update(Task task);
 }

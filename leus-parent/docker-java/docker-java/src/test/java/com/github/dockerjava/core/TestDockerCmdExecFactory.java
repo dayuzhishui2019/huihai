@@ -443,7 +443,7 @@ public class TestDockerCmdExecFactory implements DockerCmdExecFactory, DockerCli
         return delegate.createUpdateSwarmCmdExec();
     }
 
-    // services
+    // service
     @Override
     public ListServicesCmd.Exec createListServicesCmdExec() {
         return delegate.createListServicesCmdExec();

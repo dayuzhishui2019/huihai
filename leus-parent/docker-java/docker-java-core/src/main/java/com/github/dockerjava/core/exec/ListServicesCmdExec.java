@@ -23,7 +23,7 @@ public class ListServicesCmdExec extends AbstrSyncDockerCmdExec<ListServicesCmd,
 
     @Override
     protected List<Service> execute(ListServicesCmd command) {
-        WebTarget webTarget = getBaseResource().path("/services");
+        WebTarget webTarget = getBaseResource().path("/service");
 
         if (command.getFilters() != null && !command.getFilters().isEmpty()) {
             webTarget = webTarget

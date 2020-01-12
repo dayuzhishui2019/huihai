@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Used for Listing services.
+ * Used for Listing service.
  *
  * @since {@link RemoteApiVersion#VERSION_1_24}
  */

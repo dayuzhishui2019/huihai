@@ -2,6 +2,7 @@ package com.dayu.management.api;
 
 import com.dayu.management.module.sensor.helper.SQLCheckers;
 import com.dayu.management.module.sensor.service.SensorService;
+import com.dayu.management.utils.ResponseUtils;
 import com.dayu.response.Assert;
 import com.dayu.response.ExtRunningError;
 import com.dayu.response.RunningError;
@@ -58,10 +59,7 @@ public class SensorResource {
     public void export(@PathVariable("filename") @DefaultValue("export.csv") String fileName, @RequestParam String query, HttpServletResponse response) throws IOException, SQLException {
         Assert.isTrue(!Objects.isNullOrEmpty(query), ExtRunningError.STATE_CHECK_ERROR);
         Assert.isTrue(SQLCheckers.select(query), ExtRunningError.STATE_CHECK_ERROR);
-        response.setHeader("content-type", "application/octet-stream");
-        response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
-        sensor.exportFile(query, response.getOutputStream());
+        sensor.exportFile(query, ResponseUtils.decorate(response, fileName).getOutputStream());
     }
 
 }

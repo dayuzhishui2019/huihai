@@ -6,6 +6,7 @@ import com.dayu.management.module.group.model.TaskResourceIds;
 import com.dayu.management.module.group.model.TreeNode;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -20,6 +21,9 @@ public interface GroupService {
 
     List<TreeNode> queryTree(String groupId);
 
-
     String createResource(TaskResourceIds ids) throws IOException, SQLException;
+
+
+    InputStream getResource(String resourceId) throws IOException;
+
 }

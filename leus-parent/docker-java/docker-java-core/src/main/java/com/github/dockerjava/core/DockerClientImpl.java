@@ -583,7 +583,7 @@ public class DockerClientImpl implements Closeable, DockerClient {
 
     @Override
     public LogSwarmObjectCmd logServiceCmd(String serviceId) {
-        return new LogSwarmObjectImpl(getDockerCmdExecFactory().logSwarmObjectExec("services"), serviceId);
+        return new LogSwarmObjectImpl(getDockerCmdExecFactory().logSwarmObjectExec("service"), serviceId);
     }
 
     @Override

@@ -443,7 +443,7 @@ public abstract class AbstractDockerCmdExecFactory implements DockerCmdExecFacto
         return new UpdateSwarmCmdExec(getBaseResource(), getDockerClientConfig());
     }
 
-    // services
+    // service
     @Override
     public ListServicesCmd.Exec createListServicesCmdExec() {
         return new ListServicesCmdExec(getBaseResource(), getDockerClientConfig());

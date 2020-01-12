@@ -1,5 +1,6 @@
 package com.dayu.management.module.group.service;
 
+import com.dayu.management.constant.BusinessError;
 import com.dayu.management.core.Query;
 import com.dayu.management.helper.DatabaseHelper;
 import com.dayu.management.module.group.helper.GroupHelper;
@@ -9,6 +10,7 @@ import com.dayu.management.module.group.model.Group;
 import com.dayu.management.module.group.model.GroupQuery;
 import com.dayu.management.module.group.model.TaskResourceIds;
 import com.dayu.management.module.group.model.TreeNode;
+import com.dayu.response.Assert;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.io.FileWriteMode;
@@ -105,6 +107,13 @@ public class GroupServiceImpl implements GroupService {
         dbHelper.copyOut(querySQL1, writer);
         dbHelper.copyOut(querySQL2, writer);
         return resourceId;
+    }
+
+    @Override
+    public InputStream getResource(String resourceId) throws IOException {
+        Path data = Paths.get(resourceData).resolve(resourceId);
+        Assert.isTrue(Files.exists(data), BusinessError.RESOURCE_NOT_FOUND);
+        return Files.newInputStream(data);
     }
 
 

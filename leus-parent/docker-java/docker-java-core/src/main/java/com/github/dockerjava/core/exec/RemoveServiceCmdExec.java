@@ -18,7 +18,7 @@ public class RemoveServiceCmdExec extends AbstrSyncDockerCmdExec<RemoveServiceCm
 
     @Override
     protected Void execute(RemoveServiceCmd command) {
-        WebTarget webTarget = getBaseResource().path("/services/" + command.getServiceId());
+        WebTarget webTarget = getBaseResource().path("/service/" + command.getServiceId());
 
         LOGGER.trace("DELETE: {}", webTarget);
         webTarget.request().accept(MediaType.APPLICATION_JSON).delete();

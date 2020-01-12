@@ -10,7 +10,7 @@ import java.util.Map;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * List services.
+ * List service.
  */
 public class ListSecretsCmdImpl extends AbstrDockerCmd<ListSecretsCmd, List<Secret>> implements
         ListSecretsCmd {

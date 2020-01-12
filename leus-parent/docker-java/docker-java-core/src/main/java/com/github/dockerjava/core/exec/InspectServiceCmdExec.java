@@ -20,7 +20,7 @@ public class InspectServiceCmdExec extends AbstrSyncDockerCmdExec<InspectService
 
     @Override
     protected Service execute(InspectServiceCmd command) {
-        WebTarget webResource = getBaseResource().path("/services/{id}")
+        WebTarget webResource = getBaseResource().path("/service/{id}")
                                                  .resolveTemplate("id", command.getServiceId());
 
         LOGGER.debug("GET: {}", webResource);
