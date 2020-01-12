@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/dayu-parent" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dayu-parent/dayu-gateway" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dayu-parent/dayu-management" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/leus-parent/docker-java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/leus-parent/docker-java/docker-java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/leus-parent/docker-java/docker-java-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/leus-parent/docker-java/docker-java-core" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/leus-parent/docker-java/docker-java-transport-jersey" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/leus-parent/docker-java/docker-java-transport-netty" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/leus-parent/docker-java/docker-java-transport-okhttp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/leus-parent/leus-utils" charset="UTF-8" />
+  </component>
+</project>

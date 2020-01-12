@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="Osmorc" url="file://$PROJECT_DIR$/leus-parent/docker-java/docker-java" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/leus-parent/docker-java/docker-java-api" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/leus-parent/docker-java/docker-java-core" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/leus-parent/docker-java/docker-java-transport-jersey" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/leus-parent/docker-java/docker-java-transport-netty" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/leus-parent/docker-java/docker-java-transport-okhttp" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/dayu-parent/pom.xml" />
+        <option value="$PROJECT_DIR$/dayu-parent/dayu-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/dayu-parent/dayu-management/pom.xml" />
+        <option value="$PROJECT_DIR$/leus-parent/pom.xml" />
+        <option value="$PROJECT_DIR$/leus-parent/leus-utils/pom.xml" />
+        <option value="$PROJECT_DIR$/leus-parent/leus-response/pom.xml" />
+        <option value="$PROJECT_DIR$/leus-parent/docker-java/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>
