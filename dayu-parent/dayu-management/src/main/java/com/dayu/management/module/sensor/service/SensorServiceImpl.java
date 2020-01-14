@@ -3,11 +3,14 @@ package com.dayu.management.module.sensor.service;
 import com.dayu.management.constant.BusinessError;
 import com.dayu.management.constant.SensorTable;
 import com.dayu.management.constant.StandingBook;
+import com.dayu.management.core.Query;
 import com.dayu.management.helper.DatabaseHelper;
 import com.dayu.management.module.sensor.manager.SensorChecker;
 import com.dayu.management.module.sensor.manager.SensorConverter;
 import com.dayu.management.module.sensor.manager.checkers.Cause;
+import com.dayu.management.module.sensor.mapper.SensorMapper;
 import com.dayu.management.module.sensor.model.Device;
+import com.dayu.management.module.sensor.model.Sensor;
 import com.dayu.management.module.sensor.model.derive.Camera;
 import com.dayu.management.module.sensor.model.ext.Channel;
 import com.dayu.response.Assert;
@@ -44,6 +47,10 @@ public class SensorServiceImpl implements SensorService {
 
     @Autowired
     private DatabaseHelper helper;
+
+    @Autowired
+    private SensorMapper mapper;
+
 
     private String newLine = System.getProperty("line.separator");
 
@@ -101,6 +108,16 @@ public class SensorServiceImpl implements SensorService {
     @Override
     public void exportFile(String query, OutputStream outputStream) throws IOException, SQLException {
         helper.copyOut(query, outputStream);
+    }
+
+    @Override
+    public List<Sensor> querySensor(Query query) {
+        return mapper.select(query);
+    }
+
+    @Override
+    public int count(Query query) {
+        return mapper.count(query);
     }
 
 

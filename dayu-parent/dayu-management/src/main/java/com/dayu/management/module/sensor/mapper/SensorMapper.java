@@ -12,4 +12,7 @@ public interface SensorMapper extends Mapper<Sensor> {
     List<Sensor> select(Query query);
 
 
+    int count(Query query);
+
+
 }

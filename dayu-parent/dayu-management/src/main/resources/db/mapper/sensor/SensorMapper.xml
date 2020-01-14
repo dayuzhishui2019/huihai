@@ -49,7 +49,7 @@
         </foreach>
     </delete>
 
-    <select id="select" parameterType="com.dayu.management.core.Query">
+    <select id="select" parameterType="com.dayu.management.core.Query" resultType="com.dayu.management.module.sensor.model.Sensor">
         select
         id,
         gid,
@@ -71,16 +71,42 @@
         <if test="type!=0">
             and type=#{type}
         </if>
-        <if test="func!=0">
+        <if test="func!=null and func!=0">
             and "func"=#{func}
         </if>
-        <if test="areaNumber!=0">
+        <if test="areaNumber!=null and areaNumber!=''">
             and "areaNumber"=#{areaNumber}
         </if>
-        <if test="dominionCode!=0">
+        <if test="dominionCode!=null and dominionCode!=''">
             and "dominionCode"=#{dominionCode}
         </if>
         limit #{size} offset #{start} * #{size}
+    </select>
+
+    <select id="count" parameterType="com.dayu.management.core.Query" resultType="java.lang.Integer">
+        select
+        count(0)
+        from
+        sensor
+        where 1=1
+        <if test="id !=null and id!=''">
+            and id=#{id}
+        </if>
+        <if test="name!=null and name!=''">
+            and name like '%name%'
+        </if>
+        <if test="type!=0">
+            and type=#{type}
+        </if>
+        <if test="func!=null and func!=0">
+            and "func"=#{func}
+        </if>
+        <if test="areaNumber!=null and areaNumber!=''">
+            and "areaNumber"=#{areaNumber}
+        </if>
+        <if test="dominionCode!=null and dominionCode!=''">
+            and "dominionCode"=#{dominionCode}
+        </if>
     </select>
 
 </mapper>

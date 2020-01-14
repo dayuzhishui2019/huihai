@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.dayu.management.module.group.mapper.GroupMappers">
+<mapper namespace="com.dayu.management.module.group.mapper.GroupMapper">
 
 
     <insert id="insert" parameterType="com.dayu.management.module.group.model.Group">
-        insert into "group" (id,"roleId","groupType","nodeId","nodeType","parent")
+        insert into "group" (id,"name","type","parentId")
         values
         <foreach collection="list" item="item" open="(" close=")" separator=",">
-            #{item.id},#{item.roleId},#{item.groupType},#{item.nodeId},#{item.nodeType},#{item.parent}
-        </foreach>;
+            #{item.id},#{item.name},#{item.type},#{item.parentId}
+        </foreach>
     </insert>
 
     <update id="update" parameterType="com.dayu.management.module.group.model.Group">
@@ -16,11 +16,11 @@
             update
             "group"
             <set>
-                <if test="item.roleId!=null and item.roleId!=''">
-                    "roleId"=#{item.roleId},
+                <if test="item.name!=null and item.name!=''">
+                    "name"=#{item.name},
                 </if>
-                <if test="item.groupType!=null and item.groupType!=''">
-                    "groupType"=#{item.groupType},
+                <if test="item.parentId!=null and item.parentId!=''">
+                    "parentId"=#{item.parentId},
                 </if>
             </set>
             where 1=1 and id=#{id}
@@ -37,21 +37,15 @@
     <select id="select" parameterType="java.util.Map"
             resultType="com.dayu.management.module.group.model.Group">
         select
-        id,"roleId","groupType","nodeId","nodeType","parent"
+        id,"name","type","parentId"
         from
         "group"
         where 1=1
-        <if test="parent!=null and parent!=''">
-            and parent=#{parent}
+        <if test="parentId!=null and parentId!=''">
+            and "parentId"=#{parentId}
         </if>
-        <if test="nodeType!=null and nodeType!=''">
-            and "nodeType"=#{nodeType}
-        </if>
-        <if test="roleId!=null and roleId!=''">
-            and "roleId"=#{roleId}
-        </if>
-        <if test="groupType!=null and groupType!=''">
-            and "groupType"=#{groupType}
+        <if test="type!=null and type!=0">
+            and "type"=#{type}
         </if>
         limit #{size} offset #{start} * #{size}
     </select>

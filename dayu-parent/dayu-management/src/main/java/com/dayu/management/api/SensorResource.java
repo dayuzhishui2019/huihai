@@ -1,6 +1,10 @@
 package com.dayu.management.api;
 
+import com.dayu.management.constant.BusinessError;
+import com.dayu.management.core.Query;
 import com.dayu.management.module.sensor.helper.SQLCheckers;
+import com.dayu.management.module.sensor.model.Sensor;
+import com.dayu.management.module.sensor.model.SensorQuery;
 import com.dayu.management.module.sensor.service.SensorService;
 import com.dayu.management.utils.ResponseUtils;
 import com.dayu.response.Assert;
@@ -25,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 @Api(value = "设备管理", tags = "设备管理")
@@ -34,7 +39,7 @@ import java.util.Map;
 public class SensorResource {
 
     @Autowired
-    private SensorService sensor;
+    private SensorService service;
 
     @ResponseBody
     @PostMapping
@@ -44,7 +49,7 @@ public class SensorResource {
             log.info("SessionId:{}", sessionId);
             File file1 = new File(UUIDUtil.randomUUIDw() + "-" + file.getOriginalFilename());
             Files.asByteSink(file1).writeFrom(file.getInputStream());
-            Map<String, Integer> v = sensor.importFile(file1);
+            Map<String, Integer> v = service.importFile(file1);
             file1.deleteOnExit();
             return Result.<Map<String, Integer>>builder().code("200").message("导入成功").data(v).build();
         });
@@ -54,29 +59,27 @@ public class SensorResource {
     }
 
 
+    @ResponseBody
+    @PostMapping("list")
+    public List<Sensor> querySensor(@RequestBody SensorQuery query) {
+        Assert.isTrue(query != null, BusinessError.STATE_CHECK_ERROR.message("Query不能为空"));
+        return service.querySensor(Query.create().with(query));
+    }
+
+    @ResponseBody
+    @PostMapping("count")
+    public int count(@RequestBody SensorQuery query) {
+        Assert.isTrue(query != null, BusinessError.STATE_CHECK_ERROR.message("Query不能为空"));
+        return service.count(Query.create().with(query));
+    }
+
+
     @ApiOperation("根据SQL检索相应数据 返回CSV格式")
     @GetMapping(value = "{filename}")
     public void export(@PathVariable("filename") @DefaultValue("export.csv") String fileName, @RequestParam String query, HttpServletResponse response) throws IOException, SQLException {
         Assert.isTrue(!Objects.isNullOrEmpty(query), ExtRunningError.STATE_CHECK_ERROR);
         Assert.isTrue(SQLCheckers.select(query), ExtRunningError.STATE_CHECK_ERROR);
-        sensor.exportFile(query, ResponseUtils.decorate(response, fileName).getOutputStream());
+        service.exportFile(query, ResponseUtils.decorate(response, fileName).getOutputStream());
     }
 
-
-//    public static void main(String[] args) throws IOException {
-//        Writer sink = Files.asCharSink(new File("/home/leus/Downloads/10wIds2"), Charset.forName("utf-8")).openBufferedStream();
-//        CharSource source = Files.asCharSource(new File("/home/leus/Downloads/10wIds"), Charset.forName("utf-8"));
-//
-//        source.lines().forEach(l -> {
-//
-//            try {
-//                sink.write("'" + l.trim() + "',\n");
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        });
-//        sink.flush();
-//
-//
-//    }
 }
