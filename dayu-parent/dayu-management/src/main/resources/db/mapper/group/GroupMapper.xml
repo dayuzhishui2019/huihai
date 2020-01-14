@@ -71,7 +71,7 @@
         "groupId" "parentId",
         2 "nodeType",
         s."type",
-        s."subtype" "func"
+        s."func" "func"
         FROM
         group_sensor_relation r,
         sensor s
@@ -89,7 +89,7 @@
         "groupId" "parentId",
         2 "nodeType",
         s."type",
-        s."subtype" "func"
+        s."func" "func"
         FROM
         group_sensor_relation r,
         sensor s
@@ -106,7 +106,7 @@
         "groupId" "parentId",
         2 "nodeType",
         s."type",
-        s."subtype" "func"
+        s."func" "func"
         FROM
         group_sensor_relation r,
         sensor s

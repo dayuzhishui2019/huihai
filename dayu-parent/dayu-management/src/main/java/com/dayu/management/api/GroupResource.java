@@ -43,7 +43,7 @@ public class GroupResource {
 
 
     @ApiOperation("获取组织下节点 返回JSON格式")
-    @GetMapping("{groupId:\\d{32}}")
+    @GetMapping("{groupId}")
     public List<TreeNode> getByParentId(@PathVariable("groupId") @DefaultValue("-1") String groupId) {
         Assert.isTrue(!Objects.isNullOrEmpty(groupId), RunningError.STATE_CHECK_ERROR.message("groupId不能为空"));
         return service.queryTree(groupId);
