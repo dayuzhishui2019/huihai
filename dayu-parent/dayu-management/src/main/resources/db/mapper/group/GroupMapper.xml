@@ -96,7 +96,7 @@
         WHERE
         1 = 1
         AND s."id" = r."sensorId"
-        AND "id" IN(<foreach collection="list" item="nodeId" separator=",">#{nodeId}</foreach>)
+        AND s."id" IN(<foreach collection="list" item="nodeId" separator=",">#{nodeId}</foreach>)
     </select>
 
     <select id="selectOnlyLeafByParentId" resultType="com.dayu.management.module.group.model.TreeNode">

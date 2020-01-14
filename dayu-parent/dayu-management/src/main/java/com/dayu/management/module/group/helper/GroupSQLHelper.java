@@ -8,9 +8,9 @@ public class GroupSQLHelper {
 
     private static final Joiner joiner = Joiner.on("','");
 
-    public static final String SELECTONLYLEAFBYPARENTID = "SELECT s.\"id\",s.\"name\", \"groupId\" \"parentId\",2 \"nodeType\",s.\"type\",s.\"subtype\" \"func\" FROM group_sensor_relation r,sensor s WHERE 1 = 1 AND s.\"id\" = r.\"sensorId\" AND \"groupId\" IN ('%s')";
+    public static final String SELECTONLYLEAFBYPARENTID = "SELECT s.\"id\",s.\"name\", \"groupId\" \"parentId\",2 \"nodeType\",s.\"type\",s.\"func\" \"func\" FROM group_sensor_relation r,sensor s WHERE 1 = 1 AND s.\"id\" = r.\"sensorId\" AND \"groupId\" IN ('%s')";
 
-    public static final String SELECTBYNODEID = "SELECT s.\"id\",s.\"name\", \"groupId\" \"parentId\",2 \"nodeType\",s.\"type\",s.\"subtype\" \"func\" FROM group_sensor_relation r,sensor s WHERE 1 = 1 AND s.\"id\" = r.\"sensorId\" AND \"id\" IN ('%s')";
+    public static final String SELECTBYNODEID = "SELECT s.\"id\",s.\"name\", \"groupId\" \"parentId\",2 \"nodeType\",s.\"type\",s.\"func\" \"func\" FROM group_sensor_relation r,sensor s WHERE 1 = 1 AND s.\"id\" = r.\"sensorId\" AND s.\"id\" IN ('%s')";
 
     public static final String SELECT_GROUP = "select \"id\",\"parentId\" from \"group\"";
 

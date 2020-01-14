@@ -99,13 +99,14 @@ public class GroupServiceImpl implements GroupService {
         String querySQL2 = GroupSQLHelper.selectByNodeId(ids.getNodeIds());
         String resourceId = UUIDUtil.randomUUIDw();
         Path dataPath = Paths.get(resourceData);
-        if (Files.exists(dataPath)) {
-            Files.createDirectory(dataPath);
+        if (!Files.exists(dataPath)) {
+            Files.createDirectories(dataPath);
         }
         Path resource = dataPath.resolve(resourceId);
         Writer writer = com.google.common.io.Files.asCharSink(resource.toFile(), Charset.forName("utf-8"), FileWriteMode.APPEND).openBufferedStream();
         dbHelper.copyOut(querySQL1, writer);
         dbHelper.copyOut(querySQL2, writer);
+        writer.flush();
         return resourceId;
     }
 

@@ -70,6 +70,7 @@ public class GroupHelper {
         Path path = memory.getPath("/pg_tmp/");
         Files.createDirectories(path);
         Path file = path.resolve(UUIDUtil.randomUUIDw() + ".csv");
+        Files.createFile(file);
         Writer writer = Files.newBufferedWriter(file, StandardOpenOption.APPEND);
         helper.copyOut(GroupSQLHelper.SELECT_GROUP, writer);
         writer.flush();
