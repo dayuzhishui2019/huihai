@@ -75,7 +75,7 @@ public class GroupServiceImpl implements GroupService {
         try {
             output = new ByteArrayOutputStream();
             for (String nodeId : nodeIds) {
-                String line = String.format("%s,%s,%s", UUIDUtil.randomUUIDw(), groupId, nodeId);
+                String line = String.format("%s,%s,%s\n", UUIDUtil.randomUUIDw(), groupId, nodeId);
                 try {
                     output.write(line.getBytes());
                 } catch (IOException e) {
