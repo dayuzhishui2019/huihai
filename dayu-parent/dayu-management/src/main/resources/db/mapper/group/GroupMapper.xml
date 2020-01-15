@@ -63,7 +63,7 @@
         WHERE
         1 = 1
         AND "parentId" in
-        <foreach collection="list" item="parentId" separator=",">#{parentId}</foreach>
+        <foreach collection="list" item="parentId" separator="," open="(" close=")">#{parentId}</foreach>
         UNION
         SELECT
         s."id",
@@ -79,7 +79,7 @@
         1 = 1
         AND s."id" = r."sensorId"
         AND "groupId" in
-        <foreach collection="list" item="parentId" separator=",">#{parentId}</foreach>
+        <foreach collection="list" item="parentId" separator="," open="(" close=")">#{parentId}</foreach>
     </select>
 
     <select id="selectByNodeId" resultType="com.dayu.management.module.group.model.TreeNode">
