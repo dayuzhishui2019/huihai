@@ -15,4 +15,6 @@ public class TreeNode {
 
     private int func;
 
+    private int nodeType;
+
 }
