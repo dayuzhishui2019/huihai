@@ -52,6 +52,8 @@ public class GroupServiceImpl implements GroupService {
         groups.forEach(group -> {
             if (Strings.isNullOrEmpty(group.getId())) {
                 group.setId(UUIDUtil.randomUUIDw());
+            } else {
+                Assert.isTrue(group.getId().matches("[0-9a-z]{32}"), BusinessError.STATE_CHECK_ERROR.message("groupId不符合校验规则(32位长度)"));
             }
             if (Strings.isNullOrEmpty(group.getParentId())) {
                 group.setParentId(String.format("%032d", 0));
@@ -60,7 +62,7 @@ public class GroupServiceImpl implements GroupService {
 
         return mapper.insert(groups) != 0;
     }
-    
+
     @Override
     public List<Group> queryGroup(GroupQuery query) {
         return mapper.select(Query.create().with(query));

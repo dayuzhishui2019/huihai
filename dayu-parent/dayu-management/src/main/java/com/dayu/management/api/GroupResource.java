@@ -33,7 +33,7 @@ public class GroupResource {
 
 
     @ApiOperation("向Group下增加叶子节点")
-    @PostMapping("{groupId:\\d{32}}")
+    @PostMapping("{groupId:[0-9a-z]{32}}")
     public boolean addNodesToGroup(@PathVariable("groupId") String groupId,
                                    @RequestBody List<String> nodeIds) throws IOException, SQLException {
         Assert.isTrue(!Objects.isNullOrEmpty(groupId), RunningError.STATE_CHECK_ERROR.message("groupId不能为空"));
@@ -43,7 +43,7 @@ public class GroupResource {
 
 
     @ApiOperation("获取组织下节点 返回JSON格式")
-    @GetMapping("{groupId}")
+    @GetMapping("{groupId:[0-9a-z]{32}}")
     public List<TreeNode> getByParentId(@PathVariable("groupId") @DefaultValue("-1") String groupId) {
         Assert.isTrue(!Objects.isNullOrEmpty(groupId), RunningError.STATE_CHECK_ERROR.message("groupId不能为空"));
         return service.queryTree(groupId);
@@ -65,7 +65,7 @@ public class GroupResource {
     }
 
     @ApiOperation("根据资源ID返回资源内容")
-    @GetMapping("/task/resource/{resourceId:\\d{32}}")
+    @GetMapping("/task/resource/{resourceId:[0-9a-z]{32}}")
     public void getResource(@PathVariable("resourceId") String resourceId, HttpServletResponse response) throws IOException, SQLException {
         InputStream dataStream = service.getResource(resourceId);
         ByteStreams.copy(dataStream, ResponseUtils.decorate(response, resourceId).getOutputStream());
