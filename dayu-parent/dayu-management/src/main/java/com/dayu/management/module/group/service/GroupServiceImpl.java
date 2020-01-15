@@ -53,11 +53,14 @@ public class GroupServiceImpl implements GroupService {
             if (Strings.isNullOrEmpty(group.getId())) {
                 group.setId(UUIDUtil.randomUUIDw());
             }
+            if (Strings.isNullOrEmpty(group.getParentId())) {
+                group.setParentId(String.format("%032d", 0));
+            }
         });
 
         return mapper.insert(groups) != 0;
     }
-
+    
     @Override
     public List<Group> queryGroup(GroupQuery query) {
         return mapper.select(Query.create().with(query));
