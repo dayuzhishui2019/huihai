@@ -14,8 +14,10 @@ public interface TaskService {
     //检索任务
     List<Task> queryTasks(Query query);
 
-    //检索是否有新版本
-    String hasNewVersion(String taskId);
+    int countTasks(Query query);
+
+
+    Task getTask(String taskId);
 
     //更新成功后回调
     void updateCallback(String taskId);
@@ -25,4 +27,6 @@ public interface TaskService {
 
     //更新任务信息
     Task update(Task task);
+
+    boolean delete(List<String> ids);
 }

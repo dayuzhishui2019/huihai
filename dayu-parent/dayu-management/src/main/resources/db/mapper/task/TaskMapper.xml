@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayu.management.module.task.mapper.TaskMapper">
+
+
+    <insert id="insert" parameterType="com.dayu.management.module.task.model.Task">
+        insert into task("id","name","repository","currentTag","updateTime","resourceId",
+        "previousTag","createTime","accessType","status","newTag","boxId")
+        values
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item.id},#{item.name},#{item.repository},#{item.currentTag},#{item.updateTime}
+            ,#{item.resourceId},#{item.previousTag},#{item.createTime},#{item.accessType}
+            ,#{item.status},#{item.newTag},#{item.boxId}
+        </foreach>;
+    </insert>
+
+    <update id="update" parameterType="com.dayu.management.module.task.model.Task">
+        <foreach collection="list" item="item">
+            update
+            task
+            <set>
+                <if test="item.name!=null and item.name!=''">
+                    "name"=#{item.name},
+                </if>
+                <if test="item.repository!=null and item.repository!=''">
+                    "repository"=#{item.repository},
+                </if>
+                <if test="item.currentTag!=null and item.currentTag!=''">
+                    currentTag=#{item.currentTag},
+                </if>
+                <if test="item.updateTime!=null and item.updateTime!=''">
+                    updateTime=#{item.updateTime},
+                </if>
+                <if test="item.resourceId!=null and item.resourceId!=''">
+                    resourceId=#{item.resourceId},
+                </if>
+                <if test="item.previousTag!=null and item.previousTag!=''">
+                    previousTag=#{item.previousTag},
+                </if>
+                <if test="item.accessType!=null and item.accessType!=''">
+                    accessType=#{item.accessType},
+                </if>
+                <if test="item.status!=null and item.status!=''">
+                    status=#{item.status},
+                </if>
+                <if test="item.newTag!=null and item.newTag!=''">
+                    newTag=#{item.password},
+                </if>
+                <if test="item.boxId!=null and item.boxId!=''">
+                    boxId=#{item.boxId},
+                </if>
+            </set>
+            where 1=1 and id=#{id}
+        </foreach>
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from task where id in
+        <foreach collection="list" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="get" parameterType="java.lang.String" resultType="com.dayu.management.module.task.model.Task">
+        select * from task where 1=1 and "id"=#{id}
+    </select>
+
+    <select id="select" parameterType="com.dayu.management.core.Query">
+        select * from task where 1=1
+        <if test="name!=null and name!=''">
+            and "name" like '%name%'
+        </if>
+        <if test="currentTag!=null and currentTag!=''">
+            and "currentTag" = #{currentTag}
+        </if>
+        <if test="accessType!=null and accessType!=0">
+            and "accessType" = #{accessType}
+        </if>
+        <if test="status!=null and status!=0">
+            and "status" = #{status}
+        </if>
+        <if test="boxId!=null and boxId!=''">
+            and "boxId" = #{boxId}
+        </if>
+        <if test="repository!=null and repository!=''">
+            and "repository" = #{repository}
+        </if>
+        <if test="updateTime!=null and updateTime!=''">
+            and updateTime=#{item.updateTime},
+        </if>
+        order by updateTime desc
+        limit #{start} offset #{start} * #{size}
+    </select>
+
+    <select id="count" parameterType="com.dayu.management.core.Query">
+        select count(id) from task where 1=1
+        <if test="name!=null and name!=''">
+            and "name" like '%name%'
+        </if>
+        <if test="currentTag!=null and currentTag!=''">
+            and "currentTag" = #{currentTag}
+        </if>
+        <if test="accessType!=null and accessType!=0">
+            and "accessType" = #{accessType}
+        </if>
+        <if test="status!=null and status!=0">
+            and "status" = #{status}
+        </if>
+        <if test="boxId!=null and boxId!=''">
+            and "boxId" = #{boxId}
+        </if>
+        <if test="repository!=null and repository!=''">
+            and "repository" = #{repository}
+        </if>
+        <if test="updateTime!=null and updateTime!=''">
+            and updateTime=#{item.updateTime},
+        </if>
+    </select>
+
+
+</mapper>

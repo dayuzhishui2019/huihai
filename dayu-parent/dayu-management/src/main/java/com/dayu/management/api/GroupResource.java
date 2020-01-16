@@ -1,7 +1,6 @@
 package com.dayu.management.api;
 
 import com.dayu.management.module.group.model.Group;
-import com.dayu.management.module.group.model.TaskResourceIds;
 import com.dayu.management.module.group.model.TreeNode;
 import com.dayu.management.module.group.service.GroupService;
 import com.dayu.management.utils.ResponseUtils;
@@ -56,15 +55,7 @@ public class GroupResource {
         return service.addGroup(groups);
     }
 
-    @ApiOperation("任务资源创建,返回资源Id")
-    @PostMapping("/task/resource")
-    public String createResource(@RequestBody TaskResourceIds ids) throws IOException, SQLException {
-        Assert.isTrue(ids != null, RunningError.STATE_CHECK_ERROR.message("参数不能为空"));
-        Assert.isTrue(!(Objects.isNullOrEmpty(ids.getParentIds()) && Objects.isNullOrEmpty(ids.getNodeIds())), RunningError.STATE_CHECK_ERROR.message("ParentIds与NodeIds不能同时为空"));
-        return service.createResource(ids);
-    }
-
-    @ApiOperation("根据资源ID返回资源内容")
+    @ApiOperation(value = "根据资源ID返回资源内容", hidden = true)
     @GetMapping("/task/resource/{resourceId:[0-9a-z]{32}}")
     public void getResource(@PathVariable("resourceId") String resourceId, HttpServletResponse response) throws IOException, SQLException {
         InputStream dataStream = service.getResource(resourceId);

@@ -127,10 +127,51 @@
             ALTER TABLE "public"."user" ADD CONSTRAINT "user_pkey" PRIMARY KEY ("id");
 
             ALTER TABLE "public"."group_sensor_relation" ADD CONSTRAINT "group_sensor_relation_pkey" PRIMARY KEY ("id")
+        </sql>
+    </changeSet>
+
+    <changeSet id="0002" author="root" context="base">
+        <sql>
+            CREATE TABLE "public"."task" (
+            "id" char(32) COLLATE "pg_catalog"."default" NOT NULL,
+            "name" varchar(30) COLLATE "pg_catalog"."default" NOT NULL,
+            "repository" varchar(30) COLLATE "pg_catalog"."default" NOT NULL,
+            "currentTag" varchar(20) COLLATE "pg_catalog"."default" NOT NULL,
+            "updateTime" int8 NOT NULL,
+            "resourceId" varchar(32) COLLATE "pg_catalog"."default" NOT NULL,
+            "previousTag" varchar(20) COLLATE "pg_catalog"."default" NOT NULL,
+            "createTime" int8 NOT NULL,
+            "accessType" int2,
+            "status" int2,
+            "newTag" varchar(20) COLLATE "pg_catalog"."default",
+            "boxId" char(32) COLLATE "pg_catalog"."default",
+            CONSTRAINT "task_pkey" PRIMARY KEY ("id")
+            ) ;
 
 
+            COMMENT ON COLUMN "public"."task"."id" IS '任务ID';
 
+            COMMENT ON COLUMN "public"."task"."name" IS '任务名称';
 
+            COMMENT ON COLUMN "public"."task"."repository" IS '镜像名称';
+
+            COMMENT ON COLUMN "public"."task"."currentTag" IS '当前版本';
+
+            COMMENT ON COLUMN "public"."task"."updateTime" IS '更新时间';
+
+            COMMENT ON COLUMN "public"."task"."resourceId" IS '资源ID';
+
+            COMMENT ON COLUMN "public"."task"."previousTag" IS '上一版本';
+
+            COMMENT ON COLUMN "public"."task"."createTime" IS '创建时间';
+
+            COMMENT ON COLUMN "public"."task"."accessType" IS '接入类型';
+
+            COMMENT ON COLUMN "public"."task"."status" IS '任务状态';
+
+            COMMENT ON COLUMN "public"."task"."newTag" IS '新版本号';
+
+            COMMENT ON COLUMN "public"."task"."boxId" IS '硬件ID';
         </sql>
     </changeSet>
 
