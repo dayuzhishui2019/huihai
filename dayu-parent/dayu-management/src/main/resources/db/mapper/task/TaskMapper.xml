@@ -65,7 +65,8 @@
         select * from task where 1=1 and "id"=#{id}
     </select>
 
-    <select id="select" parameterType="com.dayu.management.core.Query">
+    <select id="select" parameterType="com.dayu.management.core.Query"
+            resultType="com.dayu.management.module.task.model.Task">
         select * from task where 1=1
         <if test="name!=null and name!=''">
             and "name" like '%name%'
@@ -85,14 +86,14 @@
         <if test="repository!=null and repository!=''">
             and "repository" = #{repository}
         </if>
-        <if test="updateTime!=null and updateTime!=''">
-            and updateTime=#{item.updateTime},
+        <if test="updateTime!=null and updateTime!=0">
+            and "updateTime"=#{item.updateTime},
         </if>
-        order by updateTime desc
+        order by "updateTime" desc
         limit #{start} offset #{start} * #{size}
     </select>
 
-    <select id="count" parameterType="com.dayu.management.core.Query">
+    <select id="count" parameterType="com.dayu.management.core.Query" resultType="java.lang.Integer">
         select count(id) from task where 1=1
         <if test="name!=null and name!=''">
             and "name" like '%name%'
@@ -112,8 +113,8 @@
         <if test="repository!=null and repository!=''">
             and "repository" = #{repository}
         </if>
-        <if test="updateTime!=null and updateTime!=''">
-            and updateTime=#{item.updateTime},
+        <if test="updateTime!=null and updateTime!=0">
+            and "updateTime"=#{item.updateTime},
         </if>
     </select>
 
