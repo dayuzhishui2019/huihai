@@ -84,6 +84,7 @@ public class ResultHandler implements ResponseBodyAdvice<Object> {
     @ResponseBody
     @ExceptionHandler(Exception.class)
     public Result handleException(Exception e) {
+        log.error("", e);
         RunningError error = RunningError.FAIL;
         return Result.builder().code(error.getCode())
                 .message(error.getMessage())

@@ -50,18 +50,24 @@
     </delete>
 
     <select id="select" parameterType="com.dayu.management.core.Query"
-            resultType="com.dayu.management.module.sensor.model.Sensor">
+            resultType="com.dayu.management.module.sensor.model.SensorView">
         select
-        id,
-        gid,
-        name,
-        "areaNumber",
-        "dominionCode",
-        type,
-        "func",
-        "deriveId"
+        s."id",
+        s."gid",
+        s."name",
+        s."areaNumber",
+        s."dominionCode",
+        s."type",
+        s."func",
+        s."deriveId"
+        <if test="allocated!=null">
+            ,r."groupId"
+        </if>
         from
-        sensor
+        sensor s
+        <if test="allocated!=null">
+            left join group_sensor_relation r on s."id"=r."sensorId"
+        </if>
         where 1=1
         <include refid="condition"></include>
         limit #{size} offset #{start} * #{size}
@@ -71,29 +77,38 @@
         select
         count(0)
         from
-        sensor
+        sensor s
+        <if test="allocated!=null">
+            left join group_sensor_relation r on s."id"=r."sensorId"
+        </if>
         where 1=1
         <include refid="condition"></include>
     </select>
 
     <sql id="condition">
+        <if test="allocated!=null and allocated">
+            and r."groupId" is not null
+        </if>
+        <if test="allocated!=null and !allocated">
+            and r."groupId" is null
+        </if>
         <if test="id !=null and id!=''">
-            and id=#{id}
+            and s."id"=#{id}
         </if>
         <if test="name!=null and name!=''">
-            and name like '%name%'
+            and s."name" like '%name%'
         </if>
         <if test="type!=0">
-            and type=#{type}
+            and s."type"=#{type}
         </if>
         <if test="func!=null and func!=0">
-            and "func"=#{func}
+            and s."func"=#{func}
         </if>
         <if test="areaNumber!=null and areaNumber!=''">
-            and "areaNumber"=#{areaNumber}
+            and s."areaNumber"=#{areaNumber}
         </if>
         <if test="dominionCode!=null and dominionCode!=''">
-            and "dominionCode"=#{dominionCode}
+            and s."dominionCode"=#{dominionCode}
         </if>
     </sql>
 

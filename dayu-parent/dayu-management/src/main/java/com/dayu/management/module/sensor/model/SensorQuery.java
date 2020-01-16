@@ -18,4 +18,5 @@ public class SensorQuery {
 
     private int size;
 
+    private Boolean allocated;
 }

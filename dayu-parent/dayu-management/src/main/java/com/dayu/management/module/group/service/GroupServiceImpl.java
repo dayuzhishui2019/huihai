@@ -70,6 +70,9 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public boolean addNodesToGroup(String groupId, List<String> nodeIds) throws IOException, SQLException {
+        //先删除
+        mapper.deleteRelation(groupId, nodeIds);
+        //新增
         InputStream input = null;
         ByteArrayOutputStream output = null;
         try {

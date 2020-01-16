@@ -34,6 +34,19 @@
         </foreach>
     </delete>
 
+    <delete id="deleteRelation">
+        delete from "group" where 1=1
+        <if test="groupId!=null and groupId!=''">
+            and "groupId"=#{groupId}
+        </if>
+        <if test="sensorIds!=null and !sensorIds.isEmpty()">
+            sensor in
+            <foreach collection="list" item="id" separator="," open="(" close=")">
+                #{id}
+            </foreach>
+        </if>
+    </delete>
+
     <select id="select" parameterType="java.util.Map"
             resultType="com.dayu.management.module.group.model.Group">
         select
