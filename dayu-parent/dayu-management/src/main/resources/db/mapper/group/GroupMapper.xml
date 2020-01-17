@@ -41,7 +41,7 @@
         </if>
         <if test="sensorIds!=null and !sensorIds.isEmpty()">
             sensor in
-            <foreach collection="list" item="id" separator="," open="(" close=")">
+            <foreach collection="sensorIds" item="id" separator="," open="(" close=")">
                 #{id}
             </foreach>
         </if>
