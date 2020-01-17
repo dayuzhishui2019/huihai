@@ -12,7 +12,7 @@
     </insert>
 
     <update id="update" parameterType="com.dayu.management.module.sensor.model.derive.Camera">
-        <foreach collection="list" item="item">
+        <foreach collection="list" item="item" separator=";">
             update
             camera
             <set>

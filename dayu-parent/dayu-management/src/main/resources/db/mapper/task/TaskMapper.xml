@@ -15,7 +15,7 @@
     </insert>
 
     <update id="update" parameterType="com.dayu.management.module.task.model.Task">
-        <foreach collection="list" item="item">
+        <foreach collection="list" item="item" separator=";">
             update
             task
             <set>

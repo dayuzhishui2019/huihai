@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dayu.management.module.task.mapper.BoxMapper">
+
+    <insert id="insert" parameterType="com.dayu.management.module.task.model.Box">
+        insert into box("id","name","model","firstUpTime","lastConnectTime","serialNumber","status")
+        values
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item.id},#{item.name},#{item.model},#{item.firstUpTime},#{item.lastConnectTime},#{item.serialNumber},#{item.status}
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.dayu.management.module.task.model.Box">
+        <foreach collection="list" item="item" separator=";">
+            update box
+            <set>
+                <if test="status!=null and status!=0">
+                    "status"=#{item.status}
+                </if>
+                <if test="lastConnectTime!=null and lastConnectTime!=0">
+                    "lastConnectTime"=#{item.lastConnectTime}
+                </if>
+                <if test="name!=null and name!=''">
+                    "name"=#{item.name}
+                </if>
+            </set>
+            where 1=1 and "id"=#{item.id}
+        </foreach>
+    </update>
+
+    <select id="select" parameterType="com.dayu.management.core.Query">
+        select *
+        from box
+        where 1=1
+        <if test="id!=null and id!=''">
+            and "id"=#{id}
+        </if>
+        <if test="name!=null and name!=''">
+            and "name" like '%#{id}%'
+        </if>
+        <if test="serialNumber!=null and serialNumber!=''">
+            and "serialNumber"=#{serialNumber}
+        </if>
+        order by las
+        limit #{start} offset #{start}*#{size}
+    </select>
+
+</mapper>

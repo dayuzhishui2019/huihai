@@ -22,7 +22,7 @@
     </insert>
 
     <update id="update" parameterType="com.dayu.management.module.user.model.Session">
-        <foreach collection="list" item="item">
+        <foreach collection="list" item="item" separator=";">
             update
             "session"
             <set>

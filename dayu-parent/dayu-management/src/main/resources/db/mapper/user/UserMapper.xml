@@ -12,7 +12,7 @@
     </insert>
 
     <update id="update" parameterType="com.dayu.management.module.user.model.User">
-        <foreach collection="list" item="item">
+        <foreach collection="list" item="item" separator=";">
             update
             "user"
             <set>
@@ -49,7 +49,7 @@
         "user"
         where 1=1
         <if test="name!=null and name!=''">
-            and name like '%name%'
+            and "name" like '%#{name}%'
         </if>
         <if test="username!=null and username!=''">
             and username=#{username}

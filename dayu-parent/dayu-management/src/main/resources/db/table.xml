@@ -175,4 +175,32 @@
         </sql>
     </changeSet>
 
+    <changeSet id="0003" author="root" context="base">
+        <sql>
+            CREATE TABLE "public"."box" (
+            "id" char(32) COLLATE "pg_catalog"."default" NOT NULL,
+            "name" varchar(30) COLLATE "pg_catalog"."default",
+            "model" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
+            "firstUpTime" int8 NOT NULL,
+            "lastConnectTime" int8 NOT NULL,
+            "serialNumber" varchar(48) COLLATE "pg_catalog"."default" NOT NULL,
+            "status" int2 NOT NULL,
+            CONSTRAINT "box_pkey" PRIMARY KEY ("id")
+            ) ;
+            COMMENT ON COLUMN "public"."box"."id" IS '盒子ID';
+
+            COMMENT ON COLUMN "public"."box"."name" IS '名字';
+
+            COMMENT ON COLUMN "public"."box"."model" IS '型号';
+
+            COMMENT ON COLUMN "public"."box"."firstUpTime" IS '第一次连接时间';
+
+            COMMENT ON COLUMN "public"."box"."lastConnectTime" IS '最后一次连接时间';
+
+            COMMENT ON COLUMN "public"."box"."serialNumber" IS '硬件序列号';
+
+            COMMENT ON COLUMN "public"."box"."status" IS '状态';
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
