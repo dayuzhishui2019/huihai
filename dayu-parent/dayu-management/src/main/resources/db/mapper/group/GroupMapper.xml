@@ -40,7 +40,7 @@
             and "groupId"=#{groupId}
         </if>
         <if test="sensorIds!=null and !sensorIds.isEmpty()">
-            sensor in
+            "sensorId" in
             <foreach collection="sensorIds" item="id" separator="," open="(" close=")">
                 #{id}
             </foreach>
