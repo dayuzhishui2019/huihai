@@ -27,7 +27,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -111,7 +113,14 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public List<TreeNode> queryTree(String groupId) {
-        return mapper.selectByParentId(Lists.newArrayList(groupId));
+        List<TreeNode> nodes = mapper.selectByParentId(Lists.newArrayList(groupId));
+        if (nodes == null) {
+            return nodes;
+        }
+        return nodes.stream()
+                .sorted((treeNode, t1) -> treeNode.getName().compareToIgnoreCase(t1.getName()))
+                .sorted(Comparator.comparingInt(TreeNode::getNodeType))
+                .collect(Collectors.toList());
     }
 
     @Override
