@@ -42,6 +42,7 @@ public class TaskResource {
     @ResponseBody
     @PostMapping
     public Task create(@RequestBody Task task) {
+        Assert.isTrue(!Strings.isNullOrEmpty(task.getBoxId()), RunningError.STATE_CHECK_ERROR.message("资源节点ID不能为空"));
         Assert.isTrue(!Strings.isNullOrEmpty(task.getResourceId()), RunningError.STATE_CHECK_ERROR.message("任务资源不能为空"));
         return taskService.create(task);
     }
@@ -50,6 +51,9 @@ public class TaskResource {
     @ResponseBody
     @PostMapping("assemble")
     public Task create(@RequestBody TaskForm form) throws IOException, SQLException {
+        Assert.isTrue(form.getTask() != null, RunningError.STATE_CHECK_ERROR.message("任务不能为空"));
+        Assert.isTrue(!Strings.isNullOrEmpty(form.getTask().getBoxId()), RunningError.STATE_CHECK_ERROR.message("资源节点ID不能为空"));
+        Assert.isTrue(form.getResourceIds() != null, RunningError.STATE_CHECK_ERROR.message("任务资源不能为空"));
         String resourceId = groupService.createResource(form.getResourceIds());
         form.getTask().setResourceId(resourceId);
         return taskService.create(form.getTask());
