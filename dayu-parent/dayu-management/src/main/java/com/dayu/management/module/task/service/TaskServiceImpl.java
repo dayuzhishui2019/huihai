@@ -3,7 +3,6 @@ package com.dayu.management.module.task.service;
 import com.dayu.management.constant.BusinessError;
 import com.dayu.management.core.Query;
 import com.dayu.management.module.task.mapper.TaskMapper;
-import com.dayu.management.module.task.model.Box;
 import com.dayu.management.module.task.model.Task;
 import com.dayu.response.Assert;
 import com.google.common.base.Strings;
@@ -19,11 +18,6 @@ public class TaskServiceImpl implements TaskService {
 
     @Autowired
     private TaskMapper mapper;
-
-    @Override
-    public List<Box> queryBoxes(Query query) {
-        return null;
-    }
 
     @Override
     public List<Task> queryTasks(Query query) {

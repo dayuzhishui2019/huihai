@@ -1,19 +1,17 @@
 package com.dayu.management.module.task.service;
 
 import com.dayu.management.core.Query;
-import com.dayu.management.module.task.model.Box;
 import com.dayu.management.module.task.model.Task;
 
 import java.util.List;
 
 public interface TaskService {
 
-    //检索盒子
-    List<Box> queryBoxes(Query query);
 
     //检索任务
     List<Task> queryTasks(Query query);
 
+    //计算任务数目
     int countTasks(Query query);
 
 
