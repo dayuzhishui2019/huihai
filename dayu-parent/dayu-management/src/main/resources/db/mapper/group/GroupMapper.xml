@@ -23,7 +23,7 @@
                     "parentId"=#{item.parentId},
                 </if>
             </set>
-            where 1=1 and id=#{id}
+            where 1=1 and "id"=#{item.id}
         </foreach>
     </update>
 
@@ -35,12 +35,12 @@
     </delete>
 
     <delete id="deleteRelation">
-        delete from "group" where 1=1
+        delete from "group_sensor_relation" where 1=1
         <if test="groupId!=null and groupId!=''">
             and "groupId"=#{groupId}
         </if>
         <if test="sensorIds!=null and !sensorIds.isEmpty()">
-            "sensorId" in
+            and "sensorId" in
             <foreach collection="sensorIds" item="id" separator="," open="(" close=")">
                 #{id}
             </foreach>
