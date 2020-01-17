@@ -49,7 +49,17 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public boolean addGroup(List<Group> groups) {
+        List<Group> inserts = Lists.newArrayList();
+        List<Group> updates = Lists.newArrayList();
         groups.forEach(group -> {
+            if (Strings.isNullOrEmpty(group.getId())) {
+                inserts.add(group);
+            } else {
+                updates.add(group);
+            }
+        });
+
+        inserts.forEach(group -> {
             if (Strings.isNullOrEmpty(group.getId())) {
                 group.setId(UUIDUtil.randomUUIDw());
             } else {
@@ -59,8 +69,13 @@ public class GroupServiceImpl implements GroupService {
                 group.setParentId(String.format("%032d", 0));
             }
         });
-
-        return mapper.insert(groups) != 0;
+        if (!inserts.isEmpty()) {
+            mapper.insert(inserts);
+        }
+        if (!updates.isEmpty()) {
+            mapper.update(updates);
+        }
+        return true;
     }
 
     @Override
