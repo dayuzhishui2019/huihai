@@ -9,14 +9,12 @@ public class Box {
     //盒子ID
     private String id;
 
+    //名称
+    private String name;
+
     //硬件型号
     private String model;
 
-    //授权状态
-    private boolean authorize;
-
-    //是否在线
-    private boolean online;
 
     //第一次上线时间
     private long firstUpTime;
@@ -26,5 +24,11 @@ public class Box {
 
     //盒子序列号
     private String serialNumber;
+
+    //盒子状态
+    private int status;
+
+    //随机码
+    private String random;
 
 }
