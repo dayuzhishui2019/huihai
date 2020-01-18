@@ -2,11 +2,15 @@ package com.dayu.management.module.task.service;
 
 import com.dayu.management.constant.BusinessError;
 import com.dayu.management.core.Query;
+import com.dayu.management.module.task.mapper.BoxMapper;
 import com.dayu.management.module.task.mapper.TaskMapper;
+import com.dayu.management.module.task.model.Box;
 import com.dayu.management.module.task.model.Task;
 import com.dayu.response.Assert;
+import com.dayu.response.RunningError;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.leus.common.base.Objects;
 import com.leus.common.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +23,11 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private TaskMapper mapper;
 
+    @Autowired
+    private BoxMapper boxMapper;
+
     @Override
+
     public List<Task> queryTasks(Query query) {
         return mapper.select(query);
     }
@@ -45,6 +53,10 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task create(Task task) {
+
+        String boxId = task.getBoxId();
+        List<Box> boxes = boxMapper.select(Query.create(1, 0).set("id", boxId));
+        Assert.isTrue(!Objects.isNullOrEmpty(boxes), RunningError.STATE_CHECK_ERROR.message("不存在的节点[" + boxId + "]"));
         task.setId(UUIDUtil.randomUUIDw());
         task.setCreateTime(System.currentTimeMillis());
         task.setUpdateTime(System.currentTimeMillis());

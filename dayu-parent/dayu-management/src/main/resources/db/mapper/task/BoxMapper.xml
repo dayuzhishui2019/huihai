@@ -28,21 +28,21 @@
         </foreach>
     </update>
 
-    <select id="select" parameterType="com.dayu.management.core.Query">
-        select *
+    <select id="select" parameterType="com.dayu.management.core.Query" resultType="com.dayu.management.module.task.model.Box">
+        select "id","name","model","firstUpTime","lastConnectTime","serialNumber","status"
         from box
         where 1=1
         <if test="id!=null and id!=''">
             and "id"=#{id}
         </if>
         <if test="name!=null and name!=''">
-            and "name" like '%#{id}%'
+            and "name" like '%${name}%'
         </if>
         <if test="serialNumber!=null and serialNumber!=''">
             and "serialNumber"=#{serialNumber}
         </if>
-        order by las
-        limit #{start} offset #{start}*#{size}
+        order by "lastConnectTime"
+        limit #{size} offset #{start} * #{size}
     </select>
 
 </mapper>

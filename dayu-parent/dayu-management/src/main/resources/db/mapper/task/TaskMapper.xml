@@ -62,14 +62,20 @@
     </delete>
 
     <select id="get" parameterType="java.lang.String" resultType="com.dayu.management.module.task.model.Task">
-        select * from task where 1=1 and "id"=#{id}
+        select
+            "id","name","repository","currentTag","updateTime","resourceId",
+        "previousTag","createTime","accessType","status","newTag","boxId"
+         from task where 1=1 and "id"=#{id}
     </select>
 
     <select id="select" parameterType="com.dayu.management.core.Query"
             resultType="com.dayu.management.module.task.model.Task">
-        select * from task where 1=1
+        select
+        "id","name","repository","currentTag","updateTime","resourceId",
+        "previousTag","createTime","accessType","status","newTag","boxId"
+        from task where 1=1
         <if test="name!=null and name!=''">
-            and "name" like '%name%'
+            and "name" like '%${name}%'
         </if>
         <if test="currentTag!=null and currentTag!=''">
             and "currentTag" = #{currentTag}
@@ -90,13 +96,13 @@
             and "updateTime"=#{item.updateTime},
         </if>
         order by "updateTime" desc
-        limit #{start} offset #{start} * #{size}
+        limit #{size} offset #{start} * #{size}
     </select>
 
     <select id="count" parameterType="com.dayu.management.core.Query" resultType="java.lang.Integer">
         select count(id) from task where 1=1
         <if test="name!=null and name!=''">
-            and "name" like '%name%'
+            and "name" like '%${name}%'
         </if>
         <if test="currentTag!=null and currentTag!=''">
             and "currentTag" = #{currentTag}

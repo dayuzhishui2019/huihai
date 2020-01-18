@@ -96,7 +96,7 @@
             and s."id"=#{id}
         </if>
         <if test="name!=null and name!=''">
-            and s."name" like '%name%'
+            and s."name" like '%${name}%'
         </if>
         <if test="type!=0">
             and s."type"=#{type}

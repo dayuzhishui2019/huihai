@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 @Service
@@ -34,7 +35,7 @@ public class BoxServiceImpl implements BoxService {
         box.setLastConnectTime(System.currentTimeMillis());
         if (Strings.isNullOrEmpty(box.getId())) {
             //型号与序列号作为ID的唯一编号
-            box.setId(MD5Util.signByMd5(String.format("%s|%s|%s", box.getModel(), box.getSerialNumber(), box.getRandom())));
+            box.setId(MD5Util.sign(String.format("%s|%s|%s", box.getModel(), box.getSerialNumber(), box.getRandom()).getBytes(Charset.forName("utf-8"))));
             box.setFirstUpTime(System.currentTimeMillis());
             box.setStatus(0);
             mapper.insert(Lists.newArrayList(box));
@@ -53,4 +54,5 @@ public class BoxServiceImpl implements BoxService {
     public List<Box> queryBoxes(Query query) {
         return mapper.select(query);
     }
+
 }
