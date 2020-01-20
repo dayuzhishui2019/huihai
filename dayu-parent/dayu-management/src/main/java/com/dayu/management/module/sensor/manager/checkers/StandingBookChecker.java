@@ -2,25 +2,35 @@ package com.dayu.management.module.sensor.manager.checkers;
 
 import com.dayu.management.config.StandingBookIni;
 import com.dayu.management.constant.StandingBook;
+import com.dayu.management.helper.DatabaseHelper;
 import com.dayu.management.module.sensor.manager.Register;
 import com.dayu.management.module.sensor.manager.SensorChecker;
 import com.google.common.base.Strings;
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnel;
+import com.google.common.io.Files;
 import com.leus.common.base.Objects;
+import com.leus.common.util.UUIDUtil;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.Writer;
 import java.nio.charset.Charset;
 import java.util.List;
 
+@Slf4j
 @Component
 public class StandingBookChecker implements Checker, Register<SensorChecker> {
 
 
     @Getter
-    private final BloomFilter<String> GID_FILTER;
+    private BloomFilter<String> GID_FILTER;
+
+    @Autowired
+    private DatabaseHelper db;
 
 
     @Autowired
@@ -29,11 +39,24 @@ public class StandingBookChecker implements Checker, Register<SensorChecker> {
     @Autowired
     private StandingBookIni ini;
 
-
-    public StandingBookChecker() {
+    @Autowired
+    public void init() {
         GID_FILTER = BloomFilter.create((Funnel<String>) (value, sink) ->
                         sink.putString(value, Charset.forName("utf-8"))
                 , 5000000, 0.00000000000001);
+        try {
+            log.info("开始加载布隆过滤器");
+            long a = System.currentTimeMillis();
+            File f = new File(UUIDUtil.randomUUIDw());
+            Writer writer = Files.asCharSink(f, Charset.forName("utf8")).openBufferedStream();
+            db.copyOut("select gid from sensor", writer);
+            writer.flush();
+            Files.asCharSource(f, Charset.forName("utf8")).lines().forEach(line -> GID_FILTER.put(line));
+            f.delete();
+            log.info("加载布隆过滤器耗时:{}ms", System.currentTimeMillis() - a);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
