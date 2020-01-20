@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletResponse;
 
-@FeignClient(name = "registryClient", url = "http://registry:5000/v2", fallback = RegistryFallback.class)
+@FeignClient(name = "registryClient", url = "http://registry:5453/v2", fallback = RegistryFallback.class)
 public interface RegistryClient {
 
     @GetMapping("/_catalog")
