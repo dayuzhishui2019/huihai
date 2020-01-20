@@ -52,7 +52,6 @@ public class BaseConvert<T extends ToCsvLine> implements Convert<T>, Register<Se
             sensor.setDominionCode(dominionCode);
         }
 
-        sensor.setDominionCode(items.get(StandingBook.DOMINION_CODE));
         SensorTable table = SensorTable.labelOf(items.get(StandingBook.TYPE));
         sensor.setType(table.getSenorType());
         sensor.setFunc(getFunc(table, items.get(StandingBook.FUNC)));
@@ -61,7 +60,7 @@ public class BaseConvert<T extends ToCsvLine> implements Convert<T>, Register<Se
         device.setSensor(sensor);
         return device;
     }
-    
+
     private int getFunc(SensorTable table, String lineItem) {
         List<String> items = splitter.splitToList(lineItem);
         Map<String, Integer> subTypes = table.getSubTypes();
