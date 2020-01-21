@@ -16,7 +16,7 @@ services:
     
 
   management:
-    image: dayu/dayu-management:latest
+    image: dayu.com:5453/dayu/dayu-management:1.2-daily-202001201534
     container_name: dayu-management
     hostname: management
     restart: always
