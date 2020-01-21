@@ -121,25 +121,25 @@
 				</configuration>
 			</plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>${maven-failsafe-plugin.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>integration-test</goal>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<trimStackTrace>false</trimStackTrace>
-					<rerunFailingTestsCount>5</rerunFailingTestsCount>
-					<groups>com.github.dockerjava.junit.category.Integration</groups>
-					<excludedGroups>com.github.dockerjava.junit.category.AuthIntegration,com.github.dockerjava.junit.category.SwarmModeIntegration</excludedGroups>
-				</configuration>
-			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>org.apache.maven.plugins</groupId>-->
+<!--				<artifactId>maven-failsafe-plugin</artifactId>-->
+<!--				<version>${maven-failsafe-plugin.version}</version>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<goals>-->
+<!--							<goal>integration-test</goal>-->
+<!--							<goal>verify</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--				<configuration>-->
+<!--					<trimStackTrace>false</trimStackTrace>-->
+<!--					<rerunFailingTestsCount>5</rerunFailingTestsCount>-->
+<!--					<groups>com.github.dockerjava.junit.category.Integration</groups>-->
+<!--					<excludedGroups>com.github.dockerjava.junit.category.AuthIntegration,com.github.dockerjava.junit.category.SwarmModeIntegration</excludedGroups>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
 
 			<plugin>
 				<groupId>org.apache.felix</groupId>
