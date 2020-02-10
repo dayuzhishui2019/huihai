@@ -18,44 +18,46 @@
         <foreach collection="list" item="item" separator=";">
             update
             task
-            <set>
-                <if test="item.name!=null and item.name!=''">
-                    "name"=#{item.name},
-                </if>
-                <if test="item.repository!=null and item.repository!=''">
-                    "repository"=#{item.repository},
-                </if>
-                <if test="item.currentTag!=null and item.currentTag!=''">
-                    currentTag=#{item.currentTag},
-                </if>
-                <if test="item.updateTime!=null and item.updateTime!=0">
-                    updateTime=#{item.updateTime},
-                </if>
-                <if test="item.resourceId!=null and item.resourceId!=''">
-                    resourceId=#{item.resourceId},
-                </if>
-                <if test="item.previousTag!=null and item.previousTag!=''">
-                    previousTag=#{item.previousTag},
-                </if>
-                <if test="item.accessType!=null and item.accessType!=0">
-                    accessType=#{item.accessType},
-                </if>
-                <if test="item.status!=null and item.status!=0">
-                    status=#{item.status},
-                </if>
-                <if test="item.newTag!=null and item.newTag!=''">
-                    newTag=#{item.password},
-                </if>
-                <if test="item.boxId!=null and item.boxId!=''">
-                    boxId=#{item.boxId},
-                </if>
-            </set>
+            <trim>
+                <set>
+                    <if test="item.name!=null and item.name!=''">
+                        "name"=#{item.name},
+                    </if>
+                    <if test="item.repository!=null and item.repository!=''">
+                        "repository"=#{item.repository},
+                    </if>
+                    <if test="item.currentTag!=null and item.currentTag!=''">
+                        currentTag=#{item.currentTag},
+                    </if>
+                    <if test="item.updateTime!=null and item.updateTime!=0">
+                        updateTime=#{item.updateTime},
+                    </if>
+                    <if test="item.resourceId!=null and item.resourceId!=''">
+                        resourceId=#{item.resourceId},
+                    </if>
+                    <if test="item.previousTag!=null and item.previousTag!=''">
+                        previousTag=#{item.previousTag},
+                    </if>s
+                    <if test="item.accessType!=null and item.accessType!=0">
+                        accessType=#{item.accessType},
+                    </if>
+                    <if test="item.status!=null and item.status!=0">
+                        status=#{item.status},
+                    </if>
+                    <if test="item.newTag!=null and item.newTag!=''">
+                        newTag=#{item.password},
+                    </if>
+                    <if test="item.boxId!=null and item.boxId!=''">
+                        boxId=#{item.boxId},
+                    </if>
+                </set>
+            </trim>
             where 1=1 and id=#{id}
         </foreach>
     </update>
 
     <update id="delete" parameterType="java.lang.String">
-        update task set "status"=-1 where id in
+        update task set "status"=99 where id in
         <foreach collection="list" item="id" separator="," open="(" close=")">
             #{id}
         </foreach>
@@ -93,10 +95,10 @@
             and "repository" = #{repository}
         </if>
         <if test="updateTime!=null and updateTime!=0">
-            and "updateTime" &gt;= #{item.updateTime},
+            and "updateTime" &gt;= #{updateTime}
         </if>
         <if test="needDel==null">
-            and status !=-1
+            and status !=99
         </if>
         order by "updateTime" desc
         limit #{size} offset #{start} * #{size}

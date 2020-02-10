@@ -13,7 +13,7 @@ public interface BoxService {
 
 
     //盒子信息激活
-    BoxView register(Box box);
+    BoxView register(Box box, long time);
 
 
     //更新盒子信息

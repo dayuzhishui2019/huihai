@@ -30,7 +30,7 @@ public class BoxServiceImpl implements BoxService {
     private int maxBoxNumber;
 
     @Override
-    public BoxView register(Box box) {
+    public BoxView register(Box box, long time) {
         Assert.isTrue(!Strings.isNullOrEmpty(box.getSerialNumber()), RunningError.STATE_CHECK_ERROR.message("节点序列号不能为空"));
         Assert.isTrue(!Strings.isNullOrEmpty(box.getModel()), RunningError.STATE_CHECK_ERROR.message("节点型号不能为空"));
         box.setLastConnectTime(System.currentTimeMillis());
@@ -44,7 +44,7 @@ public class BoxServiceImpl implements BoxService {
                 Assert.isTrue(mapper.insert(Lists.newArrayList(box)) == 1, RunningError.STATE_CHECK_ERROR.message("新增BOX失败"));
             }
         }
-        return view(box.getId(), taskService.queryTasks(Query.create(maxBoxNumber, 0).set("boxId", box.getId())));
+        return view(box.getId(), taskService.queryTasks(Query.create(maxBoxNumber, 0).set("boxId", box.getId()).set("needDel", true).set("updateTime", time)));
     }
 
     @Override
