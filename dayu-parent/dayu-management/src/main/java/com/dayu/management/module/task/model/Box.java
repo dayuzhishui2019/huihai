@@ -17,16 +17,16 @@ public class Box {
 
 
     //第一次上线时间
-    private long firstUpTime;
+    private Long firstUpTime;
 
     //最近一次通讯时间
-    private long lastConnectTime;
+    private Long lastConnectTime;
 
     //盒子序列号
     private String serialNumber;
 
     //盒子状态
-    private int status;
+    private Integer status;
 
     //随机码
     private String random;

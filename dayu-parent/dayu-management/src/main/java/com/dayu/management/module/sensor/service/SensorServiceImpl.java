@@ -59,6 +59,13 @@ public class SensorServiceImpl implements SensorService {
     private final Splitter splitter = Splitter.on(",");
 
     @Override
+    public File preImport(File file) {
+
+
+        return null;
+    }
+
+    @Override
     public Map<String, Integer> importFile(File file) throws IOException {
         CharSource source = Files.asCharSource(file, Charset.forName("utf8"));
         List<String> errorLineNumber = Lists.newLinkedList();
@@ -79,6 +86,7 @@ public class SensorServiceImpl implements SensorService {
 
         Assert.isTrue(errorLineNumber.isEmpty(), BusinessError.STATE_CHECK_ERROR.message("存在错误行数", Values.set("errorLine", errorLineNumber)));
 
+        //进行传感器导入文件构建
         Map<String, File> tables = buildFiles(UUIDUtil.randomUUID(), source.lines().parallel());
 
         long c = System.currentTimeMillis();

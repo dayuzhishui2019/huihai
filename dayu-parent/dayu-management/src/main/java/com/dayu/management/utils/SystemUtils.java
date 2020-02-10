@@ -25,8 +25,4 @@ public class SystemUtils {
     public static String getOSType() {
         return SystemInfo.getCurrentPlatformEnum().name();
     }
-
-    public static void main(String[] args) {
-        System.out.println(getSerialNumber());
-    }
 }

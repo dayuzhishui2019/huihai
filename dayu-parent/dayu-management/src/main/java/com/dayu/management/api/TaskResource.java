@@ -59,6 +59,15 @@ public class TaskResource {
         return taskService.create(form.getTask());
     }
 
+    @ApiOperation("根据任务ID更新任务信息")
+    @ResponseBody
+    @PutMapping
+    public boolean update(@RequestBody Task task) {
+        Assert.isTrue(!Objects.isNullOrEmpty(task.getId()), RunningError.STATE_CHECK_ERROR.message("任务ID不能为空"));
+        taskService.update(task);
+        return true;
+    }
+
 
     @ApiOperation("根据任务ID获取任务")
     @ResponseBody

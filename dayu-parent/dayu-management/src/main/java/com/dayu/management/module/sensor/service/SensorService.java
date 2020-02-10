@@ -13,6 +13,9 @@ import java.util.Map;
 public interface SensorService {
 
 
+    File preImport(File file);
+
+
     Map<String, Integer> importFile(File file) throws IOException;
 
 

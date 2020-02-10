@@ -75,6 +75,15 @@
             <version>3.3.0</version>
             <scope>compile</scope>
         </dependency>
+
+        <!-- GIS 空间索引 -->
+        <dependency>
+            <groupId>io.sgr</groupId>
+            <artifactId>s2-geometry-library-java</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>

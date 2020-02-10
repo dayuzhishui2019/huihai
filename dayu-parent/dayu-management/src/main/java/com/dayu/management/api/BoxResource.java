@@ -3,7 +3,7 @@ package com.dayu.management.api;
 import com.dayu.management.core.Query;
 import com.dayu.management.module.task.model.Box;
 import com.dayu.management.module.task.model.BoxQuery;
-import com.dayu.management.module.task.model.Task;
+import com.dayu.management.module.task.model.BoxView;
 import com.dayu.management.module.task.service.BoxService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,7 +31,7 @@ public class BoxResource {
     @ApiOperation("注册与心跳接口,返回当前盒子上的任务列表")
     @ResponseBody
     @PostMapping("heart")
-    public List<Task> registerWithHeartBeat(@RequestBody Box box) {
+    public BoxView registerWithHeartBeat(@RequestBody Box box) {
         return boxService.register(box);
     }
 

@@ -1,4 +1,4 @@
-package com.dayu.management.module.auth.po;
+package com.dayu.management.module.auth.model;
 
 import lombok.Data;
 
@@ -6,5 +6,7 @@ import lombok.Data;
 public class Hardware {
 
     private String processId;
+
+    private String model;
 
 }

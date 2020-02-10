@@ -3,7 +3,7 @@ VOLUME /tmp
 MAINTAINER leus
 ARG JAR_FILE
 ADD ${JAR_FILE} app.jar
-RUN apk add dmidecode
+#RUN apk add dmidecode
 RUN sh -c 'touch /app.jar'
 LABEL SERVICE_TYPE=配置中心服务
 LABEL OS=X86_64

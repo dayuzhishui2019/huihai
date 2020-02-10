@@ -27,13 +27,13 @@ public class Task {
     private String previousTag;
 
     //任务创建时间
-    private long createTime;
+    private Long createTime;
 
     //接入类型
-    private int accessType;
+    private Integer accessType;
 
     //任务状态
-    private int status;
+    private Integer status;
 
     //待更新版本
     private String newTag;

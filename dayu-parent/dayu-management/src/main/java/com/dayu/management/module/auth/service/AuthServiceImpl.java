@@ -23,4 +23,10 @@ public class AuthServiceImpl implements AuthService {
     public Map<String, Object> updateAuth() {
         return null;
     }
+
+
+    public static void main(String[] args) {
+
+
+    }
 }
