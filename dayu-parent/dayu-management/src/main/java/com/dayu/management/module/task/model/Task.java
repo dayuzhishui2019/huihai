@@ -32,6 +32,9 @@ public class Task {
     //接入类型
     private Integer accessType;
 
+    //接入参数(JSON)
+    private String accessParam;
+
     //任务状态
     private Integer status;
 

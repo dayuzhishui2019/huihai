@@ -202,5 +202,11 @@
             COMMENT ON COLUMN "public"."box"."status" IS '状态';
         </sql>
     </changeSet>
+    <changeSet id="0004" author="root" context="base">
+        <sql>
+            ALTER TABLE "public"."task" ADD "accessParam" text NULL;
+        </sql>
+    </changeSet>
+
 
 </databaseChangeLog>
