@@ -10,10 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,8 +28,8 @@ public class BoxResource {
     @ApiOperation("注册与心跳接口,返回当前盒子上的任务列表")
     @ResponseBody
     @PostMapping("heart")
-    public BoxView registerWithHeartBeat(@RequestBody Box box) {
-        return boxService.register(box);
+    public BoxView registerWithHeartBeat(@RequestBody Box box, @RequestParam(value = "time", defaultValue = "0") long taskUpdateTime) {
+        return boxService.register(box, taskUpdateTime);
     }
 
 
