@@ -54,12 +54,12 @@
         </foreach>
     </update>
 
-    <delete id="delete" parameterType="java.lang.String">
-        delete from task where id in
+    <update id="delete" parameterType="java.lang.String">
+        update task set "status"=-1 where id in
         <foreach collection="list" item="id" separator="," open="(" close=")">
             #{id}
         </foreach>
-    </delete>
+    </update>
 
     <select id="get" parameterType="java.lang.String" resultType="com.dayu.management.module.task.model.Task">
         select
@@ -93,7 +93,10 @@
             and "repository" = #{repository}
         </if>
         <if test="updateTime!=null and updateTime!=0">
-            and "updateTime"=#{item.updateTime},
+            and "updateTime" &gt;= #{item.updateTime},
+        </if>
+        <if test="needDel==null">
+            and status !=-1
         </if>
         order by "updateTime" desc
         limit #{size} offset #{start} * #{size}
