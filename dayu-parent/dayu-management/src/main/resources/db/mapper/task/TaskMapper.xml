@@ -28,7 +28,7 @@
                 <if test="item.currentTag!=null and item.currentTag!=''">
                     currentTag=#{item.currentTag},
                 </if>
-                <if test="item.updateTime!=null and item.updateTime!=''">
+                <if test="item.updateTime!=null and item.updateTime!=0">
                     updateTime=#{item.updateTime},
                 </if>
                 <if test="item.resourceId!=null and item.resourceId!=''">
@@ -37,10 +37,10 @@
                 <if test="item.previousTag!=null and item.previousTag!=''">
                     previousTag=#{item.previousTag},
                 </if>
-                <if test="item.accessType!=null and item.accessType!=''">
+                <if test="item.accessType!=null and item.accessType!=0">
                     accessType=#{item.accessType},
                 </if>
-                <if test="item.status!=null and item.status!=''">
+                <if test="item.status!=null and item.status!=0">
                     status=#{item.status},
                 </if>
                 <if test="item.newTag!=null and item.newTag!=''">
@@ -63,9 +63,9 @@
 
     <select id="get" parameterType="java.lang.String" resultType="com.dayu.management.module.task.model.Task">
         select
-            "id","name","repository","currentTag","updateTime","resourceId",
+        "id","name","repository","currentTag","updateTime","resourceId",
         "previousTag","createTime","accessType","status","newTag","boxId"
-         from task where 1=1 and "id"=#{id}
+        from task where 1=1 and "id"=#{id}
     </select>
 
     <select id="select" parameterType="com.dayu.management.core.Query"

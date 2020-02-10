@@ -28,7 +28,8 @@
         </foreach>
     </update>
 
-    <select id="select" parameterType="com.dayu.management.core.Query" resultType="com.dayu.management.module.task.model.Box">
+    <select id="select" parameterType="com.dayu.management.core.Query"
+            resultType="com.dayu.management.module.task.model.Box">
         select "id","name","model","firstUpTime","lastConnectTime","serialNumber","status"
         from box
         where 1=1
@@ -43,6 +44,13 @@
         </if>
         order by "lastConnectTime"
         limit #{size} offset #{start} * #{size}
+    </select>
+
+    <select id="get" parameterType="java.lang.String" resultType="com.dayu.management.module.task.model.Box">
+        select "id","name","model","firstUpTime","lastConnectTime","serialNumber","status"
+        from box
+        where 1=1
+        and "id"=#{id}
     </select>
 
 </mapper>
