@@ -2,7 +2,7 @@ package com.dayu.management.module.task.service;
 
 import com.dayu.management.core.Query;
 import com.dayu.management.module.task.model.Box;
-import com.dayu.management.module.task.model.Task;
+import com.dayu.management.module.task.model.BoxView;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public interface BoxService {
 
 
     //盒子信息激活
-    List<Task> register(Box box);
+    BoxView register(Box box);
 
 
     //更新盒子信息
