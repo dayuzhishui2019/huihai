@@ -49,8 +49,8 @@ public class RegistryResource {
     }
 
     @ApiOperation("获取镜像tags")
-    @GetMapping("images/{repository}/tags/list")
-    public List<String> getTags(@PathVariable("repository") String repository) throws UnsupportedEncodingException {
+    @GetMapping("images/tags/list")
+    public List<String> getTags(@RequestParam("repository") String repository) throws UnsupportedEncodingException {
         return service.getTags(URLDecoder.decode(repository, "utf8"));
     }
 
