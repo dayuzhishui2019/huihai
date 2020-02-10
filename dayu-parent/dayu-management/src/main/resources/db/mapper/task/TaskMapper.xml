@@ -9,7 +9,7 @@
         values
         <foreach collection="list" item="item" open="(" close=")" separator=",">
             #{item.id},#{item.name},#{item.repository},#{item.currentTag},#{item.updateTime}
-            ,#{item.resourceId},#{item.previousTag},#{item.createTime},#{item.accessType},#{item.accessParam},
+            ,#{item.resourceId},#{item.previousTag},#{item.createTime},#{item.accessType},#{item.accessParam}
             ,#{item.status},#{item.newTag},#{item.boxId}
         </foreach>;
     </insert>
