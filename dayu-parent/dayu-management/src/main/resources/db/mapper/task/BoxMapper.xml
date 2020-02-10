@@ -13,17 +13,19 @@
     <update id="update" parameterType="com.dayu.management.module.task.model.Box">
         <foreach collection="list" item="item" separator=";">
             update box
-            <set>
-                <if test="item.status!=null and item.status!=0">
-                    "status"=#{item.status}
-                </if>
-                <if test="item.lastConnectTime!=null and item.lastConnectTime!=0">
-                    "lastConnectTime"=#{item.lastConnectTime}
-                </if>
-                <if test="item.name!=null and item.name!=''">
-                    "name"=#{item.name}
-                </if>
-            </set>
+            <trim>
+                <set>
+                    <if test="item.status!=null and item.status!=0">
+                        "status"=#{item.status},
+                    </if>
+                    <if test="item.lastConnectTime!=null and item.lastConnectTime!=0">
+                        "lastConnectTime"=#{item.lastConnectTime},
+                    </if>
+                    <if test="item.name!=null and item.name!=''">
+                        "name"=#{item.name},
+                    </if>
+                </set>
+            </trim>
             where 1=1 and "id"=#{item.id}
         </foreach>
     </update>
