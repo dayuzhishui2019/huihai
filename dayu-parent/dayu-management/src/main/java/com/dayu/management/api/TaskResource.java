@@ -72,7 +72,7 @@ public class TaskResource {
     @PutMapping("assemble")
     public Task update(@RequestBody TaskForm form) throws IOException, SQLException {
         Task task = form.getTask();
-        Assert.isTrue(!Strings.isNullOrEmpty(task.getId()), RunningError.STATE_CHECK_ERROR.message(""));
+        Assert.isTrue(!Strings.isNullOrEmpty(task.getId()), RunningError.STATE_CHECK_ERROR.message("任务ID不能为空"));
         TaskResourceIds ids = form.getResourceIds();
         if (ids != null && !(Objects.isNullOrEmpty(ids.getNodeIds()) && Objects.isNullOrEmpty(ids.getParentIds()))) {
             String resourceId = groupService.createResource(ids);
