@@ -8,9 +8,52 @@ public class GroupSQLHelper {
 
     private static final Joiner joiner = Joiner.on("','");
 
-    public static final String SELECTONLYLEAFBYPARENTID = "SELECT s.\"id\",s.\"name\", \"groupId\" \"parentId\",2 \"nodeType\",s.\"type\",s.\"func\" \"func\" FROM group_sensor_relation r,sensor s WHERE 1 = 1 AND s.\"id\" = r.\"sensorId\" AND \"groupId\" IN ('%s')";
+    public static final String SELECTONLYLEAFBYPARENTID = "select\n" +
+            "ss.*,\n" +
+            "concat_ws(',', mvc.ip, mvc.port , mvc.username , mvc.\"password\" , mvc.channels ) as extend\n" +
+            "from\n" +
+            "(\n" +
+            "select\n" +
+            "s.\"id\",\n" +
+            "s.gid ,\n" +
+            "r.\"groupId\" \"parentId\",\n" +
+            "s.\"areaNumber\" ,\n" +
+            "s.\"dominionCode\" ,\n" +
+            "s.\"type\",\n" +
+            "s.\"func\" \"func\"\n" +
+            "from\n" +
+            "group_sensor_relation r,\n" +
+            "sensor s\n" +
+            "where\n" +
+            "1 = 1\n" +
+            "and s.\"id\" = r.\"sensorId\"\n" +
+            "and \"groupId\" in ('%s') ) ss\n" +
+            "left join ma_view_camera mvc on\n" +
+            "ss.id = mvc.\"sensorId\"\n";
 
-    public static final String SELECTBYNODEID = "SELECT s.\"id\",s.\"name\", \"groupId\" \"parentId\",2 \"nodeType\",s.\"type\",s.\"func\" \"func\" FROM group_sensor_relation r,sensor s WHERE 1 = 1 AND s.\"id\" = r.\"sensorId\" AND s.\"id\" IN ('%s')";
+    public static final String SELECTBYNODEID = "select\n" +
+            "ss.*,\n" +
+            "concat_ws(',', mvc.ip, mvc.port , mvc.username , mvc.\"password\" , mvc.channels ) as extend\n" +
+            "from\n" +
+            "(\n" +
+            "select\n" +
+            "s.\"id\",\n" +
+            "s.gid ,\n" +
+            "r.\"groupId\" \"parentId\",\n" +
+            "s.\"areaNumber\" ,\n" +
+            "s.\"dominionCode\" ,\n" +
+            "s.\"type\",\n" +
+            "s.\"func\" \"func\"\n" +
+            "from\n" +
+            "group_sensor_relation r,\n" +
+            "sensor s\n" +
+            "where\n" +
+            "1 = 1\n" +
+            "and s.\"id\" = r.\"sensorId\"\n" +
+            "and s.\"id\" in ('%s') ) ss\n" +
+            "left join ma_view_camera mvc on\n" +
+            "ss.id = mvc.\"sensorId\"\n";
+    ;
 
     public static final String SELECT_GROUP = "select \"id\",\"parentId\" from \"group\"";
 
