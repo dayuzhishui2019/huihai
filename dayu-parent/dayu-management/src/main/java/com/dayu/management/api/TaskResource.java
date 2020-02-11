@@ -1,5 +1,7 @@
 package com.dayu.management.api;
 
+import com.alibaba.fastjson.JSON;
+import com.dayu.management.constant.BusinessError;
 import com.dayu.management.core.Query;
 import com.dayu.management.module.group.model.TaskResourceIds;
 import com.dayu.management.module.group.service.GroupService;
@@ -10,19 +12,24 @@ import com.dayu.management.module.task.service.TaskService;
 import com.dayu.management.utils.ResponseUtils;
 import com.dayu.response.Assert;
 import com.dayu.response.RunningError;
+import com.dayu.response.model.Result;
 import com.google.common.base.Strings;
 import com.google.common.io.ByteStreams;
 import com.leus.common.base.Objects;
+import com.leus.common.util.StreamUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -72,6 +79,7 @@ public class TaskResource {
     @PutMapping("assemble")
     public Task update(@RequestBody TaskForm form) throws IOException, SQLException {
         Task task = form.getTask();
+        Assert.isTrue(task != null, RunningError.STATE_CHECK_ERROR.message("任务不能为空"));
         Assert.isTrue(!Strings.isNullOrEmpty(task.getId()), RunningError.STATE_CHECK_ERROR.message("任务ID不能为空"));
         TaskResourceIds ids = form.getResourceIds();
         if (ids != null && !(Objects.isNullOrEmpty(ids.getNodeIds()) && Objects.isNullOrEmpty(ids.getParentIds()))) {
@@ -116,8 +124,18 @@ public class TaskResource {
     @ResponseBody
     @GetMapping("resource/{resourceId}")
     public void getResource(@PathVariable String resourceId, HttpServletResponse response) throws IOException {
-        InputStream dataStream = groupService.getResource(resourceId);
-        ByteStreams.copy(dataStream, ResponseUtils.decorate(response, resourceId).getOutputStream());
+        InputStream dataStream = null;
+        try {
+            dataStream = groupService.getResource(resourceId);
+            ByteStreams.copy(dataStream, ResponseUtils.decorate(response, resourceId).getOutputStream());
+        } catch (Exception e) {
+            response.setStatus(HttpStatus.SC_NOT_FOUND);
+            response.setContentType(MediaType.APPLICATION_JSON);
+            String content = JSON.toJSONString(Result.builder().code(BusinessError.RESOURCE_NOT_FOUND.getCode()).message(BusinessError.RESOURCE_NOT_FOUND.getMessage()));
+            response.getOutputStream().write(content.getBytes(Charset.forName("utf8")));
+        } finally {
+            StreamUtil.close(dataStream);
+        }
     }
 
     @ApiOperation("任务资源创建,返回资源Id")
