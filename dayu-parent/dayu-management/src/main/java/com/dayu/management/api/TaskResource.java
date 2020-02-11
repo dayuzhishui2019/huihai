@@ -62,10 +62,24 @@ public class TaskResource {
     @ApiOperation("根据任务ID更新任务信息")
     @ResponseBody
     @PutMapping
-    public boolean update(@RequestBody Task task) {
+    public Task update(@RequestBody Task task) {
         Assert.isTrue(!Objects.isNullOrEmpty(task.getId()), RunningError.STATE_CHECK_ERROR.message("任务ID不能为空"));
-        taskService.update(task);
-        return true;
+        return taskService.update(task);
+    }
+
+    @ApiOperation("根据任务ID更新任务信息(一键更新)")
+    @ResponseBody
+    @PutMapping("assemble")
+    public Task update(@RequestBody TaskForm form) throws IOException, SQLException {
+        Task task = form.getTask();
+        Assert.isTrue(!Strings.isNullOrEmpty(task.getId()), RunningError.STATE_CHECK_ERROR.message(""));
+        TaskResourceIds ids = form.getResourceIds();
+        if (ids != null && !(Objects.isNullOrEmpty(ids.getNodeIds()) && Objects.isNullOrEmpty(ids.getParentIds()))) {
+            String resourceId = groupService.createResource(ids);
+            task.setResourceId(resourceId);
+        }
+        return taskService.update(task);
+
     }
 
 
