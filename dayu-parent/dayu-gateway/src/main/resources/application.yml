@@ -1,0 +1,84 @@
+#日志配置
+logging:
+  file:
+    max-history: 1
+    max-size: 50MB
+  path: /opt/logs/${spring.application.name}/
+  level:
+    root: info
+
+#路由配置
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+#      routes:
+#        - id: management
+#          uri: lb:ws://management
+#          predicates:
+#            - Path=/websocket/**
+#          filters:
+#            - StripPrefix=1
+
+#开启actuator管理api
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ['*']
+  endpoint:
+    health:
+      show-details: always
+
+
+#请求和响应GZIP压缩支持
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+  hystrix:
+    enabled: true
+  compression:
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+    response:
+      enabled: true
+
+#熔断等待时间 熔断针对具体需要熔断的接口
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 6000
+
+ribbon:
+  ConnectTimeout: 10000
+  ReadTimeout: 300000
+
+#白名单
+gate:
+  excludePath:
+    - /**/swagger-ui.html*
+    - /**/webjars/**/*
+    - /**/swagger-resources/**/*
+    - /**/v2/api-docs
+    - /**/swagger-ui.html/**/*
+    - /**/swagger-resources
+    - /**/csrf
+
+
+info:
+  server-name: ${spring.application.name}
+  instance-id: ${spring.cloud.consul.discovery.instance-id}
+  description: 大禹API网关
+  version: v1.0.0
+  module: 网关服务

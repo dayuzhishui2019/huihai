@@ -10,7 +10,7 @@ public class GroupSQLHelper {
 
     public static final String SELECTONLYLEAFBYPARENTID = "select\n" +
             "ss.*,\n" +
-            "concat_ws(',', mvc.ip, mvc.port , mvc.username , mvc.\"password\" , mvc.channels ) as extend\n" +
+            "mvc.ip, mvc.port , mvc.username , mvc.\"password\" , mvc.channels\n" +
             "from\n" +
             "(\n" +
             "select\n" +
@@ -33,7 +33,7 @@ public class GroupSQLHelper {
 
     public static final String SELECTBYNODEID = "select\n" +
             "ss.*,\n" +
-            "concat_ws(',', mvc.ip, mvc.port , mvc.username , mvc.\"password\" , mvc.channels ) as extend\n" +
+            "mvc.ip, mvc.port , mvc.username , mvc.\"password\" , mvc.channels\n" +
             "from\n" +
             "(\n" +
             "select\n" +
@@ -69,5 +69,9 @@ public class GroupSQLHelper {
 
     public static String selectOnlyLeafByParentId(List<String> parentIds) {
         return String.format(SELECTONLYLEAFBYPARENTID, joiner.join(parentIds));
+    }
+
+    public static void main(String[] args) {
+        System.out.println(',');
     }
 }

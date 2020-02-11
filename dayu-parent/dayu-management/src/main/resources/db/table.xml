@@ -208,5 +208,35 @@
         </sql>
     </changeSet>
 
+    <changeSet id="004" author="root" context="base">
+        <sql>
+            <!--创建物化视图-->
+            create materialized view ma_view_camera as
+            select
+            s.id as "sensorId",
+            c.ip ,
+            c.port ,
+            c.username,
+            c."password" ,
+            c1.channels
+            from
+            sensor s ,
+            camera c ,
+            (
+            select
+            "sensorId",
+            string_agg(value , ';') as channels
+            from
+            channel c2
+            group by
+            "sensorId") c1
+            where
+            1 = 1
+            and s."deriveId" = c.id
+            and c1."sensorId" = s.id
+
+        </sql>
+    </changeSet>
+
 
 </databaseChangeLog>

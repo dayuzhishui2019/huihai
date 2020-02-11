@@ -22,11 +22,11 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -121,7 +121,6 @@ public class TaskResource {
     }
 
     @ApiOperation("根据资源ID获取资源")
-    @ResponseBody
     @GetMapping("resource/{resourceId}")
     public void getResource(@PathVariable String resourceId, HttpServletResponse response) throws IOException {
         InputStream dataStream = null;
@@ -130,7 +129,7 @@ public class TaskResource {
             ByteStreams.copy(dataStream, ResponseUtils.decorate(response, resourceId).getOutputStream());
         } catch (Exception e) {
             response.setStatus(HttpStatus.SC_NOT_FOUND);
-            response.setContentType(MediaType.APPLICATION_JSON);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             String content = JSON.toJSONString(Result.builder().code(BusinessError.RESOURCE_NOT_FOUND.getCode()).message(BusinessError.RESOURCE_NOT_FOUND.getMessage()));
             response.getOutputStream().write(content.getBytes(Charset.forName("utf8")));
         } finally {
@@ -139,7 +138,8 @@ public class TaskResource {
     }
 
     @ApiOperation("任务资源创建,返回资源Id")
-    @PostMapping("/resource")
+    @ResponseBody
+    @PostMapping(value = "/resource", produces = MediaType.APPLICATION_JSON_VALUE)
     public String createResource(@RequestBody TaskResourceIds ids) throws IOException, SQLException {
         Assert.isTrue(ids != null, RunningError.STATE_CHECK_ERROR.message("参数不能为空"));
         Assert.isTrue(!(Objects.isNullOrEmpty(ids.getParentIds()) && Objects.isNullOrEmpty(ids.getNodeIds())), RunningError.STATE_CHECK_ERROR.message("ParentIds与NodeIds不能同时为空"));
