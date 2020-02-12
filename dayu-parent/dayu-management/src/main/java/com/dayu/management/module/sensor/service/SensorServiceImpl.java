@@ -98,11 +98,11 @@ public class SensorServiceImpl implements SensorService {
                 input = new FileInputStream(entry.getValue());
                 buffer = new BufferedInputStream(input);
                 helper.copyIn(entry.getKey(), buffer);
-                entry.getValue().deleteOnExit();
             } catch (Exception e) {
                 log.error("COPY IN FILE", e);
             } finally {
                 StreamUtil.close(buffer, input);
+                entry.getValue().deleteOnExit();
             }
         });
 
