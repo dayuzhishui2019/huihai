@@ -11,9 +11,11 @@ import com.dayu.management.module.group.model.GroupQuery;
 import com.dayu.management.module.group.model.TaskResourceIds;
 import com.dayu.management.module.group.model.TreeNode;
 import com.dayu.response.Assert;
+import com.dayu.response.RunningError;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.io.FileWriteMode;
+import com.leus.common.base.Objects;
 import com.leus.common.util.StreamUtil;
 import com.leus.common.util.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -125,10 +127,9 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public String createResource(TaskResourceIds ids) throws IOException, SQLException {
+
+        Assert.isTrue(!(Objects.isNullOrEmpty(ids.getNodeIds()) && Objects.isNullOrEmpty(ids.getParentIds())), RunningError.STATE_CHECK_ERROR.message("组织与设备集合不能全为空"));
         List<String> allBranchIds = Lists.newLinkedList();
-        ids.getParentIds().forEach(id -> allBranchIds.addAll(groupHelper.getAllBranch(id)));
-        String querySQL1 = GroupSQLHelper.selectOnlyLeafByParentId(allBranchIds);
-        String querySQL2 = GroupSQLHelper.selectByNodeId(ids.getNodeIds());
         String resourceId = UUIDUtil.randomUUIDw();
         Path dataPath = Paths.get(resourceData);
         if (!Files.exists(dataPath)) {
@@ -136,8 +137,15 @@ public class GroupServiceImpl implements GroupService {
         }
         Path resource = dataPath.resolve(resourceId);
         Writer writer = com.google.common.io.Files.asCharSink(resource.toFile(), Charset.forName("utf-8"), FileWriteMode.APPEND).openBufferedStream();
-        dbHelper.copyOut(querySQL1, writer);
-        dbHelper.copyOut(querySQL2, writer);
+        if (!Objects.isNullOrEmpty(ids.getParentIds())) {
+            ids.getParentIds().forEach(id -> allBranchIds.addAll(groupHelper.getAllBranch(id)));
+            String querySQL1 = GroupSQLHelper.selectOnlyLeafByParentId(allBranchIds);
+            dbHelper.copyOut(querySQL1, writer);
+        }
+        if (!Objects.isNullOrEmpty(ids.getNodeIds())) {
+            String querySQL2 = GroupSQLHelper.selectByNodeId(ids.getNodeIds());
+            dbHelper.copyOut(querySQL2, writer);
+        }
         writer.flush();
         return resourceId;
     }
