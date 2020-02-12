@@ -2,6 +2,7 @@ package com.dayu.management.api;
 
 import com.alibaba.fastjson.JSON;
 import com.dayu.management.constant.BusinessError;
+import com.dayu.management.constant.TaskStatus;
 import com.dayu.management.core.Query;
 import com.dayu.management.module.group.model.TaskResourceIds;
 import com.dayu.management.module.group.service.GroupService;
@@ -102,7 +103,14 @@ public class TaskResource {
     @ResponseBody
     @PostMapping("delete")
     public boolean delete(@RequestBody List<String> ids) {
-        return taskService.delete(ids);
+        return taskService.changeStatus(ids, TaskStatus.DELETE);
+    }
+
+    @ApiOperation("停止任务")
+    @ResponseBody
+    @PostMapping("stop")
+    public boolean stop(@RequestBody List<String> ids) {
+        return taskService.changeStatus(ids, TaskStatus.STOPPED);
     }
 
 
